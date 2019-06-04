@@ -5,13 +5,16 @@ repositories {
 }
 
 dependencies {
-    compile(
-            'org.ow2.asm:asm:7.0',
-            'org.ow2.asm:asm-util:7.0',
-            'org.slf4j:slf4j-jdk14:1.7.25',
-            'org.junit.jupiter:junit-jupiter-api:5.4.0',
-            'org.junit.jupiter:junit-jupiter-params:5.4.0'
-    )
+    compile group:'org.ow2.asm', name:'asm', version:'7.0'
+    compile group:'org.ow2.asm', name:'asm-util', version:'7.0'
+    compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.4.0'
+    compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.0'
+
+    //add Logback
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'ch.qos.logback:logback-core:1.2.3'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    
     testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.2')
 }
 
