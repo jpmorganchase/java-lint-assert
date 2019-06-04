@@ -1,0 +1,20 @@
+apply plugin: 'java'
+
+repositories {
+    maven { url 'http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public' }
+}
+
+dependencies {
+    testCompile(
+            'org.junit.jupiter:junit-jupiter-api:5.4.0',
+            'org.junit.jupiter:junit-jupiter-params:5.4.0'
+    )
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.2')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+    }
+}
