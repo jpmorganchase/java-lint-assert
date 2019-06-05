@@ -12,11 +12,13 @@ class LintAssertTest {
 
      @Test
      void _assert() throws IOException{
+
+          final LintAssertContext ctx = new LintAssertContext(Opcodes.ASM7);
+
           InputStream inputStream = LintAssertTest.class.getResourceAsStream(
                   "/com/jpmorgan/cib/coreeng/ste/java_lint_assert/TestWithAsserts.class");
 
-          final ClassVisitor classVisitor;
-          classVisitor = new LintAssertClassVisitor(Opcodes.ASM7);
+          final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
           ClassReader classReader = new ClassReader(inputStream);
           classReader.accept(classVisitor, 0);
