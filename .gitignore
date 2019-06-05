@@ -3,4 +3,4 @@
 out/
 build/
 gradle/
-*.iml
+.iml
