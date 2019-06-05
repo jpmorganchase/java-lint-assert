@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 public class LintAssertMethodVisitor extends MethodVisitor {
 
     static Logger log = LoggerFactory.getLogger(LintAssertMethodVisitor.class);
+    private final LintAssertContext context;
 
+    public LintAssertMethodVisitor(LintAssertContext ctx) {
+        super(ctx.asmVersion);
 
-    public LintAssertMethodVisitor(MethodVisitor mv, LintAssertContext context) {
-        super(context.asmVersion, mv);
-        log.debug("context=" + context);
+        this.context = ctx;
+
     }
 
     @Override
@@ -23,7 +25,11 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        log.debug("visitAnnotation");
-        return super.visitAnnotation(descriptor, visible);
+
+        super.visitAnnotation(descriptor, visible);
+        context.with(descriptor, visible);
+
+        log.debug("context=" + this.context + "descriptor=" + descriptor);
+        return new LintAssertMethodAnnotationVisitor(this.context);
     }
 }

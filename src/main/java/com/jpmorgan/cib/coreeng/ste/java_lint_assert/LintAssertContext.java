@@ -11,4 +11,17 @@ public class LintAssertContext {
     void setMethodContext(int access, String name, String desc, String signature, String[] exceptions) {
         this.testMethodContext = new TestMethodContextBuilder().create(access, name, desc, signature, exceptions);
     }
+
+    @Override
+    public String toString() {
+        return "LintAssertContext{" +
+                "asmVersion=" + asmVersion +
+                ", testMethodContext=" + testMethodContext +
+                '}';
+    }
+
+    public void with(String descriptor, boolean visible) {
+        this.testMethodContext.descriptor = descriptor;
+        testMethodContext.visible = visible;
+    }
 }

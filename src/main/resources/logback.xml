@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-            </Pattern>
-        </layout>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %-5level [%thread] %logger{0}: %msg%n</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
     </appender>
 
     <logger name="com.jpmorgan.cib.coreeng.ste.java_lint_assert" level="debug" additivity="false">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="stdout" />
     </logger>
 
-    <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
+    <root level="debug">
+        <appender-ref ref="stdout" />
     </root>
 
 </configuration>

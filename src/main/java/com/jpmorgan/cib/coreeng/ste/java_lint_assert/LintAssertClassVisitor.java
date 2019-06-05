@@ -18,6 +18,6 @@ public class LintAssertClassVisitor extends ClassVisitor {
 
         ctx.setMethodContext(access, name, desc, signature, exceptions);
 
-        return new LintAssertMethodVisitor(mv, ctx);
+        return new LintAssertMethodVisitor(ctx);
     }
 }
