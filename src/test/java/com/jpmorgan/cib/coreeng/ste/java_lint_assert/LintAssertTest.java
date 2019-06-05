@@ -12,7 +12,6 @@ class LintAssertTest {
 
      @Test
      void _assert() throws IOException{
-
           final LintAssertContext ctx = new LintAssertContext(Opcodes.ASM7);
 
           InputStream inputStream = LintAssertTest.class.getResourceAsStream(

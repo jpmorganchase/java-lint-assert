@@ -1,6 +1,7 @@
 package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
 
 import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,5 +32,24 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
         log.debug("context=" + this.context + "descriptor=" + descriptor);
         return new LintAssertMethodAnnotationVisitor(this.context);
+    }
+
+    @Override
+    public void visitInsn(int opcode) {
+        super.visitInsn(opcode);
+        log.debug("=====");
+    }
+
+    @Override
+    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+        log.debug("owner=" + owner +", name=" +name + ", description=" + descriptor + ", isInterface=" + isInterface);
+    }
+
+
+    @Override
+    public void visitLineNumber(int line, Label start) {
+        super.visitLineNumber(line, start);
+        log.debug("line=" + line + ", start=" + start);
     }
 }
