@@ -53,7 +53,8 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     public void visitEnd() {
         super.visitEnd();
         if (ORG_JUNIT_JUPITER_API_TEST.equals(context.getDescriptor())) {
-            log.debug(this.context.toString());
+//            log.debug(this.context.toString());
+            context.doneProcessingMethod();
         }
     }
 }

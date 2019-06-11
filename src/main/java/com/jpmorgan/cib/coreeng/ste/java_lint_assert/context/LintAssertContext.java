@@ -2,50 +2,62 @@ package com.jpmorgan.cib.coreeng.ste.java_lint_assert.context;
 
 import org.javatuples.Pair;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class LintAssertContext {
 
     private final int asmVersion;
 
-    private String name;
-    private String signature;
-    private String descriptor;
-    private boolean visible;
-    private final Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
+    private final Set<TestMethodContext> testMethodsContext;
 
-    public LintAssertContext(int asmVersion){
+    private  TestMethodContext testMethodContext;
+
+    public LintAssertContext(int asmVersion) {
         this.asmVersion = asmVersion;
-        this.assertMethodsAtLineNumbers = new LinkedList<>();
+        testMethodContext = new TestMethodContext();
+        testMethodsContext = new HashSet<>();
     }
 
     public void recordAssert(int atLineNumber, String assertMethodName) {
-        assertMethodsAtLineNumbers.add(new Pair<>(atLineNumber, assertMethodName));
+        this.testMethodContext.assertMethodsAtLineNumbers.add(new Pair<>(atLineNumber, assertMethodName));
+    }
+
+    public void doneProcessingMethod() {
+        this.testMethodsContext.add(this.testMethodContext);
+        this.testMethodContext = new TestMethodContext();
     }
 
     public void with(String descriptor, boolean visible) {
-        this.descriptor = descriptor;
-        this.visible = visible;
+        this.testMethodContext.descriptor = descriptor;
+        this.testMethodContext.visible = visible;
     }
 
     @Override
     public String toString() {
-        return "TestMethodContext{" +
-                "name='" + name + '\'' +
-                ", signature='" + signature + '\'' +
-                ", descriptor='" + descriptor + '\'' +
-                ", visible=" + visible +
-                ", assertMethodsAtLineNumbers=" + assertMethodsAtLineNumbers +
+        return "LintAssertContext{" +
+                "asmVersion=" + asmVersion +
+                ", testMethodsContext=" + testMethodsContext +
+                ", testMethodContext=" + testMethodContext +
                 '}';
     }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.testMethodContext.name = name;
+    }
 
-    public void setSignature(String signature){ this.signature = signature; }
+    public void setSignature(String signature) {
+        this.testMethodContext.signature = signature;
+    }
 
-    public int getAsmVersion() { return this.asmVersion; }
+    public int getAsmVersion() {
+        return this.asmVersion;
+    }
 
-    public String getDescriptor() { return this.descriptor;  }
+    public String getDescriptor() {
+        return this.testMethodContext.descriptor;
+    }
+
+    public Set<TestMethodContext> getTestMethodsContext(){return testMethodsContext;}
 }
 

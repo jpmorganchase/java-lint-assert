@@ -22,5 +22,7 @@ class LintAssertTest {
 
           ClassReader classReader = new ClassReader(inputStream);
           classReader.accept(classVisitor, 0);
+
+          System.out.println(ctx.getTestMethodsContext());
      }
 }
