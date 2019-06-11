@@ -7,7 +7,7 @@ public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
     final LintAssertContext context;
 
     public LintAssertMethodAnnotationVisitor(LintAssertContext context) {
-        super(context.asmVersion);
+        super(context.getAsmVersion());
         this.context = context;
     }
 

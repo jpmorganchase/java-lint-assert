@@ -17,7 +17,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     private int atLineNumber;
 
     public LintAssertMethodVisitor(LintAssertContext ctx) {
-        super(ctx.asmVersion);
+        super(ctx.getAsmVersion());
         this.context = ctx;
         atLineNumber = 0;
     }
@@ -36,7 +36,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
 
         if (ORG_JUNIT_JUPITER_API_ASSERTIONS.equals(owner)) {
-            this.context.testMethodContext.recordAssert(atLineNumber, name);
+            this.context.recordAssert(atLineNumber, name);
             super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
         }
     }
@@ -51,7 +51,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     @Override
     public void visitEnd() {
         super.visitEnd();
-        if (ORG_JUNIT_JUPITER_API_TEST.equals(context.testMethodContext.descriptor)) {
+        if (ORG_JUNIT_JUPITER_API_TEST.equals(context.getDescriptor())) {
             log.debug(this.context.toString());
         }
     }
