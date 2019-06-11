@@ -1,5 +1,6 @@
 package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
 
+import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.LintAssertContext;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;

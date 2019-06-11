@@ -1,5 +1,6 @@
 package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
 
+import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.LintAssertContext;
 import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -15,7 +16,7 @@ class LintAssertTest {
           final LintAssertContext ctx = new LintAssertContext(Opcodes.ASM7);
 
           InputStream inputStream = LintAssertTest.class.getResourceAsStream(
-                  "/com/jpmorgan/cib/coreeng/ste/java_lint_assert/TestWithAsserts.class");
+                  "/com/jpmorgan/cib/coreeng/ste/java_lint_assert/SampleTest.class");
 
           final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
