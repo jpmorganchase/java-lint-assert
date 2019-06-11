@@ -33,7 +33,6 @@ public class LintAssertMethodVisitor extends MethodVisitor {
         super.visitAnnotation(descriptor, visible);
         context.with(descriptor, visible);
 
-        log.debug("context=" + this.context + "descriptor=" + descriptor);
         return new LintAssertMethodAnnotationVisitor(this.context);
     }
 

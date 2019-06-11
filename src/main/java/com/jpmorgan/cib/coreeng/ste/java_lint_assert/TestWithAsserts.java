@@ -16,5 +16,6 @@ public class TestWithAsserts {
     @Test
     void withAssert() {
         Assertions.assertTrue(true);
+        Assertions.assertArrayEquals(new int[]{1,2}, new int[]{} );
     }
 }
