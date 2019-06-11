@@ -1,13 +1,15 @@
 package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
 
+import org.javatuples.Pair;
+
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.function.Consumer;
 
 
 public class TestMethodContextBuilder{
-    public int access;
     public String name;
-    public String desc;
     public String signature;
     public String[] exceptions;
     public String descriptor;
@@ -18,38 +20,39 @@ public class TestMethodContextBuilder{
         return this;
     }
 
-    public TestMethodContext create(int access, final String name, final String desc, final String signature, String[] exceptions){
-        return new TestMethodContext(access, name, desc, signature, exceptions);
+    public TestMethodContext create(final String name, final String signature, String[] exceptions){
+        return new TestMethodContext(name, signature, exceptions);
     }
 }
 
 class TestMethodContext {
-    int access;
     String name;
-    String desc;
     String signature;
     String[] exceptions;
     String descriptor;
     boolean visible;
+    final Collection<Pair> assertMethodsAtLineNumbers;
 
-    TestMethodContext(int access, String name, String desc, String signature, String[] exceptions) {
-        this.access = access;
+    TestMethodContext(String name, String signature, String[] exceptions) {
         this.name = name;
-        this.desc = desc;
         this.signature = signature;
         this.exceptions = exceptions;
+        this.assertMethodsAtLineNumbers = new LinkedList<>();
+    }
+
+    public void recordAssert(int atLineNumber, String assertMethodName) {
+        assertMethodsAtLineNumbers.add(new Pair(atLineNumber, assertMethodName));
     }
 
     @Override
     public String toString() {
         return "TestMethodContext{" +
-                "access=" + access +
-                ", name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
+                "name='" + name + '\'' +
                 ", signature='" + signature + '\'' +
                 ", exceptions=" + Arrays.toString(exceptions) +
                 ", descriptor='" + descriptor + '\'' +
                 ", visible=" + visible +
+                ", assertMethodsAtLineNumbers=" + assertMethodsAtLineNumbers +
                 '}';
     }
 }

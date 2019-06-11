@@ -3,10 +3,14 @@ package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Function;
+
 public class TestWithAsserts {
 
     @Test
     void withoutAssert() {
+        Function<String, String> toLowerCase = input -> input.toLowerCase();
+        toLowerCase.apply("ZZZ");
     }
 
     @Test
