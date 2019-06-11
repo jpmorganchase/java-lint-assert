@@ -16,7 +16,7 @@ public class LintAssertClassVisitor extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 
         super.visitMethod(this.ctx.asmVersion, name, desc, signature, exceptions);
-        ctx.setMethodContext(access, name, desc, signature, exceptions);
+        ctx.setMethodContext(name, signature, exceptions);
 
         return new LintAssertMethodVisitor(ctx);
     }

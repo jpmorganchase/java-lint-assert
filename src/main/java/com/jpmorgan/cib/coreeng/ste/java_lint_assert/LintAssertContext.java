@@ -10,7 +10,7 @@ public class LintAssertContext {
 
     TestMethodContext testMethodContext;
 
-    void setMethodContext(int access, String name, String desc, String signature, String[] exceptions) {
+    void setMethodContext(String name, String signature, String[] exceptions) {
         this.testMethodContext = new TestMethodContextBuilder().create(name, signature, exceptions);
     }
 
