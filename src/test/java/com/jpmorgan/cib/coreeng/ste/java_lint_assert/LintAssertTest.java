@@ -2,6 +2,7 @@ package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
 
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.LintAssertContext;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.TestMethodContext;
+import com.jpmorgan.cib.coreeng.ste.java_lint_assert.util.TestClassFinder;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.visitor.LintAssertClassVisitor;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Assertions;
@@ -10,8 +11,10 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -20,18 +23,20 @@ class LintAssertTest {
     @Test
     void _assert() throws IOException {
         final LintAssertContext ctx = new LintAssertContext(Opcodes.ASM7);
-
-        InputStream inputStream = LintAssertTest.class.getResourceAsStream(
-                "/com/jpmorgan/cib/coreeng/ste/java_lint_assert/SampleTest.class");
-
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
-        ClassReader classReader = new ClassReader(inputStream);
-        classReader.accept(classVisitor, 0);
+        ArrayList<File> classFiles = TestClassFinder.getClasses("com.jpmorgan.cib.coreeng.ste.java_lint_assert");
+        for (int i = 0; i < classFiles.size(); i++) {
+            final String classPath = TestClassFinder.buildClassFilePath(classFiles.get(i).getPath());
+//            System.out.println(classPath);
+            InputStream inputStream = LintAssertTest.class.getResourceAsStream(classPath);
+            ClassReader classReader = new ClassReader(inputStream);
+            classReader.accept(classVisitor, 0);
+        }
 
-//          System.out.println(ctx.getTestMethodsContext());
+        ctx.getTestMethodsContext().forEach(System.out::println);
 
-        Assertions.assertEquals(2, ctx.getTestMethodsContext().size());
+        Assertions.assertTrue(ctx.getTestMethodsContext().size() > 0, "Expected to find at least one test method.");
         Assertions.assertTrue(
                 ctx.getTestMethodsContext().contains(
                         new TestMethodContext("withoutAssert", "Lorg/junit/jupiter/api/Test;")),
@@ -51,4 +56,5 @@ class LintAssertTest {
                 f -> "withoutAssert".equals(f.getName()))
                 .collect(Collectors.toList()).get(0).getAssertMethodsAtLineNumbers().size());
     }
+
 }

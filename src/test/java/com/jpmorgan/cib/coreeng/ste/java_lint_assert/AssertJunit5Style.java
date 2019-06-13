@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
 
-public class SampleTest {
+public class AssertJunit5Style {
 
     @Test
     void withoutAssert() {
@@ -16,6 +16,6 @@ public class SampleTest {
     @Test
     void withAssert() {
         Assertions.assertTrue(true);
-        Assertions.assertArrayEquals(new int[]{1,2}, new int[]{} );
+        Assertions.assertArrayEquals(new int[]{1,2}, new int[]{1,2} );
     }
 }

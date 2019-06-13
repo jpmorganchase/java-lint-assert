@@ -19,7 +19,13 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.javatuples:javatuples:1.2'
 
+
+    //junit 5
     testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
+
+    //junit 4
+    testCompile 'junit:junit:4.12'
+    testCompile "org.junit.vintage:junit-vintage-engine:5.4.2"
 
     testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
