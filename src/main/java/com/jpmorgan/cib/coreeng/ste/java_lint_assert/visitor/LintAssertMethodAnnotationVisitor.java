@@ -1,15 +1,12 @@
-package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
+package com.jpmorgan.cib.coreeng.ste.java_lint_assert.visitor;
 
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.LintAssertContext;
 import org.objectweb.asm.AnnotationVisitor;
 
 public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
 
-    private final LintAssertContext context;
-
     public LintAssertMethodAnnotationVisitor(LintAssertContext context) {
         super(context.getAsmVersion());
-        this.context = context;
     }
 
     @Override
