@@ -45,7 +45,6 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     @Override
     public void visitLineNumber(int line, Label start) {
         super.visitLineNumber(line, start);
-
         this.atLineNumber = line;
     }
 
@@ -54,7 +53,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
         super.visitEnd();
         if (ORG_JUNIT_JUPITER_API_TEST.equals(context.getDescriptor())) {
 //            log.debug(this.context.toString());
-            context.doneProcessingMethod();
+            context.resetCurrentMethodContext();
         }
     }
 }

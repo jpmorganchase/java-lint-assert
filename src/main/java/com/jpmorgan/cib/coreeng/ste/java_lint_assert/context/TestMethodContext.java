@@ -8,9 +8,10 @@ import java.util.Objects;
 
 public class TestMethodContext {
 
-    String name;
-    String signature;
-    String descriptor;
+    String fileName;
+    String methodName;
+    String methodSignature;
+    String methodDescriptor;
     boolean visible;
 
     final Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
@@ -19,14 +20,31 @@ public class TestMethodContext {
         this.assertMethodsAtLineNumbers = new LinkedList<>();
     }
 
-    public TestMethodContext(String name, String descriptor) {
+    public TestMethodContext(String methodName, String descriptor) {
         this();
-        this.name = name;
-        this.descriptor = descriptor;
+        this.methodName = methodName;
+        this.methodDescriptor = descriptor;
     }
 
-    public String getName() {
-        return name;
+    public TestMethodContext(TestMethodContext source) {
+        this();
+        this.fileName = source.fileName;
+        this.methodName = source.methodName;
+        this.methodDescriptor = source.methodDescriptor;
+        this.methodSignature = source.methodSignature;
+        this.visible = source.visible;
+
+    }
+
+    public void resetMethodDetails() {
+        this.methodName = "";
+        this.methodSignature = "";
+        this.methodDescriptor = "";
+        this.visible = false;
+    }
+
+    public void resetClassDetails() {
+        this.fileName = "";
     }
 
     public Collection<Pair<Integer, String>> getAssertMethodsAtLineNumbers() {
@@ -38,23 +56,25 @@ public class TestMethodContext {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TestMethodContext that = (TestMethodContext) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(descriptor, that.descriptor);
+        return Objects.equals(methodName, that.methodName) &&
+                Objects.equals(methodDescriptor, that.methodDescriptor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, descriptor);
+        return Objects.hash(methodName, methodDescriptor);
     }
 
     @Override
     public String toString() {
         return "TestMethodContext{" +
-                "name='" + name + '\'' +
-                ", signature='" + signature + '\'' +
-                ", descriptor='" + descriptor + '\'' +
+                "fileName='" + fileName + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", methodSignature='" + methodSignature + '\'' +
+                ", methodDescriptor='" + methodDescriptor + '\'' +
                 ", visible=" + visible +
                 ", assertMethodsAtLineNumbers=" + assertMethodsAtLineNumbers +
                 '}';
     }
+
 }

@@ -4,17 +4,16 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 
-
 public class AssertJunit4Style {
 
     @Test
-    void withJunitAssert() {
+    void withAsserts() {
         //TODO::flag this as 'dummy'
         Assert.assertTrue(true);
     }
 
     @Test
-    void withAssert() {
+    void withoutAsserts() {
 
     }
 }
