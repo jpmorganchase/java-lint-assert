@@ -14,7 +14,7 @@ public class TestMethodContext {
     String methodDescriptor;
     boolean visible;
 
-    final Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
+    Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
 
     public TestMethodContext() {
         this.assertMethodsAtLineNumbers = new LinkedList<>();
@@ -27,13 +27,12 @@ public class TestMethodContext {
     }
 
     public TestMethodContext(TestMethodContext source) {
-        this();
         this.fileName = source.fileName;
         this.methodName = source.methodName;
         this.methodDescriptor = source.methodDescriptor;
         this.methodSignature = source.methodSignature;
         this.visible = source.visible;
-
+        this.assertMethodsAtLineNumbers = new LinkedList<>(source.assertMethodsAtLineNumbers);
     }
 
     public void resetMethodDetails() {
@@ -47,8 +46,16 @@ public class TestMethodContext {
         this.fileName = "";
     }
 
+    public String getMethodName() {
+        return this.methodName;
+    }
+
     public Collection<Pair<Integer, String>> getAssertMethodsAtLineNumbers() {
-        return assertMethodsAtLineNumbers;
+        return this.assertMethodsAtLineNumbers;
+    }
+
+    public String getFileName() {
+        return this.fileName;
     }
 
     @Override
