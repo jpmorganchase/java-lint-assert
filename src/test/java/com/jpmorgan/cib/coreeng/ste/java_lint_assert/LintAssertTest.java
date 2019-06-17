@@ -2,6 +2,7 @@ package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
 
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.LintAssertContext;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.TestMethodContext;
+import com.jpmorgan.cib.coreeng.ste.java_lint_assert.strategy.ConsoleOutputStrategy;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.util.TestClassFinder;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.visitor.LintAssertClassVisitor;
 import org.javatuples.Pair;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 class LintAssertTest {
@@ -28,13 +30,17 @@ class LintAssertTest {
         ArrayList<File> classFiles = TestClassFinder.getClasses("com.jpmorgan.cib.coreeng.ste.java_lint_assert");
         for (File classFile : classFiles) {
             final String classPath = TestClassFinder.buildClassFilePath(classFile.getPath());
-//            System.out.println(classPath);
             InputStream inputStream = LintAssertTest.class.getResourceAsStream(classPath);
             ClassReader classReader = new ClassReader(inputStream);
             classReader.accept(classVisitor, 0);
         }
 
         ctx.getTestMethodsContext().forEach(System.out::println);
+
+        Collection<String> headers = Arrays.asList("Package", "Test file name",	"Test method name", "# asserts");
+
+        String output = new ConsoleOutputStrategy(headers, ctx.getTestMethodsContext()).render();
+        System.out.println(output);
 
         Assertions.assertTrue(ctx.getTestMethodsContext().size() > 0, "Expected to find at least one test method.");
         Assertions.assertTrue(
