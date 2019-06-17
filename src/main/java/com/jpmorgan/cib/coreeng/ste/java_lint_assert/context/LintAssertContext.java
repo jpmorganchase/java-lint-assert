@@ -63,6 +63,10 @@ public class LintAssertContext {
 
     public void setFileName(String fileName){this.testMethodContext.fileName = fileName;}
 
+    public void setPackageName(String packageName){this.testMethodContext.packageName = packageName;}
+
+    public void setClassName(String className){this.testMethodContext.className = className;}
+
     @Override
     public String toString() {
         return "LintAssertContext{" +

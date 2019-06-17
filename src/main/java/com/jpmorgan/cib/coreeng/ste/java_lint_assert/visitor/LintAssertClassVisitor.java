@@ -30,6 +30,15 @@ public class LintAssertClassVisitor extends ClassVisitor {
     }
 
     @Override
+    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        super.visit(version, access, name, signature, superName, interfaces);
+//        log.debug("name=" + name +", signature=" + signature + ", superName=" + superName);
+        int split = name.lastIndexOf('/');
+        this.ctx.setPackageName(name.substring(0, split));
+        this.ctx.setClassName(name.substring(split));
+    }
+
+    @Override
     public void visitSource(String source, String debug) {
         //log.debug("visitSource=" + source);
         this.ctx.setFileName(source);

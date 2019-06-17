@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 class LintAssertTest {
@@ -35,11 +34,9 @@ class LintAssertTest {
             classReader.accept(classVisitor, 0);
         }
 
-        ctx.getTestMethodsContext().forEach(System.out::println);
+//        ctx.getTestMethodsContext().forEach(System.out::println);
 
-        Collection<String> headers = Arrays.asList("Package", "Test file name",	"Test method name", "# asserts");
-
-        String output = new ConsoleOutputStrategy(headers, ctx.getTestMethodsContext()).render();
+        String output = new ConsoleOutputStrategy(ctx.getTestMethodsContext()).render();
         System.out.println(output);
 
         Assertions.assertTrue(ctx.getTestMethodsContext().size() > 0, "Expected to find at least one test method.");
