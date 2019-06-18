@@ -9,9 +9,6 @@ import org.slf4j.LoggerFactory;
 
 public class LintAssertMethodVisitor extends MethodVisitor {
 
-    //FIXME::move to props file, create a collection of such package names
-    public static final String ORG_JUNIT_JUPITER_API_ASSERTIONS = "org/junit/jupiter/api/Assertions";
-    public static final String ORG_JUNIT_JUPITER_API_TEST = "Lorg/junit/jupiter/api/Test;";
     private final LintAssertContext context;
 
     private static Logger log = LoggerFactory.getLogger(LintAssertMethodVisitor.class);
@@ -25,7 +22,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        if (ORG_JUNIT_JUPITER_API_TEST.equals(descriptor)) {
+        if (this.context.getSupportedTestFrameworks().contains(descriptor)) {
             AnnotationVisitor av = new LintAssertMethodAnnotationVisitor(this.context);
             context.with(descriptor, visible);
             return av;
@@ -35,8 +32,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-
-        if (ORG_JUNIT_JUPITER_API_ASSERTIONS.equals(owner)) {
+        if (this.context.getSupportedAssertApis().contains(owner)) {
             this.context.recordAssert(atLineNumber, name);
             super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
         }
@@ -51,8 +47,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     @Override
     public void visitEnd() {
         super.visitEnd();
-        if (ORG_JUNIT_JUPITER_API_TEST.equals(context.getDescriptor())) {
-//            log.debug(this.context.toString());
+        if (this.context.getSupportedTestFrameworks().contains(context.getDescriptor())) {
             context.resetCurrentMethodContext();
         }
     }

@@ -20,9 +20,7 @@ public class LintAssertClassVisitor extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         super.visitMethod(this.ctx.getAsmVersion(), name, desc, signature, exceptions);
-
         //log.debug("visitMethod= " + name);
-
         this.ctx.setMethodName(name);
         this.ctx.setMethodSignature(signature);
 

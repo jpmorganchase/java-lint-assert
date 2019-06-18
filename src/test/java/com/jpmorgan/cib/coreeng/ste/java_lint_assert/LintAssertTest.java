@@ -3,10 +3,14 @@ package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.LintAssertContext;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.TestMethodContext;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.strategy.ConsoleOutputStrategy;
+import com.jpmorgan.cib.coreeng.ste.java_lint_assert.util.PropertiesLoader;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.util.TestClassFinder;
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.visitor.LintAssertClassVisitor;
 import org.javatuples.Pair;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -17,13 +21,40 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 class LintAssertTest {
 
+    static List<String> testFrameworks;
+    static List<String> assertApis;
+
+    @BeforeEach
+    void setup() throws Exception{
+        JSONObject jsonObject = (JSONObject) PropertiesLoader.load("/application-properties.json");
+        assertNotNull(jsonObject);
+
+        final BiFunction<JSONObject, String, List<String>> jsonObjectStringListBiFunction =
+                (jsonObject1, key1) -> (List<String>) ((JSONArray) jsonObject1.get(key1)).stream().map(Object::toString).collect(Collectors.toList());
+        testFrameworks = jsonObjectStringListBiFunction.apply(jsonObject, "test_framework");
+        assertApis =  jsonObjectStringListBiFunction.apply(jsonObject, "assert_api");
+
+        assertNotNull(testFrameworks);
+        assertNotNull(assertApis);
+        assertTrue("Expected at least one test_framework defined in application-properties.json", testFrameworks.size() > 0);
+        assertTrue("Expected at least one assert_api defined in application-properties.json", assertApis.size() > 0);
+    }
+
     @Test
-    void _assert() throws IOException {
+    void _assert() throws IOException{
         final LintAssertContext ctx = new LintAssertContext(Opcodes.ASM7);
+        ctx.addSupportedTestFrameworks(testFrameworks);
+        ctx.addSupportedAssertApis(assertApis);
+
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
         ArrayList<File> classFiles = TestClassFinder.getClasses("com.jpmorgan.cib.coreeng.ste.java_lint_assert");
@@ -34,7 +65,7 @@ class LintAssertTest {
             classReader.accept(classVisitor, 0);
         }
 
-//        ctx.getTestMethodsContext().forEach(System.out::println);
+//         ctx.getTestMethodsContext().forEach(System.out::println);
 
         String output = new ConsoleOutputStrategy(ctx.getTestMethodsContext()).render();
         System.out.println(output);

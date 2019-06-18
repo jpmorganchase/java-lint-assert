@@ -43,6 +43,7 @@ public class TestMethodContext {
         this.methodName = "";
         this.methodSignature = "";
         this.methodDescriptor = "";
+        this.assertMethodsAtLineNumbers  = new LinkedList<>();
         this.visible = false;
     }
 

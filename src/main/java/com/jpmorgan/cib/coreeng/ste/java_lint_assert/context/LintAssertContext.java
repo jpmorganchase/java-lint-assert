@@ -4,6 +4,7 @@ import org.javatuples.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,10 +18,31 @@ public class LintAssertContext {
 
     private static Logger log = LoggerFactory.getLogger(LintAssertContext.class);
 
+    private final Set<String> assertApis;
+    private final Set<String> testFrameworks;
+
     public LintAssertContext(int asmVersion) {
         this.asmVersion = asmVersion;
         testMethodContext = new TestMethodContext();
         testMethodsContext = new HashSet<>();
+        assertApis = new HashSet<>();
+        testFrameworks = new HashSet<>();
+    }
+
+    public void addSupportedAssertApis(Collection<String> assertApis) {
+        this.assertApis.addAll(assertApis);
+    }
+
+    public void addSupportedTestFrameworks(Collection<String> testFrameworks) {
+        this.testFrameworks.addAll(testFrameworks);
+    }
+
+    public Set<String> getSupportedAssertApis(){
+        return this.assertApis;
+    }
+
+    public Set<String> getSupportedTestFrameworks(){
+        return this.testFrameworks;
     }
 
     public void recordAssert(int atLineNumber, String assertMethodName) {
