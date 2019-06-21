@@ -35,9 +35,9 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform {
-       // includeEngines 'junit-jupiter', 'junit-vintage'
-    }
+//    useJUnitPlatform {
+//       // includeEngines 'junit-jupiter', 'junit-vintage'
+//    }
     testLogging {
         showStandardStreams = true
         events "passed", "skipped", "failed"
