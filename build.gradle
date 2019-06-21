@@ -1,10 +1,29 @@
-plugins {
-    id 'java'
-    id 'idea'
+buildscript {
+    repositories {
+        maven {
+            url 'http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public'
+        }
+    }
+
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
+
+jacoco {
+    toolVersion = '0.7.8'
 }
 
 repositories {
-    maven { url 'http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public' }
+    maven {
+        name "jpmc-public"
+        url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+    }
 }
 
 dependencies {
@@ -35,9 +54,9 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform {
-       // includeEngines 'junit-jupiter', 'junit-vintage'
-    }
+//    useJUnitPlatform {
+//       // includeEngines 'junit-jupiter', 'junit-vintage'
+//    }
     testLogging {
         showStandardStreams = true
         events "passed", "skipped", "failed"

@@ -7,12 +7,12 @@ import org.junit.Test;
 public class AssertJunit4Style {
 
     @Test
-    void withAsserts() {
+    public void withAsserts() {
         Assert.assertTrue(true);
     }
 
     @Test
-    void withoutAsserts() {
+    public void withoutAsserts() {
 
     }
 }
