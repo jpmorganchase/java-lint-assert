@@ -6,14 +6,21 @@ buildscript {
     }
 
     dependencies {
+        classpath 'net.researchgate:gradle-release:2.4.1'
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
     }
 }
 
 apply plugin: 'idea'
 apply plugin: 'java'
+apply plugin: 'maven'
 apply plugin: 'jacoco'
 apply plugin: 'org.sonarqube'
+apply plugin: 'net.researchgate.release'
+
+configurations {
+    deployerJars
+}
 
 jacoco {
     toolVersion = '0.7.8'
@@ -53,9 +60,44 @@ dependencies {
 
 }
 
+uploadArchives {
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI") {
+            authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
+        }
+        snapshotRepository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI-SNAPSHOT") {
+            authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
+        }
+    }
+}
+
+gradle.taskGraph.whenReady {
+    taskGraph ->
+        if (taskGraph.hasTask(copyProjectDependencies)) {
+            test.enabled = false
+        }
+}
+
 task copyProjectDependencies(type: Copy, dependsOn: build) {
     into "build/dependencies"
     from configurations.runtime
+}
+
+release {
+    preCommitText = "${project.findProperty('jiraNumber')}: Gradle FRS upload"
+
+    git {
+        requireBranch = ''
+    }
+}
+
+afterReleaseBuild.dependsOn uploadArchives
+
+jar {
+    manifest {
+        attributes 'Implementation-Version': project.properties['version']
+    }
 }
 
 test {
