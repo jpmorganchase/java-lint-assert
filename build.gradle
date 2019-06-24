@@ -53,6 +53,11 @@ dependencies {
 
 }
 
+task copyProjectDependencies(type: Copy, dependsOn: build) {
+    into "build/dependencies"
+    from configurations.runtime
+}
+
 test {
 //    useJUnitPlatform {
 //       // includeEngines 'junit-jupiter', 'junit-vintage'
