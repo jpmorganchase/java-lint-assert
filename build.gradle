@@ -81,13 +81,6 @@ uploadArchives {
     }
 }
 
-gradle.taskGraph.whenReady {
-    taskGraph ->
-        if (taskGraph.hasTask(copyProjectDependencies)) {
-            test.enabled = false
-        }
-}
-
 task copyProjectDependencies(type: Copy, dependsOn: build) {
     into "build/dependencies"
     from configurations.runtime
