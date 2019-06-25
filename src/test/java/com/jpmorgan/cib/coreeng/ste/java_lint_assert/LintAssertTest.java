@@ -19,7 +19,6 @@ import org.objectweb.asm.Opcodes;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -57,7 +56,7 @@ class LintAssertTest {
 
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
-        ArrayList<File> classFiles = TestClassFinder.getClasses("com.jpmorgan.cib.coreeng.ste.java_lint_assert");
+        List<File> classFiles = TestClassFinder.getClasses("com.jpmorgan.cib.coreeng.ste.java_lint_assert");
         for (File classFile : classFiles) {
             final String classPath = TestClassFinder.buildClassFilePath(classFile.getPath());
             InputStream inputStream = LintAssertTest.class.getResourceAsStream(classPath);

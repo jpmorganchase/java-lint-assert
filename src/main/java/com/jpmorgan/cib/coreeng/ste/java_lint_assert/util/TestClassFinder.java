@@ -9,12 +9,12 @@ import java.util.List;
 
 public final class TestClassFinder {
 
-    final static ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    private final static ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
     /**
      * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
      */
-    public static ArrayList<File> getClasses(String packageName) throws IOException {
+    public static List<File> getClasses(String packageName) throws IOException {
 
         assert classLoader != null;
 
@@ -34,8 +34,8 @@ public final class TestClassFinder {
         return classes;
     }
 
-    public static String buildClassFilePath(String classPath) {
-        classPath = classPath.replace('\\', '/');
+    public static String buildClassFilePath(String path) {
+        String classPath = path.replace('\\', '/');
 
         int index = classPath.indexOf("/com/");
         if (index == -1)
@@ -46,15 +46,18 @@ public final class TestClassFinder {
     }
 
     /**
-     * Recursive method used to find all classes in a given directory and subdirs.
+     * Recurse to find all classes in a given directory and subdirs.
      */
-    static List<File> findClasses(File directory, String packageName){
+    protected static List<File> findClasses(File directory, String packageName){
         final List<File> classes = new ArrayList<>();
         if (!directory.exists()) {
             return classes;
         }
 
         File[] files = directory.listFiles();
+        if (files == null)
+            return classes;
+
         for (File file : files) {
             if (file.isDirectory()) {
                 assert !file.getName().contains(".");
