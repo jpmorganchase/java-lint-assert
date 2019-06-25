@@ -13,7 +13,8 @@ public class ConsoleOutputStrategy {
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static final int PADDING = 4;
     public static final char SEPARATOR_CHAR = '-';
-    public static final Collection<String> headers = Arrays.asList("Package", "Test file name", "Test method name", "# asserts");
+
+    protected static final Collection<String> HEADERS = Arrays.asList("Package", "Test file name", "Test method name", "# asserts");
 
     private ArrayList<Integer> maxLength;
     private final Set<TestMethodContext> contexts;
@@ -32,7 +33,7 @@ public class ConsoleOutputStrategy {
 
     private void calculateEachCellWidth() {
         //the initial cell width must fit the header's label, so that a 'no tests' table is formatted
-        for (String header : headers) {
+        for (String header : HEADERS) {
             maxLength.add(header.length());
         }
 
@@ -75,7 +76,7 @@ public class ConsoleOutputStrategy {
 
     protected void renderHeaderRow(StringBuilder sb) {
         int i = 0;
-        for (String header : headers) {
+        for (String header : HEADERS) {
             renderCell(sb, header, i);
             i++;
         }

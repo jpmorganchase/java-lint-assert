@@ -1,5 +1,5 @@
 sealId: 90173
-node: java180u161-gradle421-cfapi6320
+node: java180u161-gradle4102
 blackduck:
   localScanCredentials: JULES_BITBUCKET_CREDENTIALS
   criteria: BuildStatusForSealViolation=NONE,VulnerabilityThresholdForUnstable=MEDIUM,VulnerabilityThresholdForError=HIGH

@@ -55,7 +55,6 @@ dependencies {
     compile 'org.javatuples:javatuples:1.2'
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
 
-
     //junit 5
     testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
 
@@ -63,7 +62,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile "org.junit.vintage:junit-vintage-engine:5.4.2"
 
-    testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
 
 
@@ -103,9 +102,10 @@ jar {
 }
 
 test {
-//    useJUnitPlatform {
-//       // includeEngines 'junit-jupiter', 'junit-vintage'
-//    }
+    useJUnitPlatform {
+       // includeEngines 'junit-jupiter', 'junit-vintage'
+    }
+
     testLogging {
         showStandardStreams = true
         events "passed", "skipped", "failed"
