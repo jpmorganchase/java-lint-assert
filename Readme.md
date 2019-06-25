@@ -1,23 +1,34 @@
-       JUnit4 
-       JUnit5
-       + TestNG
-       
-       Asserts in JUnit4
-       Asserts in JUnit5
-       + AssertJ 
-       + Hamcrest 
-       
-       + flagging dummy asserts: 
-       assertTrue(true)
-       assertTrue(1 == 1)
-       
-       + format output:
-       -la, --list-asserts: list asserts in tests and their line numbers
-       
-       + maven plugin
-       
-       + gradle plugin
-       
-       ---
-       + config should accept package names, not files 
-       + non-deterministic results when framework = JUnit4, but apis for it are not given  
+<h1 align="center">Linting asserts in Java tests</h1>
+
+
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://choosealicense.com/licenses/apache-2.0/)
+
+A Java build plugin that reports presence of `assert` in a test method body. 
+
+
+## Sample report:
+
+
+## Features:
+
+
+## Supported Testing Frameworks:
+- JUnit 4
+- JUnit 5
+
+## Supported build types:
+- Maven 3.5.0 and above
+- Gradle 4.9 and above
+
+## Installation:
+
+
+## Use:
+#### Maven: 
+#### Gradle:
+
+
+## License
+
+The Apache 2.0 License). Please see [License](https://choosealicense.com/licenses/apache-2.0/) for more information.
+
