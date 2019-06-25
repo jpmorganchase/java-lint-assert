@@ -1,4 +1,4 @@
-package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
+package com.lint._assert;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

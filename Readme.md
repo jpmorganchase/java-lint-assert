@@ -1,9 +1,9 @@
-<h1 align="center">Linting asserts in Java tests</h1>
+<h1 align="center">Pluggable linting utility for Java tests</h1>
 
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://choosealicense.com/licenses/apache-2.0/)
 
-A Java build plugin that reports presence of `assert` in a test method body. 
+Written to be used primarily on the command line. Reports presence of `assert` in a test method body. 
 
 
 ## Sample report:

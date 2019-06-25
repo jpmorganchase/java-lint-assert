@@ -1,11 +1,11 @@
-package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
+package com.lint._assert;
 
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.LintAssertContext;
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.TestMethodContext;
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.strategy.ConsoleOutputStrategy;
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.util.PropertiesLoader;
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.util.TestClassFinder;
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.visitor.LintAssertClassVisitor;
+import com.lint._assert.context.LintAssertContext;
+import com.lint._assert.context.TestMethodContext;
+import com.lint._assert.strategy.ConsoleOutputStrategy;
+import com.lint._assert.util.PropertiesLoader;
+import com.lint._assert.util.TestClassFinder;
+import com.lint._assert.visitor.LintAssertClassVisitor;
 import org.javatuples.Pair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -56,15 +56,13 @@ class LintAssertTest {
 
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
-        List<File> classFiles = TestClassFinder.getClasses("com.jpmorgan.cib.coreeng.ste.java_lint_assert");
+        List<File> classFiles = TestClassFinder.getClasses(this.getClass().getPackage().getName());
         for (File classFile : classFiles) {
             final String classPath = TestClassFinder.buildClassFilePath(classFile.getPath());
             InputStream inputStream = LintAssertTest.class.getResourceAsStream(classPath);
             ClassReader classReader = new ClassReader(inputStream);
             classReader.accept(classVisitor, 0);
         }
-
-//         ctx.getTestMethodsContext().forEach(System.out::println);
 
         String output = new ConsoleOutputStrategy(ctx.getTestMethodsContext()).render();
         System.out.println(output);

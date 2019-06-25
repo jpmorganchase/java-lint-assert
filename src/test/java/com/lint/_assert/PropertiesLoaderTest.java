@@ -1,6 +1,6 @@
-package com.jpmorgan.cib.coreeng.ste.java_lint_assert;
+package com.lint._assert;
 
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.util.PropertiesLoader;
+import com.lint._assert.util.PropertiesLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class PropertiesLoaderTest {
 //        System.out.println(jsonObject.get("assert_api"));
 //        System.out.println(jsonObject.get("test_framework"));
         List<String> l = (List<String>) ((JSONArray)jsonObject.get("assert_api")).stream().map(Object::toString).collect(Collectors.toList());
-        l.forEach(System.out::println);
+//        l.forEach(System.out::println);
 
         assertNotNull(jsonObject.get("assert_api"));
         assertNotNull(jsonObject.get("test_framework"));

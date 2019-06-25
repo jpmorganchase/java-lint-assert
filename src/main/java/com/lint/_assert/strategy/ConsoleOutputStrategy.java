@@ -1,6 +1,6 @@
-package com.jpmorgan.cib.coreeng.ste.java_lint_assert.strategy;
+package com.lint._assert.strategy;
 
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.TestMethodContext;
+import com.lint._assert.context.TestMethodContext;
 
 import java.util.*;
 
@@ -17,7 +17,7 @@ public class ConsoleOutputStrategy {
     private final Set<TestMethodContext> contexts;
 
     public ConsoleOutputStrategy(Set<TestMethodContext> testMethodContexts) {
-        this.contexts = new HashSet(testMethodContexts);
+        this.contexts = new HashSet<>(testMethodContexts);
         this.maxLength = new ArrayList<>();
 
         calculateEachCellWidth();
@@ -39,7 +39,7 @@ public class ConsoleOutputStrategy {
                 maxLength.set(0, context.getPackageName().length());
             }
             if (maxLength.get(1) < context.getFileName().length()) {
-                maxLength.set(1, context.getPackageName().length());
+                maxLength.set(1, context.getFileName().length());
             }
             if (maxLength.get(2) < context.getMethodName().length()) {
                 maxLength.set(2, context.getMethodName().length());

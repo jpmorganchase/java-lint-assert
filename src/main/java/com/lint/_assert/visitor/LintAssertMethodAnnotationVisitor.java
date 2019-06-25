@@ -1,6 +1,6 @@
-package com.jpmorgan.cib.coreeng.ste.java_lint_assert.visitor;
+package com.lint._assert.visitor;
 
-import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.LintAssertContext;
+import com.lint._assert.context.LintAssertContext;
 import org.objectweb.asm.AnnotationVisitor;
 
 public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {

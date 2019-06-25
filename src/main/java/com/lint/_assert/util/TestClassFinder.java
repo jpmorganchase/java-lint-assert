@@ -1,4 +1,4 @@
-package com.jpmorgan.cib.coreeng.ste.java_lint_assert.util;
+package com.lint._assert.util;
 
 import java.io.File;
 import java.io.IOException;

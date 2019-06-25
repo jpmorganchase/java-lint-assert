@@ -1,4 +1,4 @@
-package com.jpmorgan.cib.coreeng.ste.java_lint_assert.context;
+package com.lint._assert.context;
 
 import org.javatuples.Pair;
 
