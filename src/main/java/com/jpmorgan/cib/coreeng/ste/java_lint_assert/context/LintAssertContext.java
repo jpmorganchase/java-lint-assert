@@ -1,10 +1,9 @@
 package com.jpmorgan.cib.coreeng.ste.java_lint_assert.context;
 
 import org.javatuples.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +14,6 @@ public class LintAssertContext {
     private Set<TestMethodContext> testMethodsContext;
 
     private  TestMethodContext testMethodContext;
-
-    private static Logger log = LoggerFactory.getLogger(LintAssertContext.class);
 
     private final Set<String> assertApis;
     private final Set<String> testFrameworks;
@@ -46,7 +43,6 @@ public class LintAssertContext {
     }
 
     public void recordAssert(int atLineNumber, String assertMethodName) {
-//        log.debug(this.testMethodContext.fileName + "==" + this.testMethodContext.methodName + ", assertMethodName=" + assertMethodName);
         this.testMethodContext.assertMethodsAtLineNumbers.add(new Pair<>(atLineNumber, assertMethodName));
     }
 
@@ -81,7 +77,7 @@ public class LintAssertContext {
         return this.testMethodContext.methodDescriptor;
     }
 
-    public Set<TestMethodContext> getTestMethodsContext(){return testMethodsContext;}
+    public Set<TestMethodContext> getTestMethodsContext(){return Collections.unmodifiableSet(testMethodsContext);}
 
     public void setFileName(String fileName){this.testMethodContext.fileName = fileName;}
 

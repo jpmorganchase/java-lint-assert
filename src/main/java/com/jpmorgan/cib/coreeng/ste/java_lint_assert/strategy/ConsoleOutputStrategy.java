@@ -2,10 +2,7 @@ package com.jpmorgan.cib.coreeng.ste.java_lint_assert.strategy;
 
 import com.jpmorgan.cib.coreeng.ste.java_lint_assert.context.TestMethodContext;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 public class ConsoleOutputStrategy {
 
@@ -20,7 +17,7 @@ public class ConsoleOutputStrategy {
     private final Set<TestMethodContext> contexts;
 
     public ConsoleOutputStrategy(Set<TestMethodContext> testMethodContexts) {
-        this.contexts = testMethodContexts;
+        this.contexts = new HashSet(testMethodContexts);
         this.maxLength = new ArrayList<>();
 
         calculateEachCellWidth();
@@ -38,14 +35,18 @@ public class ConsoleOutputStrategy {
         }
 
         for (TestMethodContext context : contexts) {
-            if (maxLength.get(0) < context.getPackageName().length())
+            if (maxLength.get(0) < context.getPackageName().length()) {
                 maxLength.set(0, context.getPackageName().length());
-            if (maxLength.get(1) < context.getFileName().length())
+            }
+            if (maxLength.get(1) < context.getFileName().length()) {
                 maxLength.set(1, context.getPackageName().length());
-            if (maxLength.get(2) < context.getMethodName().length())
+            }
+            if (maxLength.get(2) < context.getMethodName().length()) {
                 maxLength.set(2, context.getMethodName().length());
-            if (maxLength.get(3) < context.getAssertMethodsAtLineNumbers().size())
+            }
+            if (maxLength.get(3) < context.getAssertMethodsAtLineNumbers().size()) {
                 maxLength.set(3, context.getAssertMethodsAtLineNumbers().size());
+            }
         }
     }
 
@@ -111,8 +112,9 @@ public class ConsoleOutputStrategy {
         StringBuilder padder = new StringBuilder();
 
         int emptySpaces = cellWidth - cellValue.length();
-        if (isRightHandSide && (emptySpaces % 2 == 1))
+        if (isRightHandSide && (emptySpaces % 2 == 1)) {
             emptySpaces++;
+        }
         emptySpaces /= 2;
 
         for (int i = 0; i < emptySpaces + PADDING; i++) {
