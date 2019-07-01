@@ -17,3 +17,5 @@ include 'services:webservice'
 */
 
 rootProject.name = 'java-lint-assert'
+include 'core'
+

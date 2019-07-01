@@ -1,122 +1,92 @@
+
+// gradle -q modules
+
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    task modules {
+        doLast { task ->
+            println "I'm $task.project.name"
+        }
+    }
+
+    repositories {
+        maven {
+            name "jpmc-public"
+            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+        }
+    }
+}
+
 buildscript {
     repositories {
         maven {
             url 'http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public'
         }
     }
-
     dependencies {
         classpath 'net.researchgate:gradle-release:2.4.1'
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
     }
 }
 
-apply plugin: 'idea'
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'jacoco'
-apply plugin: 'org.sonarqube'
-apply plugin: 'net.researchgate.release'
+subprojects{
 
-configurations {
-    deployerJars
-}
+    apply plugin: 'jacoco'
+    apply plugin: 'maven'
+    apply plugin: 'org.sonarqube'
+    apply plugin: 'net.researchgate.release'
 
-jacoco {
-    toolVersion = '0.7.8'
-}
 
-jacocoTestReport {
-    group = "Reporting"
-    reports {
-        xml.enabled true
-        csv.enabled false
-        html.destination "${buildDir}/reports/coverage"
+    jacoco {
+        toolVersion = '0.7.8'
     }
-}
 
-repositories {
-    maven {
-        name "jpmc-public"
-        url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
-    }
-}
-
-dependencies {
-    compile group:'org.ow2.asm', name:'asm', version:'7.0'
-    compile group:'org.ow2.asm', name:'asm-util', version:'7.0'
-    compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.4.2'
-    compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.2'
-
-    //logback
-    compile 'ch.qos.logback:logback-classic:1.2.3'
-    compile 'ch.qos.logback:logback-core:1.2.3'
-    compile 'org.javatuples:javatuples:1.2'
-    compile 'com.googlecode.json-simple:json-simple:1.1.1'
-
-    //junit 5
-    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
-
-    //junit 4
-    testCompile 'junit:junit:4.12'
-    testCompile "org.junit.vintage:junit-vintage-engine:5.4.2"
-
-    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
-
-
-}
-
-uploadArchives {
-    repositories.mavenDeployer {
-        configuration = configurations.deployerJars
-        repository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI") {
-            authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
-        }
-        snapshotRepository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI-SNAPSHOT") {
-            authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
+    jacocoTestReport {
+        group = "Reporting"
+        reports {
+            xml.enabled true
+            csv.enabled false
+            html.destination "${buildDir}/reports/coverage"
         }
     }
-}
-
-task copyProjectDependencies(type: Copy, dependsOn: build) {
-    into "build/dependencies"
-    from configurations.runtime
-}
-
-release {
-    preCommitText = "${project.findProperty('jiraNumber')}: Gradle FRS upload"
-
-    git {
-        requireBranch = ''
+    configurations {
+        deployerJars
     }
-}
-
-afterReleaseBuild.dependsOn uploadArchives
-
-jar {
-    manifest {
-        attributes 'Implementation-Version': project.properties['version']
-    }
-}
-
-test {
-    useJUnitPlatform {
-       // includeEngines 'junit-jupiter', 'junit-vintage'
-    }
-
-    testLogging {
-        showStandardStreams = true
-        events "passed", "skipped", "failed"
-    }
-    //to get "Test summary: 1 tests, 1 succeeded, 0 failed, 0 skipped"
-    afterSuite { desc, result ->
-        if (!desc.parent) {
-            println "\nTest result: ${result.resultType}"
-            println "Test summary: ${result.testCount} tests, " +
-                    "${result.successfulTestCount} succeeded, " +
-                    "${result.failedTestCount} failed, " +
-                    "${result.skippedTestCount} skipped"
+    uploadArchives {
+        repositories.mavenDeployer {
+            configuration = configurations.deployerJars
+            repository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI") {
+                authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
+            }
+            snapshotRepository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI-SNAPSHOT") {
+                authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
+            }
         }
     }
+
+    task copyProjectDependencies(type: Copy, dependsOn: build) {
+        into "build/dependencies"
+        from configurations.runtime
+    }
+
+    release {
+        preCommitText = "${project.findProperty('jiraNumber')}: Gradle FRS upload"
+
+        git {
+            requireBranch = ''
+        }
+    }
+
+    afterReleaseBuild.dependsOn uploadArchives
+
+    jar {
+        manifest {
+            attributes 'Implementation-Version': project.properties['version']
+        }
+    }
+
 }
+
+
+
