@@ -20,32 +20,4 @@ dependencies {
 
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
-
-
-}
-
-test {
-    useJUnitPlatform {
-       // includeEngines 'junit-jupiter', 'junit-vintage'
-    }
-
-    testLogging {
-        showStandardStreams = true
-        events "passed", "skipped", "failed"
-    }
-    //to get "Test summary: 1 tests, 1 succeeded, 0 failed, 0 skipped"
-    afterSuite { desc, result ->
-        if (!desc.parent) {
-            println "\nTest result: ${result.resultType}"
-            println "Test summary: ${result.testCount} tests, " +
-                    "${result.successfulTestCount} succeeded, " +
-                    "${result.failedTestCount} failed, " +
-                    "${result.skippedTestCount} skipped"
-        }
-    }
-}
-
-
-modules.doLast{
-    println "- I find asserts in Java tests."
 }
