@@ -88,6 +88,8 @@ buildscript {
     }
 }
 
+apply plugin: 'org.sonarqube'
+
 allprojects {
     apply plugin: 'maven'
     apply plugin: 'jacoco'
