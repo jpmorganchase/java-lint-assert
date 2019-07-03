@@ -1,6 +1,6 @@
-package com.lint._assert.visitor;
+package com.lint.azzert.visitor;
 
-import com.lint._assert.context.LintAssertContext;
+import com.lint.azzert.context.LintAssertContext;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.slf4j.Logger;

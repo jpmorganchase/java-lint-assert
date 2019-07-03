@@ -1,6 +1,6 @@
-package com.lint._assert.strategy;
+package com.lint.azzert.strategy;
 
-import com.lint._assert.context.TestMethodContext;
+import com.lint.azzert.context.TestMethodContext;
 
 import java.util.*;
 

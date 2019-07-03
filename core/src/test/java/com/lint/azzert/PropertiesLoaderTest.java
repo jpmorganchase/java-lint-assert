@@ -1,6 +1,6 @@
-package com.lint._assert;
+package com.lint.azzert;
 
-import com.lint._assert.util.PropertiesLoader;
+import com.lint.azzert.util.PropertiesLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;

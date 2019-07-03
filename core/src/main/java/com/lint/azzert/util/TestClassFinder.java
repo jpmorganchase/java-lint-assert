@@ -1,4 +1,4 @@
-package com.lint._assert.util;
+package com.lint.azzert.util;
 
 import java.io.File;
 import java.io.IOException;

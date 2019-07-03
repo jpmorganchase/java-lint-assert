@@ -1,4 +1,4 @@
-package com.lint._assert.util;
+package com.lint.azzert.util;
 
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

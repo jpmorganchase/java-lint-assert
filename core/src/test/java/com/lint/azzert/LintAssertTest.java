@@ -1,11 +1,11 @@
-package com.lint._assert;
+package com.lint.azzert;
 
-import com.lint._assert.context.LintAssertContext;
-import com.lint._assert.context.TestMethodContext;
-import com.lint._assert.strategy.ConsoleOutputStrategy;
-import com.lint._assert.util.PropertiesLoader;
-import com.lint._assert.util.TestClassFinder;
-import com.lint._assert.visitor.LintAssertClassVisitor;
+import com.lint.azzert.context.LintAssertContext;
+import com.lint.azzert.context.TestMethodContext;
+import com.lint.azzert.strategy.ConsoleOutputStrategy;
+import com.lint.azzert.util.PropertiesLoader;
+import com.lint.azzert.util.TestClassFinder;
+import com.lint.azzert.visitor.LintAssertClassVisitor;
 import org.javatuples.Pair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
