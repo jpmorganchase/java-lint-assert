@@ -49,7 +49,7 @@ class LintAssertTest {
     }
 
     @Test
-    void _assert() throws IOException{
+    void azzert() throws IOException{
         final LintAssertContext ctx = new LintAssertContext(Opcodes.ASM7);
         ctx.addSupportedTestFrameworks(testFrameworks);
         ctx.addSupportedAssertApis(assertApis);

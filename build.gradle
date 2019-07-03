@@ -75,6 +75,10 @@ tasks.withType(Test) {
 }
 
 /** To satisfy Jules */
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 buildscript {
     repositories {
         maven {
