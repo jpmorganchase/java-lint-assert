@@ -1,16 +1,13 @@
 package com.lint.azzert;
 
-import com.lint.azzert.context.LintAssertContext;
+import com.lint.azzert.context.Context;
 import com.lint.azzert.context.TestMethodContext;
 import com.lint.azzert.strategy.ConsoleOutputStrategy;
-import com.lint.azzert.util.PropertiesLoader;
 import com.lint.azzert.util.TestClassFinder;
 import com.lint.azzert.visitor.LintAssertClassVisitor;
 import org.javatuples.Pair;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -21,38 +18,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 
 class LintAssertTest {
 
-    static List<String> testFrameworks;
-    static List<String> assertApis;
-
-    @BeforeEach
-    void setup() throws Exception{
-        JSONObject jsonObject = (JSONObject) PropertiesLoader.load("/application-properties.json");
-        assertNotNull(jsonObject);
-
-        final BiFunction<JSONObject, String, List<String>> jsonObjectStringListBiFunction =
-                (jsonObject1, key1) -> (List<String>) ((JSONArray) jsonObject1.get(key1)).stream().map(Object::toString).collect(Collectors.toList());
-        testFrameworks = jsonObjectStringListBiFunction.apply(jsonObject, "test_framework");
-        assertApis =  jsonObjectStringListBiFunction.apply(jsonObject, "assert_api");
-
-        assertNotNull(testFrameworks);
-        assertNotNull(assertApis);
-        assertTrue("Expected at least one test_framework defined in application-properties.json", testFrameworks.size() > 0);
-        assertTrue("Expected at least one assert_api defined in application-properties.json", assertApis.size() > 0);
-    }
-
     @Test
-    void azzert() throws IOException{
-        final LintAssertContext ctx = new LintAssertContext(Opcodes.ASM7);
-        ctx.addSupportedTestFrameworks(testFrameworks);
-        ctx.addSupportedAssertApis(assertApis);
+    void azzert() throws IOException, ParseException {
+
+        Context ctx = new ContextBuilder().build(Opcodes.ASM7);
 
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 

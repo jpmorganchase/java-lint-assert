@@ -1,11 +1,11 @@
 package com.lint.azzert.visitor;
 
-import com.lint.azzert.context.LintAssertContext;
+import com.lint.azzert.context.Context;
 import org.objectweb.asm.AnnotationVisitor;
 
 public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
 
-    public LintAssertMethodAnnotationVisitor(LintAssertContext context) {
+    public LintAssertMethodAnnotationVisitor(Context context) {
         super(context.getAsmVersion());
     }
 

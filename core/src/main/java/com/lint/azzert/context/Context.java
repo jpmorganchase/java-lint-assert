@@ -7,18 +7,18 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LintAssertContext {
+public class Context {
 
     private final int asmVersion;
 
     private Set<TestMethodContext> testMethodsContext;
 
-    private  TestMethodContext testMethodContext;
+    private TestMethodContext testMethodContext;
 
     private final Set<String> assertApis;
     private final Set<String> testFrameworks;
 
-    public LintAssertContext(int asmVersion) {
+    public Context(int asmVersion) {
         this.asmVersion = asmVersion;
         testMethodContext = new TestMethodContext();
         testMethodsContext = new HashSet<>();
@@ -27,6 +27,7 @@ public class LintAssertContext {
     }
 
     public void addSupportedAssertApis(Collection<String> assertApis) {
+
         this.assertApis.addAll(assertApis);
     }
 
@@ -34,11 +35,11 @@ public class LintAssertContext {
         this.testFrameworks.addAll(testFrameworks);
     }
 
-    public Set<String> getSupportedAssertApis(){
+    public Set<String> getSupportedAssertApis() {
         return this.assertApis;
     }
 
-    public Set<String> getSupportedTestFrameworks(){
+    public Set<String> getSupportedTestFrameworks() {
         return this.testFrameworks;
     }
 
@@ -77,17 +78,25 @@ public class LintAssertContext {
         return this.testMethodContext.methodDescriptor;
     }
 
-    public Set<TestMethodContext> getTestMethodsContext(){return Collections.unmodifiableSet(testMethodsContext);}
+    public Set<TestMethodContext> getTestMethodsContext() {
+        return Collections.unmodifiableSet(testMethodsContext);
+    }
 
-    public void setFileName(String fileName){this.testMethodContext.fileName = fileName;}
+    public void setFileName(String fileName) {
+        this.testMethodContext.fileName = fileName;
+    }
 
-    public void setPackageName(String packageName){this.testMethodContext.packageName = packageName;}
+    public void setPackageName(String packageName) {
+        this.testMethodContext.packageName = packageName;
+    }
 
-    public void setClassName(String className){this.testMethodContext.className = className;}
+    public void setClassName(String className) {
+        this.testMethodContext.className = className;
+    }
 
     @Override
     public String toString() {
-        return "LintAssertContext{" +
+        return "Context{" +
                 "asmVersion=" + asmVersion +
                 ", testMethodsContext=" + testMethodsContext +
                 ", testMethodContext=" + testMethodContext +

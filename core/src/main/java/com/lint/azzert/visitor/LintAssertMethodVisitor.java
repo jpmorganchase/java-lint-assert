@@ -1,6 +1,6 @@
 package com.lint.azzert.visitor;
 
-import com.lint.azzert.context.LintAssertContext;
+import com.lint.azzert.context.Context;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
 
 public class LintAssertMethodVisitor extends MethodVisitor {
 
-    private final LintAssertContext context;
+    private final Context context;
 
     private static Logger log = LoggerFactory.getLogger(LintAssertMethodVisitor.class);
     private int atLineNumber;
 
-    public LintAssertMethodVisitor(LintAssertContext ctx) {
+    public LintAssertMethodVisitor(Context ctx) {
         super(ctx.getAsmVersion());
         this.context = ctx;
         atLineNumber = 0;
