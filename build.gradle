@@ -75,10 +75,6 @@ tasks.withType(Test) {
 }
 
 /** To satisfy Jules */
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 buildscript {
     repositories {
         maven {
@@ -88,7 +84,7 @@ buildscript {
 
     dependencies {
         classpath 'net.researchgate:gradle-release:2.4.1'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6"
     }
 }
 
