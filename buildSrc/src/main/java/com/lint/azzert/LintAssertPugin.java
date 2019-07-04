@@ -7,6 +7,6 @@ public class LintAssertPugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.getTasks().create("hello", LintAssert.class, task -> task.setMessage("Hello") );
+        project.getTasks().create("lint-assert", LintAssert.class, task -> task.setMessage("Hello") );
     }
 }
