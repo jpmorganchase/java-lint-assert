@@ -5,12 +5,23 @@ buildscript {
             name "jpmc-public"
             url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
         }
-           mavenLocal()
+        mavenLocal()
+
+        maven {
+            name = 'localRepo'
+            url = uri("$buildDir/../../build/repo")
+        }
     }
 
     dependencies {
-        classpath 'com.lint.azzert:myplugin:0.0.4-SNAPSHOT'
+        classpath 'com.lint.azzert:plugin:0.0.4-SNAPSHOT'
     }
+}
+
+apply plugin: 'com.lint.azzert'
+
+task hello(type: com.lint.azzert.LintAssert){
+    message = 'howdo!'
 }
 
 

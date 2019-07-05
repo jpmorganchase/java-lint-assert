@@ -5,6 +5,11 @@ plugins {
 publishing {
     repositories {
         mavenLocal()
+
+        maven{
+            name='localRepo'
+            url = uri("$buildDir/../../build/repo")
+        }
     }
 
     publications {

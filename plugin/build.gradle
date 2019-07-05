@@ -5,11 +5,6 @@ buildscript {
             name "jpmc-public"
             url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
         }
-     //   mavenLocal()
-    }
-
-    dependencies {
-//        classpath 'com.lint.azzert:core:0.0.4-SNAPSHOT'
     }
 }
 
@@ -28,7 +23,7 @@ publishing {
 
         maven{
             name='localRepo'
-            url = uri("$buildDir/repo")
+            url = uri("$buildDir/../../build/repo")
         }
     }
     publications {
