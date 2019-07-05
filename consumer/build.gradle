@@ -1,6 +1,16 @@
 buildscript {
+
+    repositories {
+        maven {
+            name "jpmc-public"
+            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+        }
+           mavenLocal()
+    }
+
     dependencies {
-        //classpath 'com.lint.azzert:1.0-SNAPSHOT'
+        classpath 'com.lint.azzert:myplugin:0.0.4-SNAPSHOT'
     }
 }
+
 

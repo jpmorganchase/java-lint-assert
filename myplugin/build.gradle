@@ -1,0 +1,40 @@
+buildscript {
+
+    repositories {
+        maven {
+            name "jpmc-public"
+            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+        }
+     //   mavenLocal()
+    }
+
+    dependencies {
+//        classpath 'com.lint.azzert:core:0.0.4-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'maven-publish'
+}
+
+dependencies{
+    compile gradleApi()
+    compile project (':core')
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+
+        maven{
+            name='localRepo'
+            url = uri("$buildDir/repo")
+        }
+    }
+    publications {
+        maven(MavenPublication){
+            from components.java
+        }
+    }
+}
+

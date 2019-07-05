@@ -1,5 +1,5 @@
 rootProject.name = 'java-lint-assert'
 include 'core'
-include 'plugin'
+include 'myplugin'
 include 'consumer'
 

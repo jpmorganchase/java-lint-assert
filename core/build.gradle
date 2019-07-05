@@ -1,3 +1,19 @@
+plugins {
+    id 'maven-publish'
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
+
+    publications {
+        maven(MavenPublication){
+            from components.java
+        }
+    }
+}
+
 dependencies {
     compile group:'org.ow2.asm', name:'asm', version:'7.0'
     compile group:'org.ow2.asm', name:'asm-util', version:'7.0'
