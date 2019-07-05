@@ -1,0 +1,6 @@
+buildscript {
+    dependencies {
+        //classpath 'com.lint.azzert:1.0-SNAPSHOT'
+    }
+}
+

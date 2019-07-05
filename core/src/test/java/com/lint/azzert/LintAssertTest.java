@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Opcodes;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +25,7 @@ class LintAssertTest {
     @Test
     void azzert() throws IOException, ParseException {
 
-        Context ctx = new ContextBuilder().build(Opcodes.ASM7);
+        Context ctx = new ContextBuilder().build();
 
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 

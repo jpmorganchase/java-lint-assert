@@ -2,7 +2,6 @@ package com.lint.azzert;
 
 import com.lint.azzert.context.Context;
 import org.junit.jupiter.api.Test;
-import org.objectweb.asm.Opcodes;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,7 +10,7 @@ class ContextBuilderTest {
 
     @Test
     void build() throws Exception {
-        Context ctx = new ContextBuilder().build(Opcodes.ASM7);
+        Context ctx = new ContextBuilder().build();
 
         assertNotNull(ctx.getSupportedTestFrameworks());
         assertNotNull(ctx.getSupportedAssertApis());

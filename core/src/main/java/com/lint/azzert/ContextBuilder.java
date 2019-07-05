@@ -5,6 +5,7 @@ import com.lint.azzert.util.PropertiesLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.objectweb.asm.Opcodes;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,8 +16,8 @@ public final class ContextBuilder {
 
     private Context context;
 
-    public Context build(int asmVersion) throws IOException, ParseException {
-        context = new Context(asmVersion);
+    public Context build() throws IOException, ParseException {
+        context = new Context(Opcodes.ASM7);
         this.initFromJsonProperties("/application-properties.json");
         return context;
     }
