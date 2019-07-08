@@ -8,7 +8,7 @@ buildscript {
         mavenLocal()
 
         maven {
-            name = 'localRepo'
+            name = 'repoUnderProjectRoot'
             url = uri("$buildDir/../../build/repo")
         }
     }
@@ -19,9 +19,14 @@ buildscript {
 }
 
 apply plugin: 'com.lint.azzert'
+apply plugin: 'java'
 
-task hello(type: com.lint.azzert.LintAssert){
-    message = 'howdo!'
+task lint_azzert(type: com.lint.azzert.LintAssertTask){
+    classPath = "$buildDir/classes/java/test"
 }
 
-
+task printClasspath {
+    doLast {
+        configurations.testRuntime.each { println it }
+    }
+}

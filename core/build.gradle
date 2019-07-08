@@ -7,7 +7,7 @@ publishing {
         mavenLocal()
 
         maven{
-            name='localRepo'
+            name='repoUnderProjectRoot'
             url = uri("$buildDir/../../build/repo")
         }
     }
