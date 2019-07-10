@@ -3,12 +3,8 @@ package com.lint.azzert.visitor;
 import com.lint.azzert.context.Context;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LintAssertClassVisitor extends ClassVisitor {
-
-    private static Logger log = LoggerFactory.getLogger(LintAssertClassVisitor.class);
 
     private final Context ctx;
 

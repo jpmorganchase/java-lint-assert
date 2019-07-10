@@ -13,6 +13,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,9 +28,9 @@ class LintAssertTest {
 
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
-        List<String> classes = TestClassFinder.getClasses(this.getClass().getPackage().getName());
-        for (String classPath : classes) {
-            ClassReader classReader = new ClassReader(classPath);
+        List<URL> classes = TestClassFinder.getClasses(this.getClass().getPackage().getName());
+        for (URL url : classes) {
+            ClassReader classReader = new ClassReader(url.openStream());
             classReader.accept(classVisitor, 0);
         }
 
