@@ -12,9 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,11 +27,9 @@ class LintAssertTest {
 
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
-        List<File> classFiles = TestClassFinder.getClasses(this.getClass().getPackage().getName());
-        for (File classFile : classFiles) {
-            final String classPath = TestClassFinder.buildClassFilePath(classFile.getPath());
-            InputStream inputStream = LintAssertTest.class.getResourceAsStream(classPath);
-            ClassReader classReader = new ClassReader(inputStream);
+        List<String> classes = TestClassFinder.getClasses(this.getClass().getPackage().getName());
+        for (String classPath : classes) {
+            ClassReader classReader = new ClassReader(classPath);
             classReader.accept(classVisitor, 0);
         }
 

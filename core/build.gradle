@@ -22,6 +22,7 @@ publishing {
 dependencies {
     compile group:'org.ow2.asm', name:'asm', version:'7.0'
     compile group:'org.ow2.asm', name:'asm-util', version:'7.0'
+    compile group:'io.github.classgraph', name:'classgraph', version:'4.8.24'
 
     //logback
     compile 'ch.qos.logback:logback-classic:1.2.3'
