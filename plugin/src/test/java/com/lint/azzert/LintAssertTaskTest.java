@@ -14,6 +14,7 @@ class LintAssertTaskTest {
         Assertions.assertNotNull(task);
 
         task.setPackageName("com.lint");
+        task.setClasspath("C:/git/java-lint-assert/client/build/classes/java/test");
         task.execute();
     }
 }

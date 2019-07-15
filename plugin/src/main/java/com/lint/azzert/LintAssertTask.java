@@ -4,10 +4,8 @@ import com.lint.azzert.context.Context;
 import com.lint.azzert.strategy.ConsoleOutputStrategy;
 import com.lint.azzert.util.TestClassFinder;
 import com.lint.azzert.visitor.LintAssertClassVisitor;
-import io.github.classgraph.ClassInfo;
-import io.github.classgraph.ClassInfoList;
-import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.testing.Test;
 import org.json.simple.parser.ParseException;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -15,14 +13,15 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
-public class LintAssertTask extends DefaultTask {
+public class LintAssertTask extends Test {
 
     private String packageName;
 
-    public String getPackageName() {
-        return packageName;
-    }
+    private String classpath;
+
+    public void setClasspath(String classpath) { this.classpath = classpath; }
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -33,20 +32,17 @@ public class LintAssertTask extends DefaultTask {
 
         final Logger log = getLogger();
 
-        log.error("Searching for tests in package:" + this.packageName);
+        log.error("Searching for tests in package:" + this.packageName + " in classpath:" + classpath);
 
         Context context = new ContextBuilder().build();
         final ClassVisitor classVisitor = new LintAssertClassVisitor(context);
 
-        ClassInfoList list = TestClassFinder.getClassInfoList(this.packageName);
+        List<URL> list = TestClassFinder.getClasses(this.classpath, this.packageName);
         log.error("Found classes:" + list);
 
-        for (ClassInfo c : list) {
-            String className = c.getName();
-            String resourceName = className.replace('.', '/') + ".class";
-            URL url = this.getClass().getClassLoader().getResource(resourceName);
-            log.error(resourceName + "==" + url);
-            ClassReader classReader = new ClassReader(url.openStream());
+        for (URL c : list) {
+            log.error("file:: " + c);
+            ClassReader classReader = new ClassReader(c.openStream());
 
             classReader.accept(classVisitor, 0);
         }

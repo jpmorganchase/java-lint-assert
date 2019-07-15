@@ -21,9 +21,11 @@ buildscript {
 apply plugin: 'com.lint.azzert'
 apply plugin: 'java'
 
+
 task lint_azzert(type: com.lint.azzert.LintAssertTask){
-    logging.captureStandardOutput LogLevel.DEBUG
     packageName = "com.lint"
+   // classpath = "$buildDir/classes/java/test"
+  //  classpath = "C:\\git\\java-lint-assert\\client\\build\\classes\\java\\test"
 }
 
 task printClasspath {
