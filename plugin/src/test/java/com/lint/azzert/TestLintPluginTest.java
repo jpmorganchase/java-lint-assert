@@ -13,9 +13,11 @@ class TestLintPluginTest {
 
     static Logger log = LoggerFactory.getLogger(TestLintPluginTest.class);
 
-    String header = "|---------------|----------------------|------------------------|-----------------|" + ConsoleOutputStrategy.LINE_SEPARATOR +
-            "|    Package    |    Test file name    |    Test method name    |    # asserts    |" + ConsoleOutputStrategy.LINE_SEPARATOR +
-            "|---------------|----------------------|------------------------|-----------------|" + ConsoleOutputStrategy.LINE_SEPARATOR;
+    String ls = ConsoleOutputStrategy.LINE_SEPARATOR;
+    String header = "|-----------------------|----------------------------|------------------------|-----------------|" + ls +
+            "|        Package        |       Test file name       |    Test method name    |    # asserts    |"  + ls +
+            "|-----------------------|----------------------------|------------------------|-----------------|"  + ls;
+
 
     @Test
     void lint() throws IOException, ParseException {
@@ -23,8 +25,16 @@ class TestLintPluginTest {
         LintTests lt = new LintTests();
         lt.setPackageName("com.lint");
         String result = lt.lint();
-
-        Assertions.assertTrue(result.startsWith(header));
 //        log.info(result);
+        Assertions.assertTrue(result.startsWith(header));
+        Assertions.assertEquals(result,
+                header + "|    com/lint/azzert    |    PlaceholderTest.java    |         dummy          |        0        |"  + ls);
+    }
+
+    class PlaceholderTest {
+        @Test
+        void dummy() {
+
+        }
     }
 }
