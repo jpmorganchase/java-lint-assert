@@ -24,10 +24,10 @@ dependencies {
     compile group:'org.ow2.asm', name:'asm-util', version:'7.0'
     compile group:'io.github.classgraph', name:'classgraph', version:'4.8.24'
 
-    //logback
     compile 'org.javatuples:javatuples:1.2'
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
 
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
 
     //junit 4
     testCompile 'junit:junit:4.12'

@@ -1,3 +1,23 @@
+apply plugin: 'java'
+
+// Write the plugin's classpath to a file to share with the tests
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testRuntime files(createClasspathManifest)
+}
+
 buildscript {
 
     repositories {
@@ -18,18 +38,21 @@ buildscript {
     }
 }
 
-apply plugin: 'com.lint.azzert'
-apply plugin: 'java'
+apply plugin: com.lint.azzert.LintTestsPlugin
+
+test{
+
+    lint{
+
+        packageName = "com.lint"
+
+//        def pluginClasspathResource = getClass().classLoader.findResource("plugin-classpath.txt")
+//        if (pluginClasspathResource == null) {
+//            throw new IllegalStateException("Did not find plugin classpath resource, run `testClasses` build task.")
+//        }
+//
+//        classpath = pluginClasspathResource.readLines().collect { new File(it) }
 
 
-task lint_azzert(type: com.lint.azzert.LintAssertTask){
-    packageName = "com.lint"
-   // classpath = "$buildDir/classes/java/test"
-  //  classpath = "C:\\git\\java-lint-assert\\client\\build\\classes\\java\\test"
-}
-
-task printClasspath {
-    doLast {
-        configurations.testRuntime.each { println it }
     }
 }

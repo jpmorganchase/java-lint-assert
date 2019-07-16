@@ -4,6 +4,8 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,12 +15,27 @@ import java.util.List;
 //AN:: @see {https://github.com/classgraph/classgraph/wiki}
 public final class TestClassFinder {
 
+
+    static Logger log = LoggerFactory.getLogger(TestClassFinder.class);
+
     public static final ClassLoader CLASS_LOADER = TestClassFinder.class.getClassLoader();
 
-    public static List<URL> getClasses(String classpath, String name) {
+    private final boolean verbose;
+
+    TestClassFinder(boolean verbose){
+        this.verbose = verbose;
+    }
+
+    public boolean isVerbose(){return verbose;}
+
+    public  static List<URL> getClasses(String name) {
+        return TestClassFinder.getClasses(name, false);
+    }
+
+    public  static List<URL> getClasses(String name, boolean verbose) {
         final List<URL> classes = new ArrayList<>();
 
-        ClassInfoList list = TestClassFinder.getClassInfoList(classpath, name);
+        ClassInfoList list = new TestClassFinder(verbose).getClassInfoList(name);
         for (ClassInfo c : list) {
             String className = c.getName();
             String resourceName = className.replace('.', '/') + ".class";
@@ -29,15 +46,18 @@ public final class TestClassFinder {
         return classes;
     }
 
-    protected static ClassInfoList getClassInfoList(String classpath, String packageName) {
+    protected ClassInfoList getClassInfoList(String packageName) {
 
-        final ClassGraph classGraph = new ClassGraph()
-                .enableClassInfo()
-                .whitelistPackages(packageName)
-                //.overrideClasspath(classpath)
-                ;
+        ClassGraph classGraph = new ClassGraph()
+                //.verbose()
+                .enableClassInfo();
 
-        try (ScanResult scanResult = classGraph.scan()) {
+        if (isVerbose()) classGraph.verbose();
+
+        try (ScanResult scanResult =
+                     classGraph
+                             .whitelistPackages(packageName)      // Scan com.xyz and subpackages (omit to scan all packages)
+                             .scan()) {                   // Start the scan
             return scanResult.getAllClasses();
         }
     }
