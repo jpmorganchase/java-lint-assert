@@ -34,44 +34,41 @@ public final class TestClassFinder {
 
         ClassInfoList list = getClassInfoList(name);
         for (ClassInfo c : list) {
-            String className = c.getName();
-//            System.out.println("className::" + className);
-
-            String resourceName = className.replace('.', '/');
-            //handle nested classes:  com.lint.azzert.TestLintPluginTest$PlaceholderTest
-            int i = resourceName.indexOf("$");
-            if (i > -1){
-                resourceName = resourceName.substring(0, i);
-            }
-            resourceName += ".class";
-            // System.out.println("resourceName::" + resourceName);
-
+            final String resourceName = classToResourceName(c.getName());
             URL url = this.classLoader.getResource(resourceName);
-
             classes.add(url);
         }
+
         return classes;
+    }
+
+    private String classToResourceName(String className) {
+        String resourceName = className.replace('.', '/');
+
+        //handle nested classes:  com.lint.azzert.TestLintPluginTest$PlaceholderTest
+        int i = resourceName.indexOf("$");
+        if (i > -1){
+            resourceName = resourceName.substring(0, i);
+        }
+        resourceName += ".class";
+        return resourceName;
     }
 
     private ClassInfoList getClassInfoList(String packageName) {
 
-//        URL[] urls = ((URLClassLoader)classLoader).getURLs();
-//        for (int i = 0; i < urls.length; i++) {
-//            System.out.println("url:::" +  urls[i].getPath());
-//        }
-
         ClassGraph classGraph = new ClassGraph()
-                .enableClassInfo()
-                ;
+                                    .enableClassInfo()
+                                    .ignoreClassVisibility()
+                                    .overrideClassLoaders(classLoader);
 
         if (this.verbose) classGraph.verbose();
+        if (packageName != null) classGraph.whitelistPackages(packageName);
 
         try (ScanResult scanResult =
                      classGraph
-                             .whitelistPackages(packageName)      // Scan com.xyz and subpackages (omit to scan all packages)
-                             .overrideClassLoaders(classLoader)
-                             .ignoreClassVisibility()
-                             .scan()) {                   // Start the scan
+//                             .whitelistPackages(packageName)
+//                             .overrideClassLoaders(classLoader)
+                             .scan()) {
             return scanResult.getAllClasses();
         }
     }
