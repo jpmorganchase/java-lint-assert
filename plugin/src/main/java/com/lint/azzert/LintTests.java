@@ -39,7 +39,7 @@ public class LintTests {
         finder.setVerbose(this.verbose);
 
         List<URL> list = finder.getClasses(this.packageName);
-        log.info("Found classes:" + list);
+//        log.info("Found classes:" + list);
 
         for (URL c : list) {
             ClassReader classReader = new ClassReader(c.openStream());

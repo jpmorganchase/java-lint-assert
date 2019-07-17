@@ -37,7 +37,15 @@ public final class TestClassFinder {
             String className = c.getName();
 //            System.out.println("className::" + className);
 
-            String resourceName = className.replace('.', '/') + ".class";
+            String resourceName = className.replace('.', '/');
+            //handle nested classes:  com.lint.azzert.TestLintPluginTest$PlaceholderTest
+            int i = resourceName.indexOf("$");
+            if (i > -1){
+                resourceName = resourceName.substring(0, i);
+            }
+            resourceName += ".class";
+            // System.out.println("resourceName::" + resourceName);
+
             URL url = this.classLoader.getResource(resourceName);
 
             classes.add(url);
@@ -56,13 +64,14 @@ public final class TestClassFinder {
                 .enableClassInfo()
                 ;
 
-        if (this.verbose) classGraph.verbose();
+        if (this.verbose) classGraph.verbose(); //FIXME - build.gradle's 'verbose' is 'lost in translation'
 
         try (ScanResult scanResult =
                      classGraph
-                            // .verbose() //FIXME - line above doesn't seem to work
+                            // .verbose()
                              .whitelistPackages(packageName)      // Scan com.xyz and subpackages (omit to scan all packages)
                              .overrideClassLoaders(classLoader)
+                             .ignoreClassVisibility()
                              .scan()) {                   // Start the scan
             return scanResult.getAllClasses();
         }

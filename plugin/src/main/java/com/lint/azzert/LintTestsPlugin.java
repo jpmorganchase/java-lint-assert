@@ -36,12 +36,6 @@ public class LintTestsPlugin implements Plugin<Project> {
 
         final URLClassLoader urlClassLoader = new URLClassLoader(urls.stream().toArray(URL[]::new), null);
 
-        //FIXME::remove when done debugging
-        URL[] ls = urlClassLoader.getURLs();
-        for (int i = 0; i < ls.length; i++) {
-            log.info(":::url:::" +  ls[i].getPath());
-        }
-
         project.getTasks().withType(Test.class).forEach(task -> {
             LintTests taskExtension = task.getExtensions().create("lint", LintTests.class);
 
@@ -59,5 +53,4 @@ public class LintTestsPlugin implements Plugin<Project> {
 
         });
     }
-
 }
