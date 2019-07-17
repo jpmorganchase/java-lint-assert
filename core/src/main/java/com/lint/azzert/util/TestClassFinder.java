@@ -53,7 +53,7 @@ public final class TestClassFinder {
         return classes;
     }
 
-    protected ClassInfoList getClassInfoList(String packageName) {
+    private ClassInfoList getClassInfoList(String packageName) {
 
 //        URL[] urls = ((URLClassLoader)classLoader).getURLs();
 //        for (int i = 0; i < urls.length; i++) {
@@ -64,11 +64,10 @@ public final class TestClassFinder {
                 .enableClassInfo()
                 ;
 
-        if (this.verbose) classGraph.verbose(); //FIXME - build.gradle's 'verbose' is 'lost in translation'
+        if (this.verbose) classGraph.verbose();
 
         try (ScanResult scanResult =
                      classGraph
-                            // .verbose()
                              .whitelistPackages(packageName)      // Scan com.xyz and subpackages (omit to scan all packages)
                              .overrideClassLoaders(classLoader)
                              .ignoreClassVisibility()

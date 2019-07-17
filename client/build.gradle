@@ -43,6 +43,6 @@ apply plugin: com.lint.azzert.LintTestsPlugin
 test{
     lint{
         packageName = "com.lint"
-//        verbose = true
+        verbose = true
     }
 }
