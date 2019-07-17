@@ -16,7 +16,7 @@ import java.net.URLClassLoader;
 import java.util.List;
 
 public class LintTests {
-    Logger log = LoggerFactory.getLogger(LintTests.class);
+    private Logger log = LoggerFactory.getLogger(LintTests.class);
 
     private String packageName;
 
@@ -39,8 +39,6 @@ public class LintTests {
         finder.setVerbose(this.verbose);
 
         List<URL> list = finder.getClasses(this.packageName);
-//        log.info("Found classes:" + list);
-
         for (URL c : list) {
             ClassReader classReader = new ClassReader(c.openStream());
             classReader.accept(classVisitor, 0);

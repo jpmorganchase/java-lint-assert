@@ -42,7 +42,7 @@ apply plugin: com.lint.azzert.LintTestsPlugin
 
 test{
     lint{
-        packageName = "com.lint"
-        verbose = true
+        packageName = "com.lint" //optional or scan all
+        verbose = true //optional, defaults to false
     }
 }
