@@ -1,0 +1,46 @@
+apply plugin: 'java'
+
+repositories {
+    maven {
+        name "jpmc-public"
+        url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+    }
+}
+
+dependencies {
+    //junit 5
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+}
+
+buildscript {
+
+    repositories {
+        maven {
+            name "jpmc-public"
+            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+        }
+        mavenLocal()
+
+        maven {
+            name = 'repoUnderProjectRoot'
+            url = uri("$buildDir/../../build/repo")
+        }
+    }
+
+    dependencies {
+        classpath 'com.lint.azzert:plugin:0.0.4-SNAPSHOT'
+    }
+}
+
+apply plugin: com.lint.azzert.LintTestsPlugin
+
+test{
+    useJUnitPlatform()
+
+    lint{
+        packageName = "com.lint" //optional or scan all
+        verbose = true //optional, defaults to false
+    }
+}

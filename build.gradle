@@ -1,55 +1,157 @@
-plugins {
-    id 'java'
-    id 'idea'
-}
+allprojects {
 
-repositories {
-    maven { url 'http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public' }
-}
-
-dependencies {
-    compile group:'org.ow2.asm', name:'asm', version:'7.0'
-    compile group:'org.ow2.asm', name:'asm-util', version:'7.0'
-    compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.4.2'
-    compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.2'
-
-    //logback
-    compile 'ch.qos.logback:logback-classic:1.2.3'
-    compile 'ch.qos.logback:logback-core:1.2.3'
-    compile 'org.slf4j:slf4j-api:1.7.25'
-    compile 'org.javatuples:javatuples:1.2'
-    compile 'com.googlecode.json-simple:json-simple:1.1.1'
-
-
-    //junit 5
-    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
-
-    //junit 4
-    testCompile 'junit:junit:4.12'
-    testCompile "org.junit.vintage:junit-vintage-engine:5.4.2"
-
-    testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
-
-
-}
-
-test {
-//    useJUnitPlatform {
-//       // includeEngines 'junit-jupiter', 'junit-vintage'
-//    }
-    testLogging {
-        showStandardStreams = true
-        events "passed", "skipped", "failed"
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    
+    repositories {
+        maven {
+            name "jpmc-public"
+            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+        }
     }
-    //to get "Test summary: 1 tests, 1 succeeded, 0 failed, 0 skipped"
-    afterSuite { desc, result ->
-        if (!desc.parent) {
-            println "\nTest result: ${result.resultType}"
-            println "Test summary: ${result.testCount} tests, " +
-                    "${result.successfulTestCount} succeeded, " +
-                    "${result.failedTestCount} failed, " +
-                    "${result.skippedTestCount} skipped"
+    
+    dependencies {
+        compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.4.2'
+        compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.2'
+
+        //junit 5
+        testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
+        testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+        testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+    }
+    
+    test{
+        useJUnitPlatform {
+        }
+
+        testLogging {
+            showStandardStreams = true
+            events "passed", "skipped", "failed"
+        }
+        //to get "Test summary: 1 tests, 1 succeeded, 0 failed, 0 skipped"
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                logger.error('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+
+    }
+}
+
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+tasks.withType(Test) {
+    testLogging {
+        // set options for log level LIFECYCLE
+        events TestLogEvent.FAILED,
+                TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED,
+                TestLogEvent.STANDARD_OUT
+        exceptionFormat TestExceptionFormat.FULL
+        showExceptions true
+        showCauses true
+        showStackTraces true
+
+        // set options for log level DEBUG and INFO
+        debug {
+            events TestLogEvent.STARTED,
+                    TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED,
+                    TestLogEvent.STANDARD_ERROR,
+                    TestLogEvent.STANDARD_OUT
+            exceptionFormat TestExceptionFormat.FULL
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                logger.error('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+
+        afterTest {
+
+        }
+    }
+}
+
+/** To satisfy Jules */
+buildscript {
+    repositories {
+        maven {
+            url 'http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public'
+        }
+    }
+
+    dependencies {
+        classpath 'net.researchgate:gradle-release:2.4.1'
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6"
+    }
+}
+
+apply plugin: 'org.sonarqube'
+
+allprojects {
+    apply plugin: 'maven'
+    apply plugin: 'jacoco'
+    apply plugin: 'net.researchgate.release'
+
+    configurations {
+        deployerJars
+    }
+
+    jacoco {
+        toolVersion = '0.7.8'
+    }
+
+    jacocoTestReport {
+        group = "Reporting"
+        reports {
+            xml.enabled true
+            csv.enabled false
+            html.destination "${buildDir}/reports/coverage"
+        }
+    }
+
+    uploadArchives {
+        repositories.mavenDeployer {
+            configuration = configurations.deployerJars
+            repository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI") {
+                authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
+            }
+            snapshotRepository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI-SNAPSHOT") {
+                authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
+            }
+        }
+    }
+
+    task copyProjectDependencies(type: Copy, dependsOn: build) {
+        into "build/dependencies"
+        from configurations.runtime
+    }
+
+    release {
+        preCommitText = "${project.findProperty('jiraNumber')}: Gradle FRS upload"
+
+        git {
+            requireBranch = ''
+        }
+    }
+
+    afterReleaseBuild.dependsOn uploadArchives
+
+    jar {
+        manifest {
+            attributes 'Implementation-Version': project.properties['version']
         }
     }
 }

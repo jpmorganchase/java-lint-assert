@@ -1,0 +1,37 @@
+buildscript {
+
+    repositories {
+        maven {
+            name "jpmc-public"
+            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+        }
+    }
+}
+
+plugins {
+    id 'maven-publish'
+    id 'groovy'
+}
+
+dependencies{
+    compile gradleApi()
+    compile project (':core')
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+
+        maven{
+            name='repoUnderProjectRoot'
+            url = uri("$buildDir/../../build/repo")
+        }
+    }
+    publications {
+        maven(MavenPublication){
+            from components.java
+        }
+    }
+}
+
+
