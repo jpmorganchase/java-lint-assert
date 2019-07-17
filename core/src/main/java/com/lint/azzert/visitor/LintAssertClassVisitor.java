@@ -16,7 +16,6 @@ public class LintAssertClassVisitor extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         super.visitMethod(this.ctx.getAsmVersion(), name, desc, signature, exceptions);
-        //log.debug("visitMethod= " + name);
         this.ctx.setMethodName(name);
         this.ctx.setMethodSignature(signature);
 
@@ -26,7 +25,6 @@ public class LintAssertClassVisitor extends ClassVisitor {
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
-//        log.debug("name=" + name +", signature=" + signature + ", superName=" + superName);
         int split = name.lastIndexOf('/');
         this.ctx.setPackageName(name.substring(0, split));
         this.ctx.setClassName(name.substring(split));
@@ -34,11 +32,9 @@ public class LintAssertClassVisitor extends ClassVisitor {
 
     @Override
     public void visitSource(String source, String debug) {
-        //log.debug("visitSource=" + source);
         this.ctx.setFileName(source);
         super.visitSource(source, debug);
     }
-
 
     @Override
     public void visitEnd() {

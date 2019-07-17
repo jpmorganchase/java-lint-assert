@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-
 //AN:: @see {https://github.com/classgraph/classgraph/wiki}
 public final class TestClassFinder {
 
@@ -64,11 +63,7 @@ public final class TestClassFinder {
         if (this.verbose) classGraph.verbose();
         if (packageName != null) classGraph.whitelistPackages(packageName);
 
-        try (ScanResult scanResult =
-                     classGraph
-//                             .whitelistPackages(packageName)
-//                             .overrideClassLoaders(classLoader)
-                             .scan()) {
+        try (ScanResult scanResult = classGraph.scan()) {
             return scanResult.getAllClasses();
         }
     }

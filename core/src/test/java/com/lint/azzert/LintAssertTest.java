@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 
@@ -52,11 +53,17 @@ class LintAssertTest {
 
         Assertions.assertTrue(withAssert.getAssertMethodsAtLineNumbers().containsAll(
                 Arrays.asList(new Pair<>(18, "assertTrue"), new Pair<>(19, "assertArrayEquals"))),
-                "Failed to find 2 asserts in AssertJunit5Style::withAssert");
+                "Failed to find assertTrue & assertArrayEquals in AssertJunit5Style::withAssert");
 
-        Assertions.assertEquals(0, ctx.getTestMethodsContext().stream().filter(
-                f -> "withoutAssert".equals(f.getMethodName()))
-                .collect(Collectors.toList()).get(0).getAssertMethodsAtLineNumbers().size());
+        final BiFunction<Context,String, Integer> assertsInMethod = (ctx1, str) -> ctx1.getTestMethodsContext().stream().filter(
+                f -> str.equals(f.getMethodName()))
+                .collect(Collectors.toList()).get(0).getAssertMethodsAtLineNumbers().size();
+
+        Assertions.assertEquals(0, assertsInMethod.apply(ctx, "withoutAssert"));
+        Assertions.assertEquals(1, assertsInMethod.apply(ctx, "withAsserts"));
+        Assertions.assertEquals(4, assertsInMethod.apply(ctx, "build"));
+        Assertions.assertEquals(2, assertsInMethod.apply(ctx, "withAssert"));
+        Assertions.assertEquals(9, assertsInMethod.apply(ctx, "azzert"));
     }
 
 }

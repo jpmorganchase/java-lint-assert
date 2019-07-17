@@ -20,11 +20,10 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
         if (this.context.getSupportedTestFrameworks().contains(descriptor)) {
-            AnnotationVisitor av = new LintAssertMethodAnnotationVisitor(this.context);
             context.with(descriptor, visible);
-            return av;
-        }else
-            return super.visitAnnotation(descriptor, visible);
+        }
+
+        return super.visitAnnotation(descriptor, visible);
     }
 
     @Override

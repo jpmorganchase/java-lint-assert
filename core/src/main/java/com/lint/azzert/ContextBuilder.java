@@ -23,12 +23,13 @@ public final class ContextBuilder {
     }
 
     private void initFromJsonProperties(String pathToPropertiesFile) throws IOException, ParseException {
-        JSONObject jsonObject = (JSONObject) PropertiesLoader.load(pathToPropertiesFile);
+        JSONObject json = (JSONObject) PropertiesLoader.load(pathToPropertiesFile);
 
-        final BiFunction<JSONObject, String, List<String>> jsonObjectStringListBiFunction =
-                (jsonObject1, key1) -> (List<String>) ((JSONArray) jsonObject1.get(key1)).stream().map(Object::toString).collect(Collectors.toList());
+        final BiFunction<JSONObject, String, List<String>> function =
+                (jsonObject1, key1) -> (List<String>) (
+                        (JSONArray) jsonObject1.get(key1)).stream().map(Object::toString).collect(Collectors.toList());
 
-        context.addSupportedTestFrameworks(jsonObjectStringListBiFunction.apply(jsonObject, "test_framework"));
-        context.addSupportedAssertApis(jsonObjectStringListBiFunction.apply(jsonObject, "assert_api"));
+        context.addSupportedTestFrameworks(function.apply(json, "test_framework"));
+        context.addSupportedAssertApis(function.apply(json, "assert_api"));
     }
 }

@@ -37,7 +37,7 @@ buildscript {
 apply plugin: com.lint.azzert.LintTestsPlugin
 
 test{
-    useJUnitPlatform()
+    useJUnitPlatform() //enable junit5
 
     lint{
         packageName = "com.lint" //optional or scan all
