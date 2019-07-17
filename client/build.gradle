@@ -1,21 +1,17 @@
 apply plugin: 'java'
 
-// Write the plugin's classpath to a file to share with the tests
-task createClasspathManifest {
-    def outputDir = file("$buildDir/$name")
-
-    inputs.files sourceSets.main.runtimeClasspath
-    outputs.dir outputDir
-
-    doLast {
-        outputDir.mkdirs()
-        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+repositories {
+    maven {
+        name "jpmc-public"
+        url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
     }
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    testRuntime files(createClasspathManifest)
+    //junit 5
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
 }
 
 buildscript {
@@ -41,6 +37,8 @@ buildscript {
 apply plugin: com.lint.azzert.LintTestsPlugin
 
 test{
+    useJUnitPlatform()
+
     lint{
         packageName = "com.lint" //optional or scan all
         verbose = true //optional, defaults to false
