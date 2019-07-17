@@ -28,7 +28,7 @@ class LintAssertTest {
 
         final ClassVisitor classVisitor = new LintAssertClassVisitor(ctx);
 
-        List<URL> classes = TestClassFinder.getClasses(this.getClass().getPackage().getName());
+        List<URL> classes = new TestClassFinder().getClasses(this.getClass().getPackage().getName());
         for (URL url : classes) {
             ClassReader classReader = new ClassReader(url.openStream());
             classReader.accept(classVisitor, 0);

@@ -13,28 +13,32 @@ import java.util.List;
 //AN:: @see {https://github.com/classgraph/classgraph/wiki}
 public final class TestClassFinder {
 
-    public static final ClassLoader CLASS_LOADER = TestClassFinder.class.getClassLoader();
+    private boolean verbose;
 
-    private final boolean verbose;
+    private ClassLoader classLoader;
 
-    TestClassFinder(boolean verbose){
+    public TestClassFinder(){
+        this.classLoader = Thread.currentThread().getContextClassLoader();
+    }
+
+    public void setClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
+    }
+
+    public void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
 
-    public boolean isVerbose(){return verbose;}
-
-    public  static List<URL> getClasses(String name) {
-        return TestClassFinder.getClasses(name, false);
-    }
-
-    public  static List<URL> getClasses(String name, boolean verbose) {
+    public  List<URL> getClasses(String name) {
         final List<URL> classes = new ArrayList<>();
 
-        ClassInfoList list = new TestClassFinder(verbose).getClassInfoList(name);
+        ClassInfoList list = getClassInfoList(name);
         for (ClassInfo c : list) {
             String className = c.getName();
+//            System.out.println("className::" + className);
+
             String resourceName = className.replace('.', '/') + ".class";
-            URL url = CLASS_LOADER.getResource(resourceName);
+            URL url = this.classLoader.getResource(resourceName);
 
             classes.add(url);
         }
@@ -43,17 +47,25 @@ public final class TestClassFinder {
 
     protected ClassInfoList getClassInfoList(String packageName) {
 
-        ClassGraph classGraph = new ClassGraph()
-                //.verbose()
-                .enableClassInfo();
+//        URL[] urls = ((URLClassLoader)classLoader).getURLs();
+//        for (int i = 0; i < urls.length; i++) {
+//            System.out.println("url:::" +  urls[i].getPath());
+//        }
 
-        if (isVerbose()) classGraph.verbose();
+        ClassGraph classGraph = new ClassGraph()
+                .enableClassInfo()
+                ;
+
+        if (this.verbose) classGraph.verbose();
 
         try (ScanResult scanResult =
                      classGraph
+                            // .verbose() //FIXME - line above doesn't seem to work
                              .whitelistPackages(packageName)      // Scan com.xyz and subpackages (omit to scan all packages)
+                             .overrideClassLoaders(classLoader)
                              .scan()) {                   // Start the scan
             return scanResult.getAllClasses();
         }
     }
+
 }

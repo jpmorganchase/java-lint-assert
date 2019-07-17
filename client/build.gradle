@@ -41,18 +41,8 @@ buildscript {
 apply plugin: com.lint.azzert.LintTestsPlugin
 
 test{
-
     lint{
-
         packageName = "com.lint"
-
-//        def pluginClasspathResource = getClass().classLoader.findResource("plugin-classpath.txt")
-//        if (pluginClasspathResource == null) {
-//            throw new IllegalStateException("Did not find plugin classpath resource, run `testClasses` build task.")
-//        }
-//
-//        classpath = pluginClasspathResource.readLines().collect { new File(it) }
-
-
+//        verbose = true
     }
 }

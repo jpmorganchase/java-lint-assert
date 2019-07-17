@@ -25,7 +25,7 @@ class TestLintPluginTest {
         LintTests lt = new LintTests();
         lt.setPackageName("com.lint");
         String result = lt.lint();
-//        log.info(result);
+        log.info(result);
         Assertions.assertTrue(result.startsWith(header));
         Assertions.assertEquals(result,
                 header + "|    com/lint/azzert    |    PlaceholderTest.java    |         dummy          |        0        |"  + ls);

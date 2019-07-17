@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 
 public class LintTests {
@@ -19,9 +20,9 @@ public class LintTests {
 
     private String packageName;
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
+    private ClassLoader classLoader;
+
+    private boolean verbose;
 
     String lint() throws IOException, ParseException {
 
@@ -30,7 +31,14 @@ public class LintTests {
         Context context = new ContextBuilder().build();
         final ClassVisitor classVisitor = new LintAssertClassVisitor(context);
 
-        List<URL> list = TestClassFinder.getClasses(this.packageName);
+        TestClassFinder finder = new TestClassFinder();
+        if (classLoader != null) {
+            finder.setClassLoader(classLoader);
+        }
+
+        finder.setVerbose(this.verbose);
+
+        List<URL> list = finder.getClasses(this.packageName);
         log.info("Found classes:" + list);
 
         for (URL c : list) {
@@ -39,5 +47,17 @@ public class LintTests {
         }
 
         return new ConsoleOutputStrategy(context.getTestMethodsContext()).render();
+    }
+
+    public void setClassLoader(URLClassLoader urlClassLoader) {
+        this.classLoader = urlClassLoader;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setVerbose(boolean verbose){
+        this.verbose = verbose;
     }
 }
