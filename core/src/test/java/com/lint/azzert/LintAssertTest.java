@@ -2,7 +2,6 @@ package com.lint.azzert;
 
 import com.lint.azzert.context.Context;
 import com.lint.azzert.context.TestMethodContext;
-import com.lint.azzert.strategy.ConsoleOutputStrategy;
 import com.lint.azzert.util.TestClassFinder;
 import com.lint.azzert.visitor.LintAssertClassVisitor;
 import org.javatuples.Pair;
@@ -34,9 +33,6 @@ class LintAssertTest {
             ClassReader classReader = new ClassReader(url.openStream());
             classReader.accept(classVisitor, 0);
         }
-
-        String output = new ConsoleOutputStrategy(ctx.getTestMethodsContext()).render();
-        System.out.println(output);
 
         Assertions.assertTrue(ctx.getTestMethodsContext().size() > 0, "Expected to find at least one test method.");
         Assertions.assertTrue(

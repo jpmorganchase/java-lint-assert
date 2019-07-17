@@ -1,6 +1,6 @@
-package com.lint.azzert;
+package com.lint.azzert.context;
 
-import com.lint.azzert.context.Context;
+import com.lint.azzert.ContextBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
