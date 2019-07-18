@@ -30,17 +30,24 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.lint.azzert:plugin:0.0.4-SNAPSHOT'
+        classpath 'com.jpmorgan.java.lint:plugin:0.0.4-SNAPSHOT'
     }
 }
 
-apply plugin: com.lint.azzert.LintTestsPlugin
+apply plugin: com.jpmorgan.java.lint.LintTestsPlugin
 
 test{
     useJUnitPlatform() //enable junit5
 
-    lint{
-        packageName = "com.lint" //optional or scan all
+    lint{ //rename to lintAssert
+        packageName = "com.jpmorgan.java.lint" //optional or scan all
         verbose = true //optional, defaults to false
+        // + mode = info //info, warn, error - warn/fail if mode is warn/error if 0 asserts
+        // + don't require asserts in tests with @Expected exception
+        // + don't validate tests with @Ignore
+        // + maxAssertsThreshold = 10 //defaults to 10 - warn/fail if mode is warn/error if above threshhold
+        // + console - make package.class.method "clickable" and navigate to the location
+        // + print the summary: PASS/FAIL
+        // + allow users to specify additional test frameworks
     }
 }
