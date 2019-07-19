@@ -50,5 +50,7 @@ test{
         // + print the summary: PASS/FAIL
         // + allow users to specify additional test frameworks
         // + !ratio of # of assert to the size of the "method under test" and number of its conditions !
+        // + handle asserts in nested test classes
+        // + handle asserts in the nested test methods
     }
 }

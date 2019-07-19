@@ -35,7 +35,6 @@ public class LintTestsPlugin implements Plugin<Project> {
             task.doLast(task1 ->
             {
                 try {
-                    //FIXME - move outside doLast
                     String result = new ConsoleOutputStrategy(taskExtension.lintAssert()).render();
                     log.info(result);
                 } catch (Exception e) {
