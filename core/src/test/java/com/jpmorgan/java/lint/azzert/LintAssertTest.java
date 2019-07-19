@@ -66,4 +66,29 @@ class LintAssertTest {
         Assertions.assertEquals(9, assertsInMethod.apply(ctx, "azzert"));
     }
 
+    //TODO::handle methods in nested classes
+    class InnerClass {
+        @Test
+        void dummy() {
+
+        }
+    }
+
+    //TODO::handle @Ignore and @Disabled methods
+    @org.junit.Ignore
+    @org.junit.jupiter.api.Disabled
+    void ignoredOrdisabled(){
+
+    }
+
+    //TODO::handle @Ignore and @Disabled at the class level
+    @org.junit.Ignore
+    @org.junit.jupiter.api.Disabled
+    class Disabled {
+        @Test
+        void dummy() {
+
+        }
+    }
+
 }
