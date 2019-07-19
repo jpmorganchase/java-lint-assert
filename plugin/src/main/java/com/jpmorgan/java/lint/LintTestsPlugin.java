@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashSet;
@@ -22,14 +23,10 @@ public class LintTestsPlugin implements Plugin<Project> {
 
     public void apply(final Project project) {
 
-        final SourceSetContainer container = project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets();
-        final Set<File> testDir = container.getByName("test").getRuntimeClasspath().getFiles();
-        final Set<URL> urls = filesToUrls(testDir);
-
-        final URLClassLoader urlClassLoader = new URLClassLoader(urls.stream().toArray(URL[]::new), null);
+        final URLClassLoader urlClassLoader = getUrlClassLoader(project);
 
         project.getTasks().withType(Test.class).forEach(task -> {
-            LintTests taskExtension = task.getExtensions().create("lint", LintTests.class);
+            LintTests taskExtension = task.getExtensions().create("lintAssert", LintTests.class);
             taskExtension.setClassLoader(urlClassLoader);
 
             task.doLast(task1 ->
@@ -45,16 +42,24 @@ public class LintTestsPlugin implements Plugin<Project> {
         });
     }
 
-    private Set<URL> filesToUrls(Set<File> testDir) {
-        Set<URL> urls = new HashSet<>();
+    URLClassLoader getUrlClassLoader(Project project) {
+        final SourceSetContainer container = project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets();
+        final Set<File> testDir = container.getByName("test").getRuntimeClasspath().getFiles();
+        final Set<URI> urls = filesToUrls(testDir);
+
+        return new URLClassLoader(
+                urls.stream().map(u -> {try {
+                                return u.toURL();
+                            } catch (MalformedURLException ignore) {return "";}
+                }
+        ).toArray(URL[]::new), null);
+    }
+
+    private Set<URI> filesToUrls(Set<File> testDir) {
+        Set<URI> urls = new HashSet<>();
         for (File f : testDir) {
-            URL url = null;
-            try {
-                url = f.toURI().toURL();
-            } catch (MalformedURLException e) {
-                log.warn("Failed to convert the file "+ f +"to url " + e.getMessage());
-            }
-            urls.add(url);
+            URI uri = f.toURI();
+            urls.add(uri);
         }
         return urls;
     }
