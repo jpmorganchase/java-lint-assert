@@ -49,5 +49,6 @@ test{
         // + console - make package.class.method "clickable" and navigate to the location
         // + print the summary: PASS/FAIL
         // + allow users to specify additional test frameworks
+        // + !ratio of # of assert to the size of the "method under test" and number of its conditions !
     }
 }

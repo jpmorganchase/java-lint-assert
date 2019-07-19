@@ -1,5 +1,6 @@
 package com.jpmorgan.java.lint;
 
+import com.jpmorgan.java.lint.azzert.strategy.ConsoleOutputStrategy;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaPluginConvention;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 public class LintTestsPlugin implements Plugin<Project> {
 
-    final Logger log = LoggerFactory.getLogger(LintTestsPlugin.class);
+    private final Logger log = LoggerFactory.getLogger(LintTestsPlugin.class);
 
     public void apply(final Project project) {
 
@@ -29,14 +30,13 @@ public class LintTestsPlugin implements Plugin<Project> {
 
         project.getTasks().withType(Test.class).forEach(task -> {
             LintTests taskExtension = task.getExtensions().create("lint", LintTests.class);
+            taskExtension.setClassLoader(urlClassLoader);
 
             task.doLast(task1 ->
             {
                 try {
-                    //Fixme - move outside doLast
-                    taskExtension.setClassLoader(urlClassLoader);
-                    taskExtension.setVerbose(true); //fixme - drop
-                    String result = taskExtension.lintAssert();
+                    //FIXME - move outside doLast
+                    String result = new ConsoleOutputStrategy(taskExtension.lintAssert()).render();
                     log.info(result);
                 } catch (Exception e) {
                     log.error("Failed to lint", e);

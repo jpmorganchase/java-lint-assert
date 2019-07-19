@@ -2,7 +2,7 @@ package com.jpmorgan.java.lint;
 
 import com.jpmorgan.java.lint.azzert.context.Context;
 import com.jpmorgan.java.lint.azzert.context.ContextBuilder;
-import com.jpmorgan.java.lint.azzert.strategy.ConsoleOutputStrategy;
+import com.jpmorgan.java.lint.azzert.context.TestMethodContext;
 import com.jpmorgan.java.lint.azzert.util.TestClassFinder;
 import com.jpmorgan.java.lint.azzert.visitor.LintAssertClassVisitor;
 import org.json.simple.parser.ParseException;
@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.Set;
 
 public class LintTests {
     private Logger log = LoggerFactory.getLogger(LintTests.class);
@@ -25,7 +26,7 @@ public class LintTests {
 
     private boolean verbose;
 
-    public String lintAssert() throws IOException, ParseException {
+    public Set<TestMethodContext> lintAssert() throws IOException, ParseException {
 
         log.info("Searching for tests in package:" + this.packageName);
 
@@ -45,7 +46,7 @@ public class LintTests {
             classReader.accept(classVisitor, 0);
         }
 
-        return new ConsoleOutputStrategy(context.getTestMethodsContext()).render(); //fixme: return context.getTest..., string in the plugin
+        return context.getMethodContexts();
     }
 
     public void setClassLoader(URLClassLoader urlClassLoader) {

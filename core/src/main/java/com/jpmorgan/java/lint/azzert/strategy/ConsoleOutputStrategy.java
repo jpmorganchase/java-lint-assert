@@ -3,6 +3,7 @@ package com.jpmorgan.java.lint.azzert.strategy;
 import com.jpmorgan.java.lint.azzert.context.TestMethodContext;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 
 public class ConsoleOutputStrategy {
 
@@ -10,7 +11,8 @@ public class ConsoleOutputStrategy {
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static final int PADDING = 4;
     public static final char SEPARATOR_CHAR = '-';
-    public static final Collection<String> HEADERS = Arrays.asList("Package", "Test file name", "Test method name", "# asserts");
+
+    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList("Package", "Test file name", "Test method name", "# asserts"));
 
     private ArrayList<Integer> maxLength;
     private final Set<TestMethodContext> contexts;
@@ -18,11 +20,11 @@ public class ConsoleOutputStrategy {
     public ConsoleOutputStrategy(Set<TestMethodContext> testMethodContexts) {
         this.contexts = new HashSet<>(testMethodContexts);
         this.maxLength = new ArrayList<>();
-
-        calculateEachCellWidth();
     }
 
     public String render() {
+        calculateEachCellWidth();
+
         StringBuilder content = this.renderHeader();
         return content.append(this.renderBody()).toString();
     }
@@ -34,18 +36,15 @@ public class ConsoleOutputStrategy {
         }
 
         for (TestMethodContext context : contexts) {
-            if (maxLength.get(0) < context.getPackageName().length()) {
-                maxLength.set(0, context.getPackageName().length());
-            }
-            if (maxLength.get(1) < context.getFileName().length()) {
-                maxLength.set(1, context.getFileName().length());
-            }
-            if (maxLength.get(2) < context.getMethodName().length()) {
-                maxLength.set(2, context.getMethodName().length());
-            }
-            if (maxLength.get(3) < context.getAssertMethodsAtLineNumbers().size()) {
-                maxLength.set(3, context.getAssertMethodsAtLineNumbers().size());
-            }
+            final BiConsumer<Integer, Integer> consumer = (index, size) -> {
+                if (maxLength.get(index) < size) {
+                    maxLength.set(index, size);
+                }
+            };
+            consumer.accept(0, context.getPackageName().length());
+            consumer.accept(1, context.getFileName().length());
+            consumer.accept(2, context.getMethodName().length());
+            consumer.accept(3, context.getAssertMethodsAtLineNumbers().size());
         }
     }
 

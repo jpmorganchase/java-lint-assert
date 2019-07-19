@@ -11,7 +11,7 @@ class ConsoleOutputStrategyTest {
 
     @Test
     void render() throws IOException, ParseException {
-        ConsoleOutputStrategy strategy = new ConsoleOutputStrategy(new ContextBuilder().build().getTestMethodsContext());
+        ConsoleOutputStrategy strategy = new ConsoleOutputStrategy(new ContextBuilder().build().getMethodContexts());
         String output = strategy.render();
 
         Assertions.assertNotNull(output);

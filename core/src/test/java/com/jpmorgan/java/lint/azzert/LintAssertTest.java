@@ -3,6 +3,7 @@ package com.jpmorgan.java.lint.azzert;
 import com.jpmorgan.java.lint.azzert.context.Context;
 import com.jpmorgan.java.lint.azzert.context.ContextBuilder;
 import com.jpmorgan.java.lint.azzert.context.TestMethodContext;
+import com.jpmorgan.java.lint.azzert.strategy.ConsoleOutputStrategy;
 import com.jpmorgan.java.lint.azzert.util.TestClassFinder;
 import com.jpmorgan.java.lint.azzert.visitor.LintAssertClassVisitor;
 import org.javatuples.Pair;
@@ -35,24 +36,26 @@ class LintAssertTest {
             classReader.accept(classVisitor, 0);
         }
 
-        Assertions.assertTrue(ctx.getTestMethodsContext().size() > 0, "Expected to find at least one test method.");
+        System.out.println(new ConsoleOutputStrategy(ctx.getMethodContexts()).render());
+
+        Assertions.assertTrue(ctx.getMethodContexts().size() > 0, "Expected to find at least one test method.");
         Assertions.assertTrue(
-                ctx.getTestMethodsContext().contains(
+                ctx.getMethodContexts().contains(
                         new TestMethodContext("withoutAssert", "Lorg/junit/jupiter/api/Test;")),
                 "Failed to find method 'withoutAssert' annotated with @Test"
         );
-        Assertions.assertTrue(ctx.getTestMethodsContext().contains(
+        Assertions.assertTrue(ctx.getMethodContexts().contains(
                 new TestMethodContext("withAssert", "Lorg/junit/jupiter/api/Test;")),
                 "Failed to find method 'withAssert' annotated with @Test");
 
-        TestMethodContext withAssert = ctx.getTestMethodsContext().stream().filter(
+        TestMethodContext withAssert = ctx.getMethodContexts().stream().filter(
                 f -> "withAssert".equals(f.getMethodName()) && "AssertJunit5Style.java".equals(f.getFileName())).collect(Collectors.toList()).get(0);
 
         Assertions.assertTrue(withAssert.getAssertMethodsAtLineNumbers().containsAll(
                 Arrays.asList(new Pair<>(18, "assertTrue"), new Pair<>(19, "assertArrayEquals"))),
                 "Failed to find assertTrue & assertArrayEquals in AssertJunit5Style::withAssert");
 
-        final BiFunction<Context,String, Integer> assertsInMethod = (ctx1, str) -> ctx1.getTestMethodsContext().stream().filter(
+        final BiFunction<Context,String, Integer> assertsInMethod = (ctx1, str) -> ctx1.getMethodContexts().stream().filter(
                 f -> str.equals(f.getMethodName()))
                 .collect(Collectors.toList()).get(0).getAssertMethodsAtLineNumbers().size();
 

@@ -11,29 +11,41 @@ public class Context {
 
     private final int asmVersion;
 
-    private Set<TestMethodContext> testMethodsContext;
-
-    private TestMethodContext testMethodContext;
-
+    private TestMethodContext currentMethodContext;
+    private Set<TestMethodContext> methodContexts;
     private final Set<String> assertApis;
     private final Set<String> testFrameworks;
 
     public Context(int asmVersion) {
         this.asmVersion = asmVersion;
-        testMethodContext = new TestMethodContext();
-        testMethodsContext = new HashSet<>();
+        currentMethodContext = new TestMethodContext();
+        methodContexts = new HashSet<>();
         assertApis = new HashSet<>();
         testFrameworks = new HashSet<>();
     }
 
-    public void addSupportedAssertApis(Collection<String> assertApis) {
-
-        this.assertApis.addAll(assertApis);
+    public void recordAssert(int atLineNumber, String assertMethodName) {
+        this.currentMethodContext.assertMethodsAtLineNumbers.add(new Pair<>(atLineNumber, assertMethodName));
     }
 
-    public void addSupportedTestFrameworks(Collection<String> testFrameworks) {
-        this.testFrameworks.addAll(testFrameworks);
+    public void resetCurrentMethodContext() {
+        TestMethodContext clone = new TestMethodContext(this.currentMethodContext);
+        this.methodContexts.add(clone);
+        this.currentMethodContext.resetMethodDetails();
     }
+
+    public void resetCurrentClassContext() {
+        this.currentMethodContext.resetClassDetails();
+    }
+
+    public void with(String descriptor, boolean visible) {
+        this.currentMethodContext.methodDescriptor = descriptor;
+        this.currentMethodContext.visible = visible;
+    }
+
+    public void addSupportedAssertApis(Collection<String> assertApis) { this.assertApis.addAll(assertApis); }
+
+    public void addSupportedTestFrameworks(Collection<String> testFrameworks) { this.testFrameworks.addAll(testFrameworks); }
 
     public Set<String> getSupportedAssertApis() {
         return this.assertApis;
@@ -43,31 +55,12 @@ public class Context {
         return this.testFrameworks;
     }
 
-    public void recordAssert(int atLineNumber, String assertMethodName) {
-        this.testMethodContext.assertMethodsAtLineNumbers.add(new Pair<>(atLineNumber, assertMethodName));
-    }
-
-    public void resetCurrentMethodContext() {
-        TestMethodContext clone = new TestMethodContext(this.testMethodContext);
-        this.testMethodsContext.add(clone);
-        this.testMethodContext.resetMethodDetails();
-    }
-
-    public void resetCurrentClassContext() {
-        this.testMethodContext.resetClassDetails();
-    }
-
-    public void with(String descriptor, boolean visible) {
-        this.testMethodContext.methodDescriptor = descriptor;
-        this.testMethodContext.visible = visible;
-    }
-
     public void setMethodName(String name) {
-        this.testMethodContext.methodName = name;
+        this.currentMethodContext.methodName = name;
     }
 
     public void setMethodSignature(String signature) {
-        this.testMethodContext.methodSignature = signature;
+        this.currentMethodContext.methodSignature = signature;
     }
 
     public int getAsmVersion() {
@@ -75,31 +68,29 @@ public class Context {
     }
 
     public String getDescriptor() {
-        return this.testMethodContext.methodDescriptor;
+        return this.currentMethodContext.methodDescriptor;
     }
 
-    public Set<TestMethodContext> getTestMethodsContext() {
-        return Collections.unmodifiableSet(testMethodsContext);
-    }
+    public Set<TestMethodContext> getMethodContexts() { return Collections.unmodifiableSet(methodContexts); }
 
     public void setFileName(String fileName) {
-        this.testMethodContext.fileName = fileName;
+        this.currentMethodContext.fileName = fileName;
     }
 
     public void setPackageName(String packageName) {
-        this.testMethodContext.packageName = packageName;
+        this.currentMethodContext.packageName = packageName;
     }
 
     public void setClassName(String className) {
-        this.testMethodContext.className = className;
+        this.currentMethodContext.className = className;
     }
 
     @Override
     public String toString() {
         return "Context{" +
                 "asmVersion=" + asmVersion +
-                ", testMethodsContext=" + testMethodsContext +
-                ", testMethodContext=" + testMethodContext +
+                ", methodContexts=" + methodContexts +
+                ", currentMethodContext=" + currentMethodContext +
                 '}';
     }
 
