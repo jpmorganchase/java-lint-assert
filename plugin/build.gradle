@@ -1,5 +1,4 @@
 buildscript {
-
     repositories {
         maven {
             name "jpmc-public"
@@ -10,12 +9,14 @@ buildscript {
 
 plugins {
     id 'maven-publish'
-    id 'groovy'
 }
 
 dependencies{
     compile gradleApi()
     compile project (':core')
+
+    testImplementation gradleTestKit()
+    compile 'org.junit.jupiter:junit-jupiter-migrationsupport:5.4.2'
 }
 
 publishing {
