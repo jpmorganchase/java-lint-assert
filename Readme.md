@@ -28,9 +28,10 @@ The plugin for Java Gradle `test` task that reports presence of `assert`s in a t
 To see the plugin in action, `cd .\client` 
 and run `gradle cleanTest test -i` . You should see the summary table:
  
- | Package  | Test file name | Test method name  | # asserts  |
- | :-------------: |:-------------:| :-------------:|  :-------------:|  
- | com/jpmorgan/java/lint  | PlaceholderTest.java | dummy | 0 | 
+| Package  | Test file name | Test method name  | # asserts  |
+| :-------------: |:-------------:| :-------------:|  :-------------:|  
+| com/jpmorgan/java/lint  | PlaceholderTest.java | dummy | 0 | 
+ 
  
 ##Use:
 
@@ -60,6 +61,18 @@ test{
 ```
 IV: run your tests with `-i` on: `gradle test -i`
 
+
+## Future features:
+ 1. don't validate tests with @Ignore or @Disabled at the method and class level
+ 2. don't require asserts in tests with @Expected exception
+ 1. order results by fully qualified test class name  
+ 3. mode = info //info, warn, error - warn/fail if mode is warn/error if 0 asserts
+ 4. print the summary: PASS/FAIL
+ 5. allow users to specify additional test frameworks
+ 6. IntelliJ console - make package.class.method "clickable" and navigate to the location
+ 7. Display !ratio of # of assert to the size of the "method under test" and number of its conditions !
+ 8. handle asserts in nested test classes
+ 9. handle asserts in the nested test methods
 
 ## License
 

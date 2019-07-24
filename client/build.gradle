@@ -42,18 +42,5 @@ test{
     lintAssert{
         packageName = "com.jpmorgan.java.lint" //optional or scan all
         verbose = true //optional, defaults to false
-
-        //-----------------------------
-        // Future features:
-        //-----------------------------
-        // 1 don't validate tests with @Ignore or @Disabled at the method and class level
-        // 2 don't require asserts in tests with @Expected exception
-        // 3 mode = info //info, warn, error - warn/fail if mode is warn/error if 0 asserts
-        // 4 print the summary: PASS/FAIL
-        // 5 allow users to specify additional test frameworks
-        // + console - make package.class.method "clickable" and navigate to the location
-        // + !ratio of # of assert to the size of the "method under test" and number of its conditions !
-        // + handle asserts in nested test classes
-        // + handle asserts in the nested test methods
     }
 }
