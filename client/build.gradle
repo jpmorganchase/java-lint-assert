@@ -1,46 +1,31 @@
 apply plugin: 'java'
 
 repositories {
-    maven {
-        name "jpmc-public"
-        url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
-    }
+    mavenCentral()
 }
 
 dependencies {
-    //junit 5
-    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
-    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+    testCompile "org.junit.platform:junit-platform-launcher:1.4.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
 }
 
 buildscript {
 
     repositories {
-        maven {
-            name "jpmc-public"
-            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
-        }
-        mavenLocal()
-
-        maven {
-            name = 'repoUnderProjectRoot'
-            url = uri("$buildDir/../../build/repo")
-        }
+       mavenCentral()
     }
-
     dependencies {
-        classpath 'com.jpmorgan.java.lint:plugin:0.0.4-SNAPSHOT'
+        classpath 'org.lint.assert:plugin:0.1.0-SNAPSHOT'
     }
 }
 
-apply plugin: com.jpmorgan.java.lint.LintTestsPlugin
+apply plugin: org.lint.azzert.LintTestsPlugin
 
 test{
     useJUnitPlatform() //enable junit5
-
     lintAssert{
-        packageName = "com.jpmorgan.java.lint" //optional or scan all
+        packageName = "org.lint" //optional or scan all
         verbose = true //optional, defaults to false
     }
 }

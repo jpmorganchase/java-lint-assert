@@ -3,6 +3,7 @@
 out/
 build/
 java-lint-assert.iml
+init.gradle
 
 # Compiled class file
 *.class

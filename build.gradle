@@ -4,10 +4,7 @@ allprojects {
     apply plugin: 'java'
     
     repositories {
-        maven {
-            name "jpmc-public"
-            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
-        }
+        mavenCentral()
     }
     
     dependencies {
@@ -30,128 +27,13 @@ allprojects {
         }
         //to get "Test summary: 1 tests, 1 succeeded, 0 failed, 0 skipped"
         afterSuite { desc, result ->
-            if (!desc.parent) { // will match the outermost suite
+            if (!desc.parent) {
                 def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
                 def startItem = '|  ', endItem = '  |'
                 def repeatLength = startItem.length() + output.length() + endItem.length()
                 logger.error('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
             }
         }
-
     }
 }
 
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent
-
-tasks.withType(Test) {
-    testLogging {
-        // set options for log level LIFECYCLE
-        events TestLogEvent.FAILED,
-                TestLogEvent.PASSED,
-                TestLogEvent.SKIPPED,
-                TestLogEvent.STANDARD_OUT
-        exceptionFormat TestExceptionFormat.FULL
-        showExceptions true
-        showCauses true
-        showStackTraces true
-
-        // set options for log level DEBUG and INFO
-        debug {
-            events TestLogEvent.STARTED,
-                    TestLogEvent.FAILED,
-                    TestLogEvent.PASSED,
-                    TestLogEvent.SKIPPED,
-                    TestLogEvent.STANDARD_ERROR,
-                    TestLogEvent.STANDARD_OUT
-            exceptionFormat TestExceptionFormat.FULL
-        }
-        info.events = debug.events
-        info.exceptionFormat = debug.exceptionFormat
-
-        afterSuite { desc, result ->
-            if (!desc.parent) { // will match the outermost suite
-                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
-                def startItem = '|  ', endItem = '  |'
-                def repeatLength = startItem.length() + output.length() + endItem.length()
-                logger.error('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
-            }
-        }
-
-        afterTest {
-
-        }
-    }
-}
-
-/** To satisfy Jules */
-buildscript {
-    repositories {
-        maven {
-            url 'http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public'
-        }
-    }
-
-    dependencies {
-        classpath 'net.researchgate:gradle-release:2.4.1'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6"
-    }
-}
-
-apply plugin: 'org.sonarqube'
-
-allprojects {
-    apply plugin: 'maven'
-    apply plugin: 'jacoco'
-    apply plugin: 'net.researchgate.release'
-
-    configurations {
-        deployerJars
-    }
-
-    jacoco {
-        toolVersion = '0.7.8'
-    }
-
-    jacocoTestReport {
-        group = "Reporting"
-        reports {
-            xml.enabled true
-            csv.enabled false
-            html.destination "${buildDir}/reports/coverage"
-        }
-    }
-
-    uploadArchives {
-        repositories.mavenDeployer {
-            configuration = configurations.deployerJars
-            repository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI") {
-                authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
-            }
-            snapshotRepository(url: "https://repo.jpmchase.net/maven/content/repositories/SANDBONI-SNAPSHOT") {
-                authentication(userName: project.findProperty('frsUser'), password: project.findProperty('frsPassword'))
-            }
-        }
-    }
-
-    task copyProjectDependencies(type: Copy, dependsOn: build) {
-        into "build/dependencies"
-        from configurations.runtime
-    }
-
-    release {
-        preCommitText = "${project.findProperty('jiraNumber')}: Gradle FRS upload"
-
-        git {
-            requireBranch = ''
-        }
-    }
-
-    afterReleaseBuild.dependsOn uploadArchives
-
-    jar {
-        manifest {
-            attributes 'Implementation-Version': project.properties['version']
-        }
-    }
-}

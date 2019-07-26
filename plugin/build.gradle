@@ -1,9 +1,6 @@
 buildscript {
     repositories {
-        maven {
-            name "jpmc-public"
-            url "http://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
-        }
+        mavenCentral()
     }
 }
 

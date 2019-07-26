@@ -48,7 +48,7 @@ buildscript {
     }
 }
 ```
-II: Add the plugin: `apply plugin: com.jpmorgan.java.lint.LintTestsPlugin`
+II: Add the plugin: `apply plugin: org.lint.azzert.LintTestsPlugin`
 
 III: Configure lint:
 ```
