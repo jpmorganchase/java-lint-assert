@@ -57,6 +57,7 @@ public final class TestClassFinder {
 
         ClassGraph classGraph = new ClassGraph()
                                     .enableClassInfo()
+                                    .disableJarScanning()
                                     .ignoreClassVisibility()
                                     .overrideClassLoaders(classLoader);
 
