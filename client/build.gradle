@@ -1,0 +1,31 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile "org.junit.platform:junit-platform-launcher:1.4.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+}
+
+buildscript {
+
+    repositories {
+       mavenCentral()
+    }
+    dependencies {
+        classpath 'org.lint.assert:plugin:0.1.0-SNAPSHOT'
+    }
+}
+
+apply plugin: org.lint.azzert.LintTestsPlugin
+
+test{
+    useJUnitPlatform() //enable junit5
+    lintAssert{
+        packageName = "org.lint" //optional or scan all
+        verbose = true //optional, defaults to false
+    }
+}

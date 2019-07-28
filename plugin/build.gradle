@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'maven-publish'
+}
+
+dependencies{
+    compile gradleApi()
+    compile project (':core')
+
+    testImplementation gradleTestKit()
+    compile 'org.junit.jupiter:junit-jupiter-migrationsupport:5.4.2'
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+
+        maven{
+            name='repoUnderProjectRoot'
+            url = uri("$buildDir/../../build/repo")
+        }
+    }
+    publications {
+        maven(MavenPublication){
+            from components.java
+        }
+    }
+}
+
+
