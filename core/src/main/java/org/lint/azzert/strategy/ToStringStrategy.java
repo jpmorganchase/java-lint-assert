@@ -5,7 +5,7 @@ import org.lint.azzert.context.TestMethodContext;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-public class ToStringOutputStrategy {
+public class ToStringStrategy {
 
     public static final String PIPE = "|";
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -17,7 +17,7 @@ public class ToStringOutputStrategy {
     private ArrayList<Integer> maxLength;
     private final Set<TestMethodContext> contexts;
 
-    public ToStringOutputStrategy(Set<TestMethodContext> testMethodContexts) {
+    public ToStringStrategy(Set<TestMethodContext> testMethodContexts) {
         this.contexts = new HashSet<>(testMethodContexts);
         this.maxLength = new ArrayList<>();
     }

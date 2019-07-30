@@ -4,7 +4,7 @@ import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.context.TestMethodContext;
-import org.lint.azzert.strategy.ToStringOutputStrategy;
+import org.lint.azzert.strategy.ToStringStrategy;
 
 import java.io.IOException;
 import java.util.Set;
@@ -18,7 +18,7 @@ class LintTestsTest {
         lt.setVerbose(false);
         Set<TestMethodContext> result = lt.lintAssert();
 
-        System.out.println(new ToStringOutputStrategy(result).render());
+        System.out.println(new ToStringStrategy(result).render());
         Assertions.assertNotNull(result);
         Assertions.assertNotEquals(0, result.size());
     }
