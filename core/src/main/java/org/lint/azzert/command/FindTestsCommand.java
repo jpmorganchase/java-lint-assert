@@ -1,8 +1,7 @@
-package org.lint.azzert;
+package org.lint.azzert.command;
 
 import org.javatuples.Pair;
 import org.lint.azzert.context.Context;
-import org.lint.azzert.context.ContextBuilder;
 import org.lint.azzert.context.TestMethodContext;
 import org.lint.azzert.util.TestClassFinder;
 import org.lint.azzert.visitor.LintAssertClassVisitor;
@@ -13,17 +12,19 @@ import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
-public class AssertCommand implements LintCommand<ClassLoader, Set<TestMethodContext>> {
+public class FindTestsCommand implements LintCommand {
 
     private final ClassLoader classLoader;
     private String packageName;
     private boolean verbose;
 
-    public AssertCommand(){
+    private LintCommand successor;
+
+    public FindTestsCommand(){
         this(null, null);
     }
 
-    public AssertCommand(ClassLoader classLoader, Pair<String, Boolean> params ){
+    public FindTestsCommand(ClassLoader classLoader, Pair<String, Boolean> params ){
         this.classLoader = classLoader;
         if (params != null) {
             this.packageName = params.getValue0();
@@ -31,9 +32,14 @@ public class AssertCommand implements LintCommand<ClassLoader, Set<TestMethodCon
         }
     }
 
-    public Set<TestMethodContext> execute() throws Exception {
+    public FindTestsCommand withSuccessor(LintCommand successor){
+        this.successor = successor;
+        return this;
+    }
 
-        final Context context = new ContextBuilder().build();
+    @Override
+    public Set<TestMethodContext> execute(final Context context) throws Exception {
+
         final ClassVisitor classVisitor = new LintAssertClassVisitor(context);
 
         final TestClassFinder finder = new TestClassFinder();
@@ -44,6 +50,10 @@ public class AssertCommand implements LintCommand<ClassLoader, Set<TestMethodCon
         for (URL c : list) {
             ClassReader classReader = new ClassReader(c.openStream());
             classReader.accept(classVisitor, 0);
+        }
+
+        if (successor != null){
+            successor.execute(context);
         }
 
         return context.getMethodContexts();

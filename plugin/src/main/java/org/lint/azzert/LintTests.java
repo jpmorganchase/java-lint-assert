@@ -20,7 +20,7 @@ public class LintTests {
 
         log.info("Searching for tests in package:" + this.packageName);
 
-        return new AssertCommand(classLoader, new Pair(packageName, verbose)).execute();
+        return new ToStringAssertProcessor(classLoader, new Pair(packageName, verbose)).process();
     }
 
     public void setClassLoader(URLClassLoader urlClassLoader) {

@@ -17,7 +17,7 @@ class LintAssertTest {
     @Test
     void azzert() throws Exception {
 
-        Set<TestMethodContext> methods = new AssertCommand().execute();
+        Set<TestMethodContext> methods = new ToStringAssertProcessor().process();
 
         System.out.println(new ToStringStrategy(methods).render());
 
