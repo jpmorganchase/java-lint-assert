@@ -2,16 +2,14 @@ package org.lint.azzert.context;
 
 import org.javatuples.Pair;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.*;
 
 public class TestMethodContext {
 
     String fileName;
     String methodName;
     String methodSignature;
-    String methodDescriptor;
+    Set<String> annotations;
     String packageName;
     String className;
     boolean visible;
@@ -19,30 +17,25 @@ public class TestMethodContext {
     Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
 
     public TestMethodContext() {
+        this.annotations = new HashSet<>();
         this.assertMethodsAtLineNumbers = new LinkedList<>();
-    }
-
-    public TestMethodContext(String methodName, String descriptor) {
-        this();
-        this.methodName = methodName;
-        this.methodDescriptor = descriptor;
     }
 
     public TestMethodContext(TestMethodContext source) {
         this.fileName = source.fileName;
         this.methodName = source.methodName;
-        this.methodDescriptor = source.methodDescriptor;
         this.methodSignature = source.methodSignature;
         this.packageName = source.packageName;
         this.className = source.className;
         this.visible = source.visible;
+        this.annotations = new HashSet<>(source.annotations);
         this.assertMethodsAtLineNumbers = new LinkedList<>(source.assertMethodsAtLineNumbers);
     }
 
     public void resetMethodDetails() {
         this.methodName = "";
         this.methodSignature = "";
-        this.methodDescriptor = "";
+        this.annotations = new HashSet<>();
         this.assertMethodsAtLineNumbers  = new LinkedList<>();
         this.visible = false;
     }
@@ -74,13 +67,15 @@ public class TestMethodContext {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TestMethodContext that = (TestMethodContext) o;
-        return Objects.equals(methodName, that.methodName) &&
-                Objects.equals(methodDescriptor, that.methodDescriptor);
+        return methodName.equals(that.methodName) &&
+                Objects.equals(methodSignature, that.methodSignature) &&
+                Objects.equals(packageName, that.packageName) &&
+                className.equals(that.className);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(methodName, methodDescriptor);
+        return Objects.hash(methodName, methodSignature, packageName, className);
     }
 
     @Override
@@ -89,10 +84,11 @@ public class TestMethodContext {
                 "fileName='" + fileName + '\'' +
                 ", methodName='" + methodName + '\'' +
                 ", methodSignature='" + methodSignature + '\'' +
-                ", methodDescriptor='" + methodDescriptor + '\'' +
+                ", annotations=" + annotations +
+                ", packageName='" + packageName + '\'' +
+                ", className='" + className + '\'' +
                 ", visible=" + visible +
                 ", assertMethodsAtLineNumbers=" + assertMethodsAtLineNumbers +
                 '}';
     }
-
 }

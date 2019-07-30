@@ -15,6 +15,7 @@ public class Context {
     private Set<TestMethodContext> methodContexts;
     private final Set<String> assertApis;
     private final Set<String> testFrameworks;
+    private final Set<String> exemptApis;
 
     public Context(int asmVersion) {
         this.asmVersion = asmVersion;
@@ -22,6 +23,7 @@ public class Context {
         methodContexts = new HashSet<>();
         assertApis = new HashSet<>();
         testFrameworks = new HashSet<>();
+        exemptApis = new HashSet<>();
     }
 
     public void recordAssert(int atLineNumber, String assertMethodName) {
@@ -39,7 +41,7 @@ public class Context {
     }
 
     public void with(String descriptor, boolean visible) {
-        this.currentMethodContext.methodDescriptor = descriptor;
+        this.currentMethodContext.annotations.add(descriptor);
         this.currentMethodContext.visible = visible;
     }
 
@@ -47,13 +49,15 @@ public class Context {
 
     public void addSupportedTestFrameworks(Collection<String> testFrameworks) { this.testFrameworks.addAll(testFrameworks); }
 
+    public void addSupportedExemptApis(Collection<String> exempts) {this.exemptApis.addAll(exempts);}
+
     public Set<String> getSupportedAssertApis() {
-        return this.assertApis;
+        return Collections.unmodifiableSet(this.assertApis);
     }
 
-    public Set<String> getSupportedTestFrameworks() {
-        return this.testFrameworks;
-    }
+    public Set<String> getSupportedTestFrameworks() { return Collections.unmodifiableSet(this.testFrameworks); }
+
+    public Set<String> getSupportedExemptApis(){return Collections.unmodifiableSet(this.exemptApis);}
 
     public void setMethodName(String name) {
         this.currentMethodContext.methodName = name;
@@ -67,8 +71,9 @@ public class Context {
         return this.asmVersion;
     }
 
-    public String getDescriptor() {
-        return this.currentMethodContext.methodDescriptor;
+    //FIXME
+    public Set<String> getDescriptor() {
+        return this.currentMethodContext.annotations;
     }
 
     public Set<TestMethodContext> getMethodContexts() { return Collections.unmodifiableSet(methodContexts); }

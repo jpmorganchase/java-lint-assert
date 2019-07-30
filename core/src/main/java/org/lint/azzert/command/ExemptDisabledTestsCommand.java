@@ -9,6 +9,7 @@ public class ExemptDisabledTestsCommand implements LintCommand<Set<TestMethodCon
 
     @Override
     public Set<TestMethodContext> execute(final Context context){
+        //TODO:: remove all methods with @Ignore or @Disabled
         return context.getMethodContexts();
     }
 }

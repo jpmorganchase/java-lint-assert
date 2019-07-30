@@ -30,5 +30,6 @@ public final class ContextBuilder {
 
         context.addSupportedTestFrameworks(function.apply(json, "test_framework"));
         context.addSupportedAssertApis(function.apply(json, "assert_api"));
+        context.addSupportedExemptApis(function.apply(json, "exempt_api"));
     }
 }

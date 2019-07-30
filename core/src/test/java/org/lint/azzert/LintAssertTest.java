@@ -17,19 +17,16 @@ class LintAssertTest {
     @Test
     void azzert() throws Exception {
 
-        Set<TestMethodContext> methods = new ToStringAssertProcessor().process();
+        final Set<TestMethodContext> methods = new ToStringAssertProcessor().process();
 
         System.out.println(new ToStringStrategy(methods).render());
 
         Assertions.assertTrue(methods.size() > 0, "Expected to find at least one test method.");
-        Assertions.assertTrue(
-                methods.contains(
-                        new TestMethodContext("withoutAssert", "Lorg/junit/jupiter/api/Test;")),
-                "Failed to find method 'withoutAssert' annotated with @Test"
-        );
-        Assertions.assertTrue(methods.contains(
-                new TestMethodContext("withAssert", "Lorg/junit/jupiter/api/Test;")),
-                "Failed to find method 'withAssert' annotated with @Test");
+
+        final BiFunction<String, String, Long> countOccurences = (fileName, methodName)
+                -> methods.stream().filter(m -> m.getFileName().equals(fileName) && m.getMethodName().equals(methodName)).count();
+        Assertions.assertEquals(1, countOccurences.apply("AssertJunit5Style.java", "withoutAssert"), "Failed to find method 'withoutAssert' annotated with @Test");
+        Assertions.assertEquals(1, countOccurences.apply("AssertJunit5Style.java", "withAssert"), "Failed to find method 'withoutAssert' annotated with @Test");
 
         TestMethodContext withAssert = methods.stream().filter(
                 f -> "withAssert".equals(f.getMethodName()) && "AssertJunit5Style.java".equals(f.getFileName())).collect(Collectors.toList()).get(0);
@@ -47,31 +44,6 @@ class LintAssertTest {
         Assertions.assertEquals(4, assertsInMethod.apply(methods, "build"));
         Assertions.assertEquals(2, assertsInMethod.apply(methods, "withAssert"));
         Assertions.assertEquals(9, assertsInMethod.apply(methods, "azzert"));
-    }
-
-    //TODO::handle methods in nested classes
-    class InnerClass {
-        @Test
-        void dummy() {
-
-        }
-    }
-
-    //TODO::handle @Ignore and @Disabled methods
-    @org.junit.Ignore
-    @org.junit.jupiter.api.Disabled
-    void ignoredOrdisabled(){
-
-    }
-
-    //TODO::handle @Ignore and @Disabled at the class level
-    @org.junit.Ignore
-    @org.junit.jupiter.api.Disabled
-    class Disabled {
-        @Test
-        void dummy() {
-
-        }
     }
 
 }

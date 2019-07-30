@@ -17,12 +17,7 @@ public class FindTestsCommand implements LintCommand {
     private final ClassLoader classLoader;
     private String packageName;
     private boolean verbose;
-
     private LintCommand successor;
-
-    public FindTestsCommand(){
-        this(null, null);
-    }
 
     public FindTestsCommand(ClassLoader classLoader, Pair<String, Boolean> params ){
         this.classLoader = classLoader;
