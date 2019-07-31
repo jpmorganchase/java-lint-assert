@@ -5,6 +5,8 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
+import java.util.Collections;
+
 public class LintAssertMethodVisitor extends MethodVisitor {
 
     private final Context context;
@@ -19,7 +21,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        if (this.context.getSupportedTestFrameworks().contains(descriptor)) {
+        if (this.context.getAcceptableMethodAnnotations().contains(descriptor)){
             context.with(descriptor, visible);
         }
 
@@ -43,7 +45,8 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     @Override
     public void visitEnd() {
         super.visitEnd();
-        if (this.context.getSupportedTestFrameworks().contains(context.getDescriptor())) {
+
+        if ( ! Collections.disjoint(this.context.getAcceptableMethodAnnotations(), context.getCurrentMethodContext().getAnnotations())) {
             context.resetCurrentMethodContext();
         }
     }

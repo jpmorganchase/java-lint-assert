@@ -7,11 +7,11 @@ import org.lint.azzert.context.ContextBuilder;
 
 import java.io.IOException;
 
-class ToStringOutputStrategyTest {
+class ToStringStrategyTest {
 
     @Test
     void render() throws IOException, ParseException {
-        ToStringOutputStrategy strategy = new ToStringOutputStrategy(new ContextBuilder().build().getMethodContexts());
+        ToStringStrategy strategy = new ToStringStrategy(new ContextBuilder().build().getMethodContexts());
         String output = strategy.render();
 
         Assertions.assertNotNull(output);

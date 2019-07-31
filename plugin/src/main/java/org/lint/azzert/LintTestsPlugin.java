@@ -5,7 +5,7 @@ import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.testing.Test;
-import org.lint.azzert.strategy.ToStringOutputStrategy;
+import org.lint.azzert.strategy.ToStringStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public class LintTestsPlugin implements Plugin<Project> {
             task.doLast(task1 ->
             {
                 try {
-                    String result = new ToStringOutputStrategy(taskExtension.lintAssert()).render();
+                    String result = new ToStringStrategy(taskExtension.lintAssert()).render();
                     log.info(result);
                 } catch (Exception e) {
                     log.error("Failed to lint", e);
