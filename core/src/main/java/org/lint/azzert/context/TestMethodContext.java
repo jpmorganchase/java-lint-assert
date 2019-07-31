@@ -6,15 +6,15 @@ import java.util.*;
 
 public class TestMethodContext {
 
-    String fileName;
-    String methodName;
-    String methodSignature;
-    Set<String> annotations;
-    String packageName;
-    String className;
-    boolean visible;
+    private String fileName;
+    private String methodName;
+    private String methodSignature;
+    private String packageName;
+    private String className;
+    private boolean visible;
 
-    Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
+    private Set<String> annotations;
+    private Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
 
     public TestMethodContext() {
         this.annotations = new HashSet<>();
@@ -50,6 +50,18 @@ public class TestMethodContext {
         return this.methodName;
     }
 
+    public void setFileName(String name) { this.fileName = name; }
+
+    public void setMethodName(String name) { this.methodName = name; }
+
+    public void setMethodSignature(String name) { this.methodSignature = name; }
+
+    public void setPackageName(String name) { this.packageName = name; }
+
+    public void setClassName(String name) { this.className = name; }
+
+    public void setVisible(boolean visible) { this.visible = visible; }
+
     public Collection<Pair<Integer, String>> getAssertMethodsAtLineNumbers() {
         return this.assertMethodsAtLineNumbers;
     }
@@ -61,6 +73,11 @@ public class TestMethodContext {
     public String getPackageName(){
         return this.packageName;
     }
+
+    public Set<String> getAnnotations() { return annotations; }
+
+
+    public void addAssertMethodsAtLineNumbers(Pair<Integer, String> pair) { this.assertMethodsAtLineNumbers.add(pair); }
 
     @Override
     public boolean equals(Object o) {
@@ -91,4 +108,5 @@ public class TestMethodContext {
                 ", assertMethodsAtLineNumbers=" + assertMethodsAtLineNumbers +
                 '}';
     }
+
 }

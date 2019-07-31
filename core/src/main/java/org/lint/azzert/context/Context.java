@@ -27,7 +27,7 @@ public class Context {
     }
 
     public void recordAssert(int atLineNumber, String assertMethodName) {
-        this.currentMethodContext.assertMethodsAtLineNumbers.add(new Pair<>(atLineNumber, assertMethodName));
+        this.currentMethodContext.addAssertMethodsAtLineNumbers(new Pair<>(atLineNumber, assertMethodName));
     }
 
     public void resetCurrentMethodContext() {
@@ -41,8 +41,16 @@ public class Context {
     }
 
     public void with(String descriptor, boolean visible) {
-        this.currentMethodContext.annotations.add(descriptor);
-        this.currentMethodContext.visible = visible;
+        this.currentMethodContext.getAnnotations().add(descriptor);
+        this.currentMethodContext.setVisible(visible);
+    }
+
+
+    public Collection<?> getAcceptableMethodAnnotations() {
+        Set<String> acceptableMethodAnnotations = new HashSet<>(this.testFrameworks);
+        acceptableMethodAnnotations.addAll(exemptApis);
+
+        return acceptableMethodAnnotations;
     }
 
     public void addSupportedAssertApis(Collection<String> assertApis) { this.assertApis.addAll(assertApis); }
@@ -51,44 +59,17 @@ public class Context {
 
     public void addSupportedExemptApis(Collection<String> exempts) {this.exemptApis.addAll(exempts);}
 
-    public Set<String> getSupportedAssertApis() {
-        return Collections.unmodifiableSet(this.assertApis);
-    }
+    public Set<String> getSupportedAssertApis() { return Collections.unmodifiableSet(this.assertApis); }
 
     public Set<String> getSupportedTestFrameworks() { return Collections.unmodifiableSet(this.testFrameworks); }
 
     public Set<String> getSupportedExemptApis(){return Collections.unmodifiableSet(this.exemptApis);}
 
-    public void setMethodName(String name) {
-        this.currentMethodContext.methodName = name;
-    }
+    public int getAsmVersion() { return this.asmVersion; }
 
-    public void setMethodSignature(String signature) {
-        this.currentMethodContext.methodSignature = signature;
-    }
+    public Set<TestMethodContext> getMethodContexts() { return methodContexts; }
 
-    public int getAsmVersion() {
-        return this.asmVersion;
-    }
-
-    //FIXME
-    public Set<String> getDescriptor() {
-        return this.currentMethodContext.annotations;
-    }
-
-    public Set<TestMethodContext> getMethodContexts() { return Collections.unmodifiableSet(methodContexts); }
-
-    public void setFileName(String fileName) {
-        this.currentMethodContext.fileName = fileName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.currentMethodContext.packageName = packageName;
-    }
-
-    public void setClassName(String className) {
-        this.currentMethodContext.className = className;
-    }
+    public TestMethodContext getCurrentMethodContext(){return this.currentMethodContext;}
 
     @Override
     public String toString() {

@@ -1,23 +1,26 @@
 package org.lint.azzert.visitor;
 
 import org.lint.azzert.context.Context;
+import org.lint.azzert.context.TestMethodContext;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
 public class LintAssertClassVisitor extends ClassVisitor {
 
+    private final TestMethodContext currentState;
     private final Context ctx;
 
     public LintAssertClassVisitor(final Context ctx) {
         super(ctx.getAsmVersion());
         this.ctx = ctx;
+        this.currentState = ctx.getCurrentMethodContext();
     }
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         super.visitMethod(this.ctx.getAsmVersion(), name, desc, signature, exceptions);
-        this.ctx.setMethodName(name);
-        this.ctx.setMethodSignature(signature);
+        this.currentState.setMethodName(name);
+        this.currentState.setMethodSignature(signature);
 
         return new LintAssertMethodVisitor(ctx);
     }
@@ -26,13 +29,13 @@ public class LintAssertClassVisitor extends ClassVisitor {
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
         int split = name.lastIndexOf('/');
-        this.ctx.setPackageName(name.substring(0, split));
-        this.ctx.setClassName(name.substring(split));
+        this.currentState.setPackageName(name.substring(0, split));
+        this.currentState.setClassName(name.substring(split));
     }
 
     @Override
     public void visitSource(String source, String debug) {
-        this.ctx.setFileName(source);
+        this.currentState.setFileName(source);
         super.visitSource(source, debug);
     }
 

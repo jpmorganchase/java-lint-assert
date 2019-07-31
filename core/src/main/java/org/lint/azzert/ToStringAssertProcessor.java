@@ -28,8 +28,10 @@ public class ToStringAssertProcessor implements AssertProcessor<Set<TestMethodCo
 
         final Context context = new ContextBuilder().build();
 
-        return new FindTestsCommand(classLoader, params)
+        new FindTestsCommand(classLoader, params)
                 .withSuccessor(new ExemptDisabledTestsCommand())
                     .execute(context);
+
+        return context.getMethodContexts();
     }
 }

@@ -23,5 +23,6 @@ public class ExemptDisabledTestsCommandTest {
 
         Assertions.assertEquals(0, assertsInMethod.apply("youWouldThinkIAmATestButIAmNot"), "Should've excluded 'youWouldThinkIAmATestButIAmNot' annotated *only* with @Disabled");
         Assertions.assertEquals(0, assertsInMethod.apply("iAmDisabled"), "Should've excluded 'iAmDisabled' annotated with @Disabled");
+        Assertions.assertEquals(1, assertsInMethod.apply("test"), "Should've included 'test' annotated with @Test");
     }
 }

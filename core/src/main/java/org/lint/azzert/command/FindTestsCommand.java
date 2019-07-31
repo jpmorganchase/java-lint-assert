@@ -2,7 +2,6 @@ package org.lint.azzert.command;
 
 import org.javatuples.Pair;
 import org.lint.azzert.context.Context;
-import org.lint.azzert.context.TestMethodContext;
 import org.lint.azzert.util.TestClassFinder;
 import org.lint.azzert.visitor.LintAssertClassVisitor;
 import org.objectweb.asm.ClassReader;
@@ -10,7 +9,6 @@ import org.objectweb.asm.ClassVisitor;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Set;
 
 public class FindTestsCommand implements LintCommand {
 
@@ -33,7 +31,7 @@ public class FindTestsCommand implements LintCommand {
     }
 
     @Override
-    public Set<TestMethodContext> execute(final Context context) throws Exception {
+    public Void execute(final Context context) throws Exception {
 
         final ClassVisitor classVisitor = new LintAssertClassVisitor(context);
 
@@ -51,6 +49,6 @@ public class FindTestsCommand implements LintCommand {
             successor.execute(context);
         }
 
-        return context.getMethodContexts();
+        return null;
     }
 }

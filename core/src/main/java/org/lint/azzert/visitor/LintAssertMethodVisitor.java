@@ -21,8 +21,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        if (this.context.getSupportedTestFrameworks().contains(descriptor)
-                || this.context.getSupportedExemptApis().contains(descriptor)) {
+        if (this.context.getAcceptableMethodAnnotations().contains(descriptor)){
             context.with(descriptor, visible);
         }
 
@@ -47,7 +46,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     public void visitEnd() {
         super.visitEnd();
 
-        if ( ! Collections.disjoint(this.context.getSupportedTestFrameworks(), context.getDescriptor())) {
+        if ( ! Collections.disjoint(this.context.getAcceptableMethodAnnotations(), context.getCurrentMethodContext().getAnnotations())) {
             context.resetCurrentMethodContext();
         }
     }
