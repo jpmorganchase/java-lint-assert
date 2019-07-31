@@ -7,7 +7,7 @@ import org.lint.azzert.context.ContextBuilder;
 
 import java.io.IOException;
 
-class ToStringOutputStrategyTest {
+class ToStringStrategyTest {
 
     @Test
     void render() throws IOException, ParseException {
