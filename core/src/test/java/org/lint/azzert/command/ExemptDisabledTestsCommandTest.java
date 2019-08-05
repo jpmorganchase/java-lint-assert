@@ -13,7 +13,7 @@ import java.util.function.Function;
 public class ExemptDisabledTestsCommandTest {
 
     @Test
-    void test() {
+    void test() throws Exception{
         Set<TestMethodContext> methods = new ToStringAssertProcessor(
                 null, Pair.with(ExemptDisabledTestsCommandTest.class.getPackage().getName(), false)
         ).process();
