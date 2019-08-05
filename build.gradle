@@ -4,6 +4,7 @@ allprojects {
     apply plugin: 'java'
     
     repositories {
+        mavenLocal()
         mavenCentral()
     }
     
@@ -37,3 +38,6 @@ allprojects {
     }
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}

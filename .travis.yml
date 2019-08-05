@@ -1,0 +1,6 @@
+install: gradle wrapper --gradle-version 4.9
+
+language: java
+
+jdk:
+  - oraclejdk11
