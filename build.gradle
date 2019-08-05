@@ -1,0 +1,39 @@
+allprojects {
+
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    
+    repositories {
+        mavenCentral()
+    }
+    
+    dependencies {
+        compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.4.2'
+        compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.2'
+
+        //junit 5
+        testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
+        testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+        testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+    }
+    
+    test{
+        useJUnitPlatform {
+        }
+
+        testLogging {
+            showStandardStreams = true
+            events "passed", "skipped", "failed"
+        }
+        //to get "Test summary: 1 tests, 1 succeeded, 0 failed, 0 skipped"
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                logger.error('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }
+}
+
