@@ -54,7 +54,7 @@ II: Add the plugin: `apply plugin: org.lint.azzert.LintTestsPlugin`
 III: Configure lint:
 ```
 test{
-    useJUnitPlatform() //enable junit5
+   ...   
     lintAssert{
         packageName = "org.lint" //optional or scan all
         verbose = true //optional, defaults to false

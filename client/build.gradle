@@ -13,7 +13,8 @@ dependencies {
 buildscript {
 
     repositories {
-       mavenCentral()
+        mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath 'org.lint.assert:plugin:0.1.0-SNAPSHOT'

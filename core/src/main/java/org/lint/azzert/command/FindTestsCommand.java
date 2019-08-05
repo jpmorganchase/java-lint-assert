@@ -10,12 +10,12 @@ import org.objectweb.asm.ClassVisitor;
 import java.net.URL;
 import java.util.List;
 
-public class FindTestsCommand implements LintCommand {
+public class FindTestsCommand implements LintCommand<Void> {
 
     private final ClassLoader classLoader;
     private String packageName;
     private boolean verbose;
-    private LintCommand successor;
+    private LintCommand<Void> successor;
 
     public FindTestsCommand(ClassLoader classLoader, Pair<String, Boolean> params ){
         this.classLoader = classLoader;
@@ -25,7 +25,7 @@ public class FindTestsCommand implements LintCommand {
         }
     }
 
-    public FindTestsCommand withSuccessor(LintCommand successor){
+    public FindTestsCommand withSuccessor(LintCommand<Void> successor){
         this.successor = successor;
         return this;
     }
@@ -36,10 +36,11 @@ public class FindTestsCommand implements LintCommand {
         final ClassVisitor classVisitor = new LintAssertClassVisitor(context);
 
         final TestClassFinder finder = new TestClassFinder();
-        if (classLoader != null) finder.setClassLoader(classLoader);
+        finder.setClassLoader(classLoader);
         finder.setVerbose(this.verbose);
+        finder.setRootPackageName(this.packageName);
 
-        List<URL> list = finder.getClasses(this.packageName);
+        List<URL> list = finder.getClasses();
         for (URL c : list) {
             ClassReader classReader = new ClassReader(c.openStream());
             classReader.accept(classVisitor, 0);

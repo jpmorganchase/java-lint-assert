@@ -11,33 +11,42 @@ import java.util.List;
 
 //AN:: @see {https://github.com/classgraph/classgraph/wiki}
 public final class TestClassFinder {
-
-    private boolean verbose;
-
-    private ClassLoader classLoader;
-
-    public TestClassFinder(){
-        this.classLoader = Thread.currentThread().getContextClassLoader();
+	
+	private final ClassGraph classGraph;
+    
+	private  ClassLoader classLoader;
+	
+    public TestClassFinder() {
+    	classGraph = new ClassGraph()
+                 .enableClassInfo()
+                 	.disableJarScanning()
+                 		.ignoreClassVisibility();
     }
-
+    
     public void setClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
+    	this.classLoader = classLoader;
+    	if (classLoader != null) classGraph.overrideClassLoaders(classLoader);
     }
 
     public void setVerbose(boolean verbose) {
-        this.verbose = verbose;
+    	if (verbose) classGraph.verbose();
+    }
+    
+    public void setRootPackageName(String packageName) {
+    	if (packageName != null) classGraph.whitelistPackages();
     }
 
-    public  List<URL> getClasses(String name) {
+    public  List<URL> getClasses() {
         final List<URL> classes = new ArrayList<>();
-
-        ClassInfoList list = getClassInfoList(name);
+        
+        final ClassInfoList list = getClassInfoList();
         for (ClassInfo c : list) {
-            final String resourceName = classToResourceName(c.getName());
-            URL url = this.classLoader.getResource(resourceName);
-            classes.add(url);
+        	if(c.getResource() != null) {
+	        //	System.out.println(c.getResource().getURI());
+	        	//classes.add(c.getClasspathElementURL());
+	        	classes.add(c.getResource().getURL());
+        	}
         }
-
         return classes;
     }
 
@@ -53,18 +62,8 @@ public final class TestClassFinder {
         return resourceName;
     }
 
-    private ClassInfoList getClassInfoList(String packageName) {
-
-        ClassGraph classGraph = new ClassGraph()
-                                    .enableClassInfo()
-                                    .disableJarScanning()
-                                    .ignoreClassVisibility()
-                                    .overrideClassLoaders(classLoader);
-
-        if (this.verbose) classGraph.verbose();
-        if (packageName != null) classGraph.whitelistPackages(packageName);
-
-        try (ScanResult scanResult = classGraph.scan()) {
+    private ClassInfoList getClassInfoList() {
+    	try (ScanResult scanResult = classGraph.scan()) {
             return scanResult.getAllClasses();
         }
     }
