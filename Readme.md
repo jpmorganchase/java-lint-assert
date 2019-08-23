@@ -2,6 +2,7 @@
 
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://choosealicense.com/licenses/apache-2.0/)
+[![Build Status](https://travis-ci.org/jpmorganchase/java-lint-assert.svg?branch=master)](https://travis-ci.org/jpmorganchase/java-lint-assert)
 
 The plugin for Java Gradle `test` task that reports presence of `assert`s in a test method body. 
 
@@ -54,7 +55,7 @@ II: Add the plugin: `apply plugin: org.lint.azzert.LintTestsPlugin`
 III: Configure lint:
 ```
 test{
-   ...
+   ...   
     lintAssert{
         packageName = "org.lint" //optional or scan all
         verbose = true //optional, defaults to false

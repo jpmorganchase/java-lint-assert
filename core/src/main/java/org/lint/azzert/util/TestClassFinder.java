@@ -47,14 +47,6 @@ public final class TestClassFinder {
 	        	classes.add(c.getResource().getURL());
         	}
         }
-      //  if (classLoader ==null) classLoader = Thread.currentThread().getContextClassLoader();
-        
-//        for (ClassInfo c : list) {
-//            final String resourceName = classToResourceName(c.getName());
-//            URL url = this.classLoader.getResource(resourceName);
-//            classes.add(url);
-//        }
-
         return classes;
     }
 

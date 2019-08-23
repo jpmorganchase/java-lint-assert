@@ -13,16 +13,16 @@ import java.util.function.Function;
 public class ExemptDisabledTestsCommandTest {
 
     @Test
-    void test() throws Exception {
+    void test() throws Exception{
         Set<TestMethodContext> methods = new ToStringAssertProcessor(
-        		null, Pair.with(ExemptDisabledTestsCommandTest.class.getPackage().getName(), false)
-        		).process();
+                null, Pair.with(ExemptDisabledTestsCommandTest.class.getPackage().getName(), false)
+        ).process();
 
         System.out.println(new ToStringStrategy(methods).render());
         methods.forEach(System.out::println);
 
         final Function<String, Long> assertsInMethod = str -> methods.stream().filter(m-> m.getMethodName().equals(str)
-        		&& m.getFileName().contains("ExemptDisabledTestsCommandTest")).count();
+                && m.getFileName().contains("ExemptDisabledTestsCommandTest")).count();
 
         Assertions.assertEquals(0, assertsInMethod.apply("youWouldThinkIAmATestButIAmNot"), "Should've excluded 'youWouldThinkIAmATestButIAmNot' annotated *only* with @Disabled");
         Assertions.assertEquals(0, assertsInMethod.apply("iAmDisabled"), "Should've excluded 'iAmDisabled' annotated with @Disabled");
