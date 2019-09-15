@@ -84,5 +84,6 @@ class LintAssertTest {
         Assertions.assertEquals(4, assertsInMethod.apply(methods, "build"));
         Assertions.assertEquals(2, assertsInMethod.apply(methods, "withAssert"));
         Assertions.assertEquals(9, assertsInMethod.apply(methods, "azzert"));
+        Assertions.assertEquals(11, assertsInMethod.apply(methods, "azzertTestNG"));
     }
 }
