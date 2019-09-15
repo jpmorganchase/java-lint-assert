@@ -16,6 +16,7 @@ public class Context {
     private final Set<String> assertApis;
     private final Set<String> testFrameworks;
     private final Set<String> exemptApis;
+    private final Set<String> supportedParameters;
 
     public Context(int asmVersion) {
         this.asmVersion = asmVersion;
@@ -24,6 +25,7 @@ public class Context {
         assertApis = new HashSet<>();
         testFrameworks = new HashSet<>();
         exemptApis = new HashSet<>();
+        supportedParameters = new HashSet<>();
     }
 
     public void recordAssert(int atLineNumber, String assertMethodName) {
@@ -70,6 +72,10 @@ public class Context {
     public Set<TestMethodContext> getMethodContexts() { return methodContexts; }
 
     public TestMethodContext getCurrentMethodContext(){return this.currentMethodContext;}
+
+    public void addSupportedParameters(Collection<String> parameters){this.supportedParameters.addAll(parameters);}
+
+    public Set<String> getSupportedParameters(){return this.supportedParameters;}
 
     @Override
     public String toString() {

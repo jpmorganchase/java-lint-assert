@@ -12,6 +12,11 @@ public class ExemptDisabledTestsCommand implements LintCommand{
         context.getMethodContexts().removeIf(
                 method -> ! Collections.disjoint(context.getSupportedExemptApis(), method.getAnnotations())
         );
+
+        // Test NG has ignore as attribute to test annotation
+        context.getMethodContexts().removeIf(
+                method -> method.isIgnored()
+        );
         return null;
     }
 }

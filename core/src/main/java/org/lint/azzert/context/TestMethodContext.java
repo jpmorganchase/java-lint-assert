@@ -12,6 +12,7 @@ public class TestMethodContext {
     private String packageName;
     private String className;
     private boolean visible;
+    private boolean ignored;
 
     private Set<String> annotations;
     private Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
@@ -30,14 +31,16 @@ public class TestMethodContext {
         this.visible = source.visible;
         this.annotations = new HashSet<>(source.annotations);
         this.assertMethodsAtLineNumbers = new LinkedList<>(source.assertMethodsAtLineNumbers);
+        this.ignored = source.ignored;
     }
 
     public void resetMethodDetails() {
         this.methodName = "";
         this.methodSignature = "";
         this.annotations = new HashSet<>();
-        this.assertMethodsAtLineNumbers  = new LinkedList<>();
+        this.assertMethodsAtLineNumbers = new LinkedList<>();
         this.visible = false;
+        this.ignored = false;
     }
 
     public void resetClassDetails() {
@@ -50,17 +53,29 @@ public class TestMethodContext {
         return this.methodName;
     }
 
-    public void setFileName(String name) { this.fileName = name; }
+    public void setFileName(String name) {
+        this.fileName = name;
+    }
 
-    public void setMethodName(String name) { this.methodName = name; }
+    public void setMethodName(String name) {
+        this.methodName = name;
+    }
 
-    public void setMethodSignature(String name) { this.methodSignature = name; }
+    public void setMethodSignature(String name) {
+        this.methodSignature = name;
+    }
 
-    public void setPackageName(String name) { this.packageName = name; }
+    public void setPackageName(String name) {
+        this.packageName = name;
+    }
 
-    public void setClassName(String name) { this.className = name; }
+    public void setClassName(String name) {
+        this.className = name;
+    }
 
-    public void setVisible(boolean visible) { this.visible = visible; }
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
     public Collection<Pair<Integer, String>> getAssertMethodsAtLineNumbers() {
         return this.assertMethodsAtLineNumbers;
@@ -70,14 +85,25 @@ public class TestMethodContext {
         return this.fileName;
     }
 
-    public String getPackageName(){
+    public String getPackageName() {
         return this.packageName;
     }
 
-    public Set<String> getAnnotations() { return annotations; }
+    public Set<String> getAnnotations() {
+        return annotations;
+    }
 
+    public boolean isIgnored() {
+        return ignored;
+    }
 
-    public void addAssertMethodsAtLineNumbers(Pair<Integer, String> pair) { this.assertMethodsAtLineNumbers.add(pair); }
+    public void setIgnored(boolean ignored) {
+        this.ignored = ignored;
+    }
+
+    public void addAssertMethodsAtLineNumbers(Pair<Integer, String> pair) {
+        this.assertMethodsAtLineNumbers.add(pair);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -106,6 +132,7 @@ public class TestMethodContext {
                 ", className='" + className + '\'' +
                 ", visible=" + visible +
                 ", assertMethodsAtLineNumbers=" + assertMethodsAtLineNumbers +
+                ", ignored=" + ignored +
                 '}';
     }
 

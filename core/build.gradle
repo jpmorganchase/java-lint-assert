@@ -31,6 +31,8 @@ dependencies {
     compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.4.2'
     compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.2'
 
+    compile group: 'org.testng', name: 'testng', version: '5.14.9'
+
     /** test dependencies */
     //junit 4
     testCompile 'junit:junit:4.12'
@@ -40,4 +42,7 @@ dependencies {
     testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+
+    //TestNG
+    testCompile group: 'org.testng', name: 'testng', version: '5.14.9'
 }
