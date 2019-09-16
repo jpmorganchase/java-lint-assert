@@ -38,7 +38,7 @@ public class TestMethodContext {
         this.methodName = "";
         this.methodSignature = "";
         this.annotations = new HashSet<>();
-        this.assertMethodsAtLineNumbers = new LinkedList<>();
+        this.assertMethodsAtLineNumbers  = new LinkedList<>();
         this.visible = false;
         this.ignored = false;
     }
@@ -53,29 +53,17 @@ public class TestMethodContext {
         return this.methodName;
     }
 
-    public void setFileName(String name) {
-        this.fileName = name;
-    }
+    public void setFileName(String name) { this.fileName = name; }
 
-    public void setMethodName(String name) {
-        this.methodName = name;
-    }
+    public void setMethodName(String name) { this.methodName = name; }
 
-    public void setMethodSignature(String name) {
-        this.methodSignature = name;
-    }
+    public void setMethodSignature(String name) { this.methodSignature = name; }
 
-    public void setPackageName(String name) {
-        this.packageName = name;
-    }
+    public void setPackageName(String name) { this.packageName = name; }
 
-    public void setClassName(String name) {
-        this.className = name;
-    }
+    public void setClassName(String name) { this.className = name; }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
+    public void setVisible(boolean visible) { this.visible = visible; }
 
     public Collection<Pair<Integer, String>> getAssertMethodsAtLineNumbers() {
         return this.assertMethodsAtLineNumbers;
@@ -85,13 +73,11 @@ public class TestMethodContext {
         return this.fileName;
     }
 
-    public String getPackageName() {
+    public String getPackageName(){
         return this.packageName;
     }
 
-    public Set<String> getAnnotations() {
-        return annotations;
-    }
+    public Set<String> getAnnotations() { return annotations; }
 
     public boolean isIgnored() {
         return ignored;
