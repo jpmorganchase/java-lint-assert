@@ -25,7 +25,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
             context.with(descriptor, visible);
             return new LintAssertAnnotationVisitor(context);
         }
-        return super.visitAnnotation(descriptor,visible);
+        return super.visitAnnotation(descriptor, visible);
     }
 
     @Override
