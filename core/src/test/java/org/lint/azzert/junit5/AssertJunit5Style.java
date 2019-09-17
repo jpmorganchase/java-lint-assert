@@ -1,4 +1,4 @@
-package org.lint.azzert;
+package org.lint.azzert.junit5;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

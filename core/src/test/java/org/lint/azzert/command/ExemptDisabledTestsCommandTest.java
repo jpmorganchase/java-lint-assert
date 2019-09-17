@@ -3,9 +3,9 @@ package org.lint.azzert.command;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.lint.azzert.ToStringAssertProcessor;
-import org.lint.azzert.context.TestMethodContext;
-import org.lint.azzert.strategy.ToStringStrategy;
+import org.lint.azzert.context.MethodMetadata;
+import org.lint.azzert.output.strategy.ToStringStrategy;
+import org.lint.azzert.processor.ToStringAssertProcessor;
 
 import java.util.Set;
 import java.util.function.Function;
@@ -14,7 +14,7 @@ public class ExemptDisabledTestsCommandTest {
 
     @Test
     void test() throws Exception{
-        Set<TestMethodContext> methods = new ToStringAssertProcessor(
+        Set<MethodMetadata> methods = new ToStringAssertProcessor(
                 null, Pair.with(ExemptDisabledTestsCommandTest.class.getPackage().getName(), false)
         ).process();
 

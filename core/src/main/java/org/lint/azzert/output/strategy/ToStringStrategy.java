@@ -1,6 +1,6 @@
-package org.lint.azzert.strategy;
+package org.lint.azzert.output.strategy;
 
-import org.lint.azzert.context.TestMethodContext;
+import org.lint.azzert.context.MethodMetadata;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -15,10 +15,10 @@ public class ToStringStrategy {
     public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList("Package", "Test file name", "Test method name", "# asserts"));
 
     private ArrayList<Integer> maxLength;
-    private final Set<TestMethodContext> contexts;
+    private final Set<MethodMetadata> contexts;
 
-    public ToStringStrategy(Set<TestMethodContext> testMethodContexts) {
-        this.contexts = new HashSet<>(testMethodContexts);
+    public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
+        this.contexts = new HashSet<>(methodMetadata);
         this.maxLength = new ArrayList<>();
     }
 
@@ -35,7 +35,7 @@ public class ToStringStrategy {
             maxLength.add(header.length());
         }
 
-        for (TestMethodContext context : contexts) {
+        for (MethodMetadata context : contexts) {
             final BiConsumer<Integer, Integer> consumer = (index, size) -> {
                 if (maxLength.get(index) < size) {
                     maxLength.set(index, size);
@@ -65,7 +65,7 @@ public class ToStringStrategy {
 
         final StringBuilder sb = new StringBuilder();
 
-        for (TestMethodContext context : contexts) {
+        for (MethodMetadata context : contexts) {
             renderRow(context, sb);
             sb.append(PIPE);
             sb.append(LINE_SEPARATOR);
@@ -92,7 +92,7 @@ public class ToStringStrategy {
         sb.append(PIPE);
     }
 
-    protected void renderRow(TestMethodContext context, StringBuilder sb) {
+    protected void renderRow(MethodMetadata context, StringBuilder sb) {
         renderCell(sb, context.getPackageName(), 0);
         renderCell(sb, context.getFileName(), 1);
         renderCell(sb, context.getMethodName(), 2);

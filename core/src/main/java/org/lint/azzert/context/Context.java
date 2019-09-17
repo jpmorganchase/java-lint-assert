@@ -1,84 +1,82 @@
 package org.lint.azzert.context;
 
 import org.javatuples.Pair;
+import org.lint.azzert.TestFrameworkStrategy;
+import org.lint.azzert.framework.strategy.NoOpStrategy;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 
 public class Context {
 
     private final int asmVersion;
 
-    private TestMethodContext currentMethodContext;
-    private Set<TestMethodContext> methodContexts;
-    private final Set<String> assertApis;
-    private final Set<String> testFrameworks;
-    private final Set<String> exemptApis;
+    private final MethodMetadata methodInFlight;
+    private final Set<MethodMetadata> methodContexts;
+    private final TreeMap<String, TestFrameworkStrategy> testFrameworks;
 
     public Context(int asmVersion) {
         this.asmVersion = asmVersion;
-        currentMethodContext = new TestMethodContext();
+        methodInFlight = new MethodMetadata();
         methodContexts = new HashSet<>();
-        assertApis = new HashSet<>();
-        testFrameworks = new HashSet<>();
-        exemptApis = new HashSet<>();
+        testFrameworks = new TreeMap<>();
     }
 
     public void recordAssert(int atLineNumber, String assertMethodName) {
-        this.currentMethodContext.addAssertMethodsAtLineNumbers(new Pair<>(atLineNumber, assertMethodName));
+        this.methodInFlight.addAssertMethodsAtLineNumbers(new Pair<>(atLineNumber, assertMethodName));
     }
 
     public void resetCurrentMethodContext() {
-        TestMethodContext clone = new TestMethodContext(this.currentMethodContext);
+        MethodMetadata clone = new MethodMetadata(this.methodInFlight);
         this.methodContexts.add(clone);
-        this.currentMethodContext.resetMethodDetails();
+        this.methodInFlight.resetMethodDetails();
     }
 
     public void resetCurrentClassContext() {
-        this.currentMethodContext.resetClassDetails();
+        this.methodInFlight.resetClassDetails();
     }
 
-    public void with(String descriptor, boolean visible) {
-        this.currentMethodContext.getAnnotations().add(descriptor);
-        this.currentMethodContext.setVisible(visible);
+    public void with(String annotation, boolean isMethodVisible) {
+        final Function<Set<String>, TestFrameworkStrategy> getTestFrameworkStrategy = (ants) -> {
+
+            TestFrameworkStrategy strategy;
+            for (String ann : ants) {
+                strategy = this.testFrameworks.get(ann);
+                if (strategy != null)
+                    return strategy;
+            }
+            return new NoOpStrategy();
+        };
+
+        this.methodInFlight.getAnnotations().add(annotation);
+        this.methodInFlight.setVisible(isMethodVisible);
+        this.methodInFlight.setTestFramework(getTestFrameworkStrategy.apply(this.methodInFlight.getAnnotations()));
     }
 
+    public void addSupportedTestFrameworks(Collection<TestFrameworkStrategy> fwks) {
+        final Set<TestFrameworkStrategy> testFrameworks = new HashSet<>(fwks);
 
-    public Collection<?> getAcceptableMethodAnnotations() {
-        Set<String> acceptableMethodAnnotations = new HashSet<>(this.testFrameworks);
-        acceptableMethodAnnotations.addAll(exemptApis);
-
-        return acceptableMethodAnnotations;
+        for (TestFrameworkStrategy strategy: testFrameworks){
+            this.testFrameworks.put(strategy.getSupportedFramework(), strategy);
+        }
     }
 
-    public void addSupportedAssertApis(Collection<String> assertApis) { this.assertApis.addAll(assertApis); }
-
-    public void addSupportedTestFrameworks(Collection<String> testFrameworks) { this.testFrameworks.addAll(testFrameworks); }
-
-    public void addSupportedExemptApis(Collection<String> exempts) {this.exemptApis.addAll(exempts);}
-
-    public Set<String> getSupportedAssertApis() { return Collections.unmodifiableSet(this.assertApis); }
-
-    public Set<String> getSupportedTestFrameworks() { return Collections.unmodifiableSet(this.testFrameworks); }
-
-    public Set<String> getSupportedExemptApis(){return Collections.unmodifiableSet(this.exemptApis);}
+    public Map<String, TestFrameworkStrategy> getSupportedTestFrameworks() { return Collections.unmodifiableMap(this.testFrameworks); }
 
     public int getAsmVersion() { return this.asmVersion; }
 
-    public Set<TestMethodContext> getMethodContexts() { return methodContexts; }
+    public Set<MethodMetadata> getMethodContexts() { return methodContexts; }
 
-    public TestMethodContext getCurrentMethodContext(){return this.currentMethodContext;}
+    public MethodMetadata getMethodInFlight(){return this.methodInFlight;}
 
     @Override
     public String toString() {
         return "Context{" +
                 "asmVersion=" + asmVersion +
+                ", methodInFlight=" + methodInFlight +
                 ", methodContexts=" + methodContexts +
-                ", currentMethodContext=" + currentMethodContext +
+                ", testFrameworks=" + testFrameworks +
                 '}';
     }
-
 }
 

@@ -5,7 +5,10 @@ allprojects {
     
     repositories {
         mavenLocal()
-        mavenCentral()
+//        mavenCentral()
+        maven {
+            url "https://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
+        }
     }
     
     dependencies {

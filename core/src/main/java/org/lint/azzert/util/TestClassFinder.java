@@ -33,7 +33,7 @@ public final class TestClassFinder {
     }
     
     public void setRootPackageName(String packageName) {
-    	if (packageName != null) classGraph.whitelistPackages();
+    	if (packageName != null) classGraph.whitelistPackages(packageName);
     }
 
     public  List<URL> getClasses() {
@@ -42,24 +42,10 @@ public final class TestClassFinder {
         final ClassInfoList list = getClassInfoList();
         for (ClassInfo c : list) {
         	if(c.getResource() != null) {
-	        //	System.out.println(c.getResource().getURI());
-	        	//classes.add(c.getClasspathElementURL());
 	        	classes.add(c.getResource().getURL());
         	}
         }
         return classes;
-    }
-
-    private String classToResourceName(String className) {
-        String resourceName = className.replace('.', '/');
-
-        //handle nested classes:  com.jpmorgan.java.lint.azzert.TestLintPluginTest$PlaceholderTest
-        int i = resourceName.indexOf("$");
-        if (i > -1){
-            resourceName = resourceName.substring(0, i);
-        }
-        resourceName += ".class";
-        return resourceName;
     }
 
     private ClassInfoList getClassInfoList() {

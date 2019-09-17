@@ -4,3 +4,14 @@ language: java
 
 jdk:
   - oraclejdk11
+
+addons:
+  sonarcloud:
+    organization: "com.github.jpmorganchase"
+    token:
+      secure: "$SONAR_TOKEN"
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'

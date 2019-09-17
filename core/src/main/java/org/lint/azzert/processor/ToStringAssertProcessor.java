@@ -1,15 +1,17 @@
-package org.lint.azzert;
+package org.lint.azzert.processor;
 
 import org.javatuples.Pair;
+import org.lint.azzert.AssertProcessor;
 import org.lint.azzert.command.ExemptDisabledTestsCommand;
 import org.lint.azzert.command.FindTestsCommand;
+import org.lint.azzert.command.RemoveMethodsThatAreNotTests;
 import org.lint.azzert.context.Context;
 import org.lint.azzert.context.ContextBuilder;
-import org.lint.azzert.context.TestMethodContext;
+import org.lint.azzert.context.MethodMetadata;
 
 import java.util.Set;
 
-public class ToStringAssertProcessor implements AssertProcessor<Set<TestMethodContext>> {
+public class ToStringAssertProcessor implements AssertProcessor<Set<MethodMetadata>> {
 
     private final ClassLoader classLoader;
     private final Pair<String, Boolean> params;
@@ -24,13 +26,14 @@ public class ToStringAssertProcessor implements AssertProcessor<Set<TestMethodCo
     }
     
     @Override
-    public Set<TestMethodContext> process() throws Exception {
+    public Set<MethodMetadata> process() throws Exception {
 
         final Context context = new ContextBuilder().build();
 
         new FindTestsCommand(classLoader, params)
-                .withSuccessor(new ExemptDisabledTestsCommand())
-                    .execute(context);
+                .withSuccessor(new RemoveMethodsThatAreNotTests())
+                    .withSuccessor(new ExemptDisabledTestsCommand())
+                        .execute(context);
 
         return context.getMethodContexts();
     }

@@ -5,7 +5,7 @@ import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.testing.Test;
-import org.lint.azzert.strategy.ToStringStrategy;
+import org.lint.azzert.output.strategy.ToStringStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +48,7 @@ public class LintTestsPlugin implements Plugin<Project> {
 
         return new URLClassLoader(
                 testDir.stream()
-                        .map(f -> f.toURI())
+                        .map(File::toURI)
                         .map(u -> {
                                     try {
                                         return u.toURL();

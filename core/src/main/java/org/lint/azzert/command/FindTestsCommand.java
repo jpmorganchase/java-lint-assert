@@ -1,6 +1,7 @@
 package org.lint.azzert.command;
 
 import org.javatuples.Pair;
+import org.lint.azzert.LintCommand;
 import org.lint.azzert.context.Context;
 import org.lint.azzert.util.TestClassFinder;
 import org.lint.azzert.visitor.LintAssertClassVisitor;
@@ -8,14 +9,17 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class FindTestsCommand implements LintCommand<Void> {
 
     private final ClassLoader classLoader;
+    private final Set<LintCommand> successors;
+
     private String packageName;
     private boolean verbose;
-    private LintCommand<Void> successor;
 
     public FindTestsCommand(ClassLoader classLoader, Pair<String, Boolean> params ){
         this.classLoader = classLoader;
@@ -23,10 +27,11 @@ public class FindTestsCommand implements LintCommand<Void> {
             this.packageName = params.getValue0();
             this.verbose = params.getValue1();
         }
+        this.successors = new HashSet<>();
     }
 
-    public FindTestsCommand withSuccessor(LintCommand<Void> successor){
-        this.successor = successor;
+    public FindTestsCommand withSuccessor(LintCommand successor){
+        this.successors.add(successor);
         return this;
     }
 
@@ -46,7 +51,7 @@ public class FindTestsCommand implements LintCommand<Void> {
             classReader.accept(classVisitor, 0);
         }
 
-        if (successor != null){
+        for (LintCommand successor : successors){
             successor.execute(context);
         }
 

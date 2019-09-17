@@ -1,4 +1,4 @@
-package org.lint.azzert.command;
+package org.lint.azzert;
 
 import org.lint.azzert.context.Context;
 
