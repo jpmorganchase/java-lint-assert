@@ -2,8 +2,9 @@ package org.lint.azzert.processor;
 
 import org.javatuples.Pair;
 import org.lint.azzert.AssertProcessor;
+import org.lint.azzert.command.CountAssertsPerMethod;
 import org.lint.azzert.command.ExemptDisabledTestsCommand;
-import org.lint.azzert.command.FindTestsCommand;
+import org.lint.azzert.command.FindAllMethodsCommand;
 import org.lint.azzert.command.RemoveMethodsThatAreNotTests;
 import org.lint.azzert.context.Context;
 import org.lint.azzert.context.ContextBuilder;
@@ -30,10 +31,11 @@ public class ToStringAssertProcessor implements AssertProcessor<Set<MethodMetada
 
         final Context context = new ContextBuilder().build();
 
-        new FindTestsCommand(classLoader, params)
+        new FindAllMethodsCommand(classLoader, params)
                 .withSuccessor(new RemoveMethodsThatAreNotTests())
                     .withSuccessor(new ExemptDisabledTestsCommand())
-                        .execute(context);
+                        .withSuccessor(new CountAssertsPerMethod())
+                            .execute(context);
 
         return context.getMethodContexts();
     }

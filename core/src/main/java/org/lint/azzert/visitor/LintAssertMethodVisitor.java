@@ -24,9 +24,10 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     }
 
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-        this.context.recordAssert(atLineNumber, name);
-        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+    public void visitMethodInsn(int opcode, String definingClass, String methodName, String descriptor, boolean isInterface) {
+        this.context.recordMethodCall(definingClass, methodName, atLineNumber);
+        super.visitMethodInsn(opcode, definingClass, methodName, descriptor, isInterface);
+
     }
 
     @Override

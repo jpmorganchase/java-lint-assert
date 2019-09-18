@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class FindTestsCommand implements LintCommand<Void> {
+public class FindAllMethodsCommand implements LintCommand<Void> {
 
     private final ClassLoader classLoader;
     private final Set<LintCommand> successors;
@@ -21,7 +21,7 @@ public class FindTestsCommand implements LintCommand<Void> {
     private String packageName;
     private boolean verbose;
 
-    public FindTestsCommand(ClassLoader classLoader, Pair<String, Boolean> params ){
+    public FindAllMethodsCommand(ClassLoader classLoader, Pair<String, Boolean> params ){
         this.classLoader = classLoader;
         if (params != null) {
             this.packageName = params.getValue0();
@@ -30,7 +30,7 @@ public class FindTestsCommand implements LintCommand<Void> {
         this.successors = new HashSet<>();
     }
 
-    public FindTestsCommand withSuccessor(LintCommand successor){
+    public FindAllMethodsCommand withSuccessor(LintCommand successor){
         this.successors.add(successor);
         return this;
     }

@@ -1,8 +1,7 @@
 package org.lint.azzert.context;
 
-import org.javatuples.Pair;
 import org.lint.azzert.TestFrameworkStrategy;
-import org.lint.azzert.framework.strategy.NoOpStrategy;
+import org.lint.azzert.strategy.framework.NoOpStrategy;
 
 import java.util.*;
 
@@ -18,11 +17,11 @@ public class MethodMetadata {
     private TestFrameworkStrategy testFramework;
 
     private Set<String> annotations;
-    private Collection<Pair<Integer, String>> assertMethodsAtLineNumbers;
+    private List<MethodCallMetadata> methodCall;
 
     public MethodMetadata() {
         this.annotations = new HashSet<>();
-        this.assertMethodsAtLineNumbers = new LinkedList<>();
+        this.methodCall = new LinkedList<>();
     }
 
     public MethodMetadata(MethodMetadata source) {
@@ -33,7 +32,7 @@ public class MethodMetadata {
         this.className = source.className;
         this.visible = source.visible;
         this.annotations = new HashSet<>(source.annotations);
-        this.assertMethodsAtLineNumbers = new LinkedList<>(source.assertMethodsAtLineNumbers);
+        this.methodCall = new LinkedList<>(source.methodCall);
         this.testFramework = source.testFramework;
     }
 
@@ -41,7 +40,7 @@ public class MethodMetadata {
         this.methodName = "";
         this.methodSignature = "";
         this.annotations = new HashSet<>();
-        this.assertMethodsAtLineNumbers  = new LinkedList<>();
+        this.methodCall = new LinkedList<>();
         this.visible = false;
         this.testFramework = new NoOpStrategy();
     }
@@ -68,9 +67,7 @@ public class MethodMetadata {
 
     public void setVisible(boolean visible) { this.visible = visible; }
 
-    public Collection<Pair<Integer, String>> getAssertMethodsAtLineNumbers() {
-        return this.assertMethodsAtLineNumbers;
-    }
+    public List<MethodCallMetadata> getMethodCalls() { return this.methodCall; }
 
     public String getFileName() {
         return this.fileName;
@@ -84,7 +81,7 @@ public class MethodMetadata {
 
     public boolean getVisible() { return this.visible; }
 
-    public void addAssertMethodsAtLineNumbers(Pair<Integer, String> pair) { this.assertMethodsAtLineNumbers.add(pair); }
+    public void addMethodCall(MethodCallMetadata methodCallMetadata) { this.methodCall.add(methodCallMetadata); }
 
     public TestFrameworkStrategy getTestFramework() { return this.testFramework; }
 
@@ -116,7 +113,7 @@ public class MethodMetadata {
                 ", packageName='" + packageName + '\'' +
                 ", className='" + className + '\'' +
                 ", visible=" + visible +
-                ", assertMethodsAtLineNumbers=" + assertMethodsAtLineNumbers +
+                ", methodCall=" + methodCall +
                 ", testFramework=" + testFramework +
                 '}';
     }

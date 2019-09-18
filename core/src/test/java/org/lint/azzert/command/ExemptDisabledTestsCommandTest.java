@@ -4,8 +4,8 @@ import org.javatuples.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.output.strategy.ToStringStrategy;
 import org.lint.azzert.processor.ToStringAssertProcessor;
+import org.lint.azzert.strategy.output.ToStringStrategy;
 
 import java.util.Set;
 import java.util.function.Function;

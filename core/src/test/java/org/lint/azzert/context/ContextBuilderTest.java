@@ -1,7 +1,7 @@
 package org.lint.azzert.context;
 
 import org.junit.jupiter.api.Test;
-import org.lint.azzert.framework.strategy.JUnit4Strategy;
+import org.lint.azzert.strategy.framework.JUnit4Strategy;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

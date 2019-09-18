@@ -1,4 +1,4 @@
-package org.lint.azzert.output.strategy;
+package org.lint.azzert.strategy.output;
 
 import org.lint.azzert.context.MethodMetadata;
 
@@ -44,7 +44,7 @@ public class ToStringStrategy {
             consumer.accept(0, context.getPackageName().length());
             consumer.accept(1, context.getFileName().length());
             consumer.accept(2, context.getMethodName().length());
-            consumer.accept(3, context.getAssertMethodsAtLineNumbers().size());
+            consumer.accept(3, context.getMethodCalls().size());
         }
     }
 
@@ -96,7 +96,7 @@ public class ToStringStrategy {
         renderCell(sb, context.getPackageName(), 0);
         renderCell(sb, context.getFileName(), 1);
         renderCell(sb, context.getMethodName(), 2);
-        renderCell(sb, context.getAssertMethodsAtLineNumbers().size(), 3);
+        renderCell(sb, context.getMethodCalls().size(), 3);
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {

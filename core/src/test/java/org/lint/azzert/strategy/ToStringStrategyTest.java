@@ -3,7 +3,7 @@ package org.lint.azzert.strategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.context.ContextBuilder;
-import org.lint.azzert.output.strategy.ToStringStrategy;
+import org.lint.azzert.strategy.output.ToStringStrategy;
 
 class ToStringStrategyTest {
 

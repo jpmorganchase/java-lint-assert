@@ -1,4 +1,4 @@
-package org.lint.azzert.framework.strategy;
+package org.lint.azzert.strategy.framework;
 
 import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.context.MethodMetadata;
