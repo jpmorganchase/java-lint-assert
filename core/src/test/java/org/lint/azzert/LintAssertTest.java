@@ -26,6 +26,13 @@ class LintAssertTest {
             findMethod.apply(mtds, name).get(0).getMethodCalls();
 
     @Test
+    void assertTestNg() throws Exception{
+        final Set<MethodMetadata> methods = new LintAssertProcessor(null, Pair.with("org.lint.azzert.sample.testng", false)).process();
+
+        System.out.println(new ToStringStrategy(methods).render());
+    }
+
+    @Test
     void assertJUnit5() throws Exception{
 
         final Set<MethodMetadata> methods = new LintAssertProcessor(null, Pair.with("org.lint.azzert.sample.junit5", false)).process();

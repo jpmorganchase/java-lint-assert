@@ -3,7 +3,6 @@ package org.lint.azzert;
 import org.lint.azzert.context.MethodCallMetadata;
 import org.lint.azzert.context.MethodMetadata;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +17,7 @@ public interface TestFrameworkStrategy {
         return new HashSet<>(getAssertApis());
     }
 
-    default List<String> getAssertApis(){return new ArrayList<>();}
+    List<String> getAssertApis();
 
     default void removeMethodsThatAreNotAsserts(MethodMetadata methodMetadata){
         List<MethodCallMetadata> methodCalls = methodMetadata.getMethodCalls();
