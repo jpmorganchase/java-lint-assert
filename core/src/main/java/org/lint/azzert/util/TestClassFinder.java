@@ -9,11 +9,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-//AN:: @see {https://github.com/classgraph/classgraph/wiki}
+/** AN:: @see {https://github.com/classgraph/classgraph/wiki} */
 public final class TestClassFinder {
 	
 	private final ClassGraph classGraph;
-    
+
+	@SuppressWarnings(value = "unused")
 	private  ClassLoader classLoader;
 	
     public TestClassFinder() {

@@ -7,11 +7,12 @@ public class RemoveMethodsThatAreNotTests implements LintCommand<Void> {
 
     @Override
     public Void execute(final Context context) {
-        context.getMethodContexts().removeIf(
-                methodContext -> (
-                        methodContext.getAnnotations().size() == 0 //a test method must be annotated (i.e. @Test)
-                        || ! methodContext.getVisible()
-                        //FIXME:: or if none of annotations is recognizable by a testframeworkstrategy
+        context.getMethods().removeIf(
+                m -> (
+                        !(
+                                !m.getAnnotations().isEmpty() //a test method must be annotated (i.e. @Test)
+                                        && m.getVisible() // a test must be explicitly declared (not inherited)
+                                        && m.getTestFramework().isTest(m))
                 )
         );
 

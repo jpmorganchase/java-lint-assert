@@ -28,14 +28,14 @@ class LintAssertTest {
     @Test
     void assertJUnit5() throws Exception{
 
-        final Set<MethodMetadata> methods = new ToStringAssertProcessor(null, Pair.with("org.lint.azzert.junit5", false)).process();
+        final Set<MethodMetadata> methods = new ToStringAssertProcessor(null, Pair.with("org.lint.azzert.org.lint.azzert.sample.junit5", false)).process();
 
         System.out.println(new ToStringStrategy(methods).render());
 
         Assertions.assertFalse(findMethod.apply(methods, "withAsserts").isEmpty(), "Failed to find method 'withAssert' annotated with @Test");
         Assertions.assertFalse(findMethod.apply(methods, "withoutAsserts").isEmpty(), "Failed to find method 'withoutAsserts' annotated with @Test");
         Assertions.assertTrue(findMethod.apply(methods, "iAmDisabled").isEmpty(), "Method 'iAmDisabled' should not be in the result set");
-        Assertions.assertTrue(findMethod.apply(methods, "iAmNotATest").isEmpty(), "Method 'iAmNotATest' should not be in the result set");
+        Assertions.assertTrue(findMethod.apply(methods, "iAmNotATest1").isEmpty(), "Method 'iAmNotATest' should not be in the result set");
         Assertions.assertEquals(2, methods.size(), "Expected to find at least one JUnit 5 test method.");
 
         //the 'withoutAsserts' should contain no asserts
@@ -51,7 +51,7 @@ class LintAssertTest {
     void assertJUnit4() throws Exception {
 
         final Set<MethodMetadata> methods = new ToStringAssertProcessor(
-                null, Pair.with("org.lint.azzert.junit4", false)).process();
+                null, Pair.with("org.lint.azzert.org.lint.azzert.sample.junit4", false)).process();
 
         System.out.println(new ToStringStrategy(methods).render());
 

@@ -37,6 +37,6 @@ public class ToStringAssertProcessor implements AssertProcessor<Set<MethodMetada
                         .withSuccessor(new CountAssertsPerMethod())
                             .execute(context);
 
-        return context.getMethodContexts();
+        return context.getMethods();
     }
 }

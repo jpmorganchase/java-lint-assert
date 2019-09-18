@@ -1,4 +1,4 @@
-package org.lint.azzert.junit5;
+package org.lint.azzert.sample.junit5;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -24,5 +24,8 @@ public class AssertJunit5Style {
     @Disabled
     void iAmDisabled(){}
 
-    void iAmNotATest(){}
+    void iAmNotATest1(){}
+
+    @Deprecated
+    void iAmNotATest2(){}
 }

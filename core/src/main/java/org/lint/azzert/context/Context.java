@@ -11,13 +11,13 @@ public class Context {
     private final int asmVersion;
 
     private final MethodMetadata methodInFlight;
-    private final Set<MethodMetadata> methodContexts;
+    private final Set<MethodMetadata> methods;
     private final TreeMap<String, TestFrameworkStrategy> testFrameworks;
 
     public Context(int asmVersion) {
         this.asmVersion = asmVersion;
         methodInFlight = new MethodMetadata();
-        methodContexts = new HashSet<>();
+        methods = new HashSet<>();
         testFrameworks = new TreeMap<>();
     }
 
@@ -27,7 +27,7 @@ public class Context {
 
     public void resetCurrentMethodContext() {
 
-        final Function<Set<String>, TestFrameworkStrategy> getTestFrameworkStrategy = (ants) -> {
+        final Function<Set<String>, TestFrameworkStrategy> getTestFrameworkStrategy = ants -> {
             TestFrameworkStrategy strategy;
             for (String ann : ants) {
                 strategy = this.testFrameworks.get(ann);
@@ -39,7 +39,7 @@ public class Context {
         this.methodInFlight.setTestFramework(getTestFrameworkStrategy.apply(this.methodInFlight.getAnnotations()));
 
         MethodMetadata clone = new MethodMetadata(this.methodInFlight);
-        this.methodContexts.add(clone);
+        this.methods.add(clone);
         this.methodInFlight.resetMethodDetails();
     }
 
@@ -53,9 +53,7 @@ public class Context {
     }
 
     public void addSupportedTestFrameworks(Collection<TestFrameworkStrategy> fwks) {
-        final Set<TestFrameworkStrategy> testFrameworks = new HashSet<>(fwks);
-
-        for (TestFrameworkStrategy strategy: testFrameworks){
+        for (TestFrameworkStrategy strategy: new HashSet<>(fwks)){
             this.testFrameworks.put(strategy.getSupportedFramework(), strategy);
         }
     }
@@ -64,7 +62,7 @@ public class Context {
 
     public int getAsmVersion() { return this.asmVersion; }
 
-    public Set<MethodMetadata> getMethodContexts() { return methodContexts; }
+    public Set<MethodMetadata> getMethods() { return methods; }
 
     public MethodMetadata getMethodInFlight(){return this.methodInFlight;}
 
@@ -73,7 +71,7 @@ public class Context {
         return "Context{" +
                 "asmVersion=" + asmVersion +
                 ", methodInFlight=" + methodInFlight +
-                ", methodContexts=" + methodContexts +
+                ", methods=" + methods +
                 ", testFrameworks=" + testFrameworks +
                 '}';
     }

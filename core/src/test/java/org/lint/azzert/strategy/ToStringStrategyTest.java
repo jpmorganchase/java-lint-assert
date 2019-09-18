@@ -9,7 +9,7 @@ class ToStringStrategyTest {
 
     @Test
     void render() throws Exception {
-        ToStringStrategy strategy = new ToStringStrategy(new ContextBuilder().build().getMethodContexts());
+        ToStringStrategy strategy = new ToStringStrategy(new ContextBuilder().build().getMethods());
         String output = strategy.render();
 
         Assertions.assertNotNull(output);

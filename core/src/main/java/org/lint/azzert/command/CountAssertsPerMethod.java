@@ -8,7 +8,7 @@ public class CountAssertsPerMethod implements LintCommand<Void> {
     @Override
     //remove all calls within each method that are not asserts
     public Void execute(final Context context) {
-        context.getMethodContexts().forEach(m -> m.getTestFramework().removeMethodsThatAreNotAsserts(m));
+        context.getMethods().forEach(m -> m.getTestFramework().removeMethodsThatAreNotAsserts(m));
         return null;
     }
 }

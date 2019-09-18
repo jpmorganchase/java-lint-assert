@@ -15,11 +15,7 @@ public interface TestFrameworkStrategy {
     String getSupportedFramework();
 
     default Set<String> getSupportedAssertApis() {
-        Set<String> apis = new HashSet<>();
-//        apis.add("org.junit.jupiter.api");
-        apis.addAll(getAssertApis());
-
-        return apis;
+        return new HashSet<>(getAssertApis());
     }
 
     default List<String> getAssertApis(){return new ArrayList<>();}
@@ -27,6 +23,10 @@ public interface TestFrameworkStrategy {
     default void removeMethodsThatAreNotAsserts(MethodMetadata methodMetadata){
         List<MethodCallMetadata> methodCalls = methodMetadata.getMethodCalls();
         methodCalls.removeIf(m -> ! getSupportedAssertApis().contains(m.getOwnerPackage()));
+    }
+
+    default boolean isTest(MethodMetadata context){
+        return context.getAnnotations().contains(getSupportedFramework());
     }
 
 }

@@ -9,7 +9,7 @@ public class ExemptDisabledTestsCommand implements LintCommand<Void> {
     //remove all disabled tests
     public Void execute(final Context context){
         //FIXME::proxy the method context
-        context.getMethodContexts().removeIf(method -> method.getTestFramework().isDisabled(method));
+        context.getMethods().removeIf(method -> method.getTestFramework().isDisabled(method));
         return null;
     }
 }

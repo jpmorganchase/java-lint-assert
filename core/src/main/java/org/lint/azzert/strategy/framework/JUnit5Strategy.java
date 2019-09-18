@@ -12,6 +12,7 @@ public class JUnit5Strategy implements TestFrameworkStrategy {
     @Override
     public String getSupportedFramework(){return "Lorg/junit/jupiter/api/Test;";}
 
+    @Override
     public List<String> getAssertApis(){return Arrays.asList("org.junit.jupiter.api");}
 
     @Override
@@ -28,8 +29,9 @@ public class JUnit5Strategy implements TestFrameworkStrategy {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj.getClass() != JUnit5Strategy.class)
-            return false;
+        if (obj == null) return false;
+
+        if (obj.getClass() != JUnit5Strategy.class) return false;
 
         JUnit5Strategy other = (JUnit5Strategy)obj;
         return getSupportedFramework().equals(other.getSupportedFramework());

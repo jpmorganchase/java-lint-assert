@@ -1,4 +1,4 @@
-package org.lint.azzert.junit4;
+package org.lint.azzert.sample;
 
 import org.junit.Assert;
 import org.junit.Ignore;

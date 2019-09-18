@@ -22,8 +22,9 @@ allprojects {
     }
     
     test{
-        useJUnitPlatform {
-        }
+        exclude 'org/lint/azzert/sample/**'
+        
+        useJUnitPlatform {}
 
         testLogging {
             showStandardStreams = true
