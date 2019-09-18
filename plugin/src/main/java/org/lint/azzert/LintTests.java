@@ -2,7 +2,7 @@ package org.lint.azzert;
 
 import org.javatuples.Pair;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.processor.ToStringAssertProcessor;
+import org.lint.azzert.processor.LintAssertProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ public class LintTests {
 
         log.info("Searching for tests in package:" + this.packageName);
 
-        return new ToStringAssertProcessor(classLoader, new Pair(packageName, verbose)).process();
+        return new LintAssertProcessor(classLoader, new Pair(packageName, verbose)).process();
     }
 
     public void setClassLoader(URLClassLoader urlClassLoader) {

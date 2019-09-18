@@ -12,16 +12,16 @@ import org.lint.azzert.context.MethodMetadata;
 
 import java.util.Set;
 
-public class ToStringAssertProcessor implements AssertProcessor<Set<MethodMetadata>> {
+public class LintAssertProcessor implements AssertProcessor<Set<MethodMetadata>> {
 
     private final ClassLoader classLoader;
     private final Pair<String, Boolean> params;
 
-    public ToStringAssertProcessor() {
+    public LintAssertProcessor() {
         this(null, null);
     }
 
-    public ToStringAssertProcessor(ClassLoader classLoader, Pair<String, Boolean> params ){
+    public LintAssertProcessor(ClassLoader classLoader, Pair<String, Boolean> params ){
         this.classLoader = classLoader;
         this.params = params;
     }

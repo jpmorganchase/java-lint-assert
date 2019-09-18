@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.context.MethodCallMetadata;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.processor.ToStringAssertProcessor;
+import org.lint.azzert.processor.LintAssertProcessor;
 import org.lint.azzert.strategy.output.ToStringStrategy;
 
 import java.util.Collection;
@@ -28,7 +28,7 @@ class LintAssertTest {
     @Test
     void assertJUnit5() throws Exception{
 
-        final Set<MethodMetadata> methods = new ToStringAssertProcessor(null, Pair.with("org.lint.azzert.org.lint.azzert.sample.junit5", false)).process();
+        final Set<MethodMetadata> methods = new LintAssertProcessor(null, Pair.with("org.lint.azzert.sample.junit5", false)).process();
 
         System.out.println(new ToStringStrategy(methods).render());
 
@@ -50,8 +50,8 @@ class LintAssertTest {
     @Test
     void assertJUnit4() throws Exception {
 
-        final Set<MethodMetadata> methods = new ToStringAssertProcessor(
-                null, Pair.with("org.lint.azzert.org.lint.azzert.sample.junit4", false)).process();
+        final Set<MethodMetadata> methods = new LintAssertProcessor(
+                null, Pair.with("org.lint.azzert.sample.junit4", false)).process();
 
         System.out.println(new ToStringStrategy(methods).render());
 

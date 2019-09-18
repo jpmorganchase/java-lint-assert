@@ -5,10 +5,7 @@ allprojects {
     
     repositories {
         mavenLocal()
-//        mavenCentral()
-        maven {
-            url "https://repo-proxy.jpmchase.net/maven/content/groups/jpmc-public"
-        }
+        mavenCentral()
     }
     
     dependencies {
@@ -22,8 +19,6 @@ allprojects {
     }
     
     test{
-        exclude 'org/lint/azzert/sample/**'
-        
         useJUnitPlatform {}
 
         testLogging {

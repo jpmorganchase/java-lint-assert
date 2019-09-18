@@ -11,7 +11,7 @@ public class TestClassFinderTest {
 	@Test
 	public void test() {
 		List<URL> classes = new TestClassFinder().getClasses();
-		classes.forEach(System.out::println);
+//		classes.forEach(System.out::println);
 		
 		long count = classes.stream().filter(url -> 
 						url.toString().contains("/org/lint/azzert/util/TestClassFinderTest.class")
