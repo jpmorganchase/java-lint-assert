@@ -3,7 +3,10 @@ package org.lint.azzert.context;
 import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.strategy.framework.NoOpStrategy;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class MethodMetadata {
 
@@ -16,11 +19,11 @@ public class MethodMetadata {
 
     private TestFrameworkStrategy testFramework;
 
-    private Set<String> annotations;
+    private LinkedHashSet<AnnotationMetadata> annotations;
     private List<MethodCallMetadata> methodCall;
 
     public MethodMetadata() {
-        this.annotations = new HashSet<>();
+        this.annotations = new LinkedHashSet<>();
         this.methodCall = new LinkedList<>();
     }
 
@@ -31,7 +34,7 @@ public class MethodMetadata {
         this.packageName = source.packageName;
         this.className = source.className;
         this.visible = source.visible;
-        this.annotations = new HashSet<>(source.annotations);
+        this.annotations = new LinkedHashSet<>(source.annotations);
         this.methodCall = new LinkedList<>(source.methodCall);
         this.testFramework = source.testFramework;
     }
@@ -39,7 +42,7 @@ public class MethodMetadata {
     public void resetMethodDetails() {
         this.methodName = "";
         this.methodSignature = "";
-        this.annotations = new HashSet<>();
+        this.annotations = new LinkedHashSet<>();
         this.methodCall = new LinkedList<>();
         this.visible = false;
         this.testFramework = new NoOpStrategy();
@@ -77,7 +80,7 @@ public class MethodMetadata {
         return this.packageName;
     }
 
-    public Set<String> getAnnotations() { return annotations; }
+    public LinkedHashSet<AnnotationMetadata> getAnnotations() { return annotations; }
 
     public boolean getVisible() { return this.visible; }
 

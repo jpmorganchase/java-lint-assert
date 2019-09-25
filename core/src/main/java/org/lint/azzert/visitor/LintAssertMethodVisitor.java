@@ -19,8 +19,10 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(String annotation, boolean isMethodVisible) {
+        super.visitAnnotation(annotation, isMethodVisible);
         context.with(annotation, isMethodVisible);
-        return super.visitAnnotation(annotation, isMethodVisible);
+
+        return new LintAssertAnnotationVisitor(context);
     }
 
     @Override

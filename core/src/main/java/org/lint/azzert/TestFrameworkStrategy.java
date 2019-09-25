@@ -3,29 +3,23 @@ package org.lint.azzert;
 import org.lint.azzert.context.MethodCallMetadata;
 import org.lint.azzert.context.MethodMetadata;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public interface TestFrameworkStrategy {
 
-    boolean isDisabled(MethodMetadata context);
-
     String getSupportedFramework();
-
-    default Set<String> getSupportedAssertApis() {
-        return new HashSet<>(getAssertApis());
-    }
 
     List<String> getAssertApis();
 
-    default void removeMethodsThatAreNotAsserts(MethodMetadata methodMetadata){
+    boolean isDisabled(MethodMetadata methodMetadata);
+
+    default void removeAllNotAssertCalls(MethodMetadata methodMetadata){
         List<MethodCallMetadata> methodCalls = methodMetadata.getMethodCalls();
-        methodCalls.removeIf(m -> ! getSupportedAssertApis().contains(m.getOwnerPackage()));
+        methodCalls.removeIf(m -> ! getAssertApis().contains(m.getOwnerPackage()));
     }
 
     default boolean isTest(MethodMetadata context){
-        return context.getAnnotations().contains(getSupportedFramework());
+        return context.getAnnotations().stream().filter(a -> a.getAnnotationName().equals(getSupportedFramework())).findAny().isPresent();
     }
 
 }

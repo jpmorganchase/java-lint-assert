@@ -1,6 +1,7 @@
 package org.lint.azzert.strategy.framework;
 
 import org.lint.azzert.TestFrameworkStrategy;
+import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
 
 import java.util.Arrays;
@@ -16,11 +17,10 @@ public class JUnit5Strategy implements TestFrameworkStrategy {
     public List<String> getAssertApis(){return Arrays.asList("org.junit.jupiter.api");}
 
     @Override
-    public boolean isDisabled(MethodMetadata context) {
-        Set<String> annotations = context.getAnnotations();
-        return annotations.contains("Lorg/junit/jupiter/api/Disabled;");
+    public boolean isDisabled(MethodMetadata methodMetadata) {
+        Set<AnnotationMetadata> annotations = methodMetadata.getAnnotations();
+        return annotations.stream().filter(a -> a.getAnnotationName().contains("Lorg/junit/jupiter/api/Disabled;")).findAny().isPresent();
     }
-
 
     @Override
     public int hashCode() {

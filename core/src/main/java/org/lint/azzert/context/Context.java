@@ -27,10 +27,10 @@ public class Context {
 
     public void resetCurrentMethodContext() {
 
-        final Function<Set<String>, TestFrameworkStrategy> getTestFrameworkStrategy = ants -> {
+        final Function<Set<AnnotationMetadata>, TestFrameworkStrategy> getTestFrameworkStrategy = ants -> {
             TestFrameworkStrategy strategy;
-            for (String ann : ants) {
-                strategy = this.testFrameworks.get(ann);
+            for (AnnotationMetadata ann : ants) {
+                strategy = this.testFrameworks.get(ann.getAnnotationName());
                 if (strategy != null)
                     return strategy;
             }
@@ -48,7 +48,7 @@ public class Context {
     }
 
     public void with(String annotation, boolean isMethodVisible) {
-        this.methodInFlight.getAnnotations().add(annotation);
+        this.methodInFlight.getAnnotations().add(new AnnotationMetadata(annotation));
         this.methodInFlight.setVisible(isMethodVisible);
     }
 
