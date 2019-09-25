@@ -10,6 +10,7 @@ public class Context {
 
     private final int asmVersion;
 
+    //FIXME::use Iterator that points to the last inserted method
     private final MethodMetadata methodInFlight;
     private final Set<MethodMetadata> methods;
     private final TreeMap<String, TestFrameworkStrategy> testFrameworks;
@@ -17,6 +18,7 @@ public class Context {
     public Context(int asmVersion) {
         this.asmVersion = asmVersion;
         methodInFlight = new MethodMetadata();
+        //FIXME::use LinkedHashSet to keep track of last inserted (aka "in flight") method
         methods = new HashSet<>();
         testFrameworks = new TreeMap<>();
     }
