@@ -2,34 +2,39 @@ package org.lint.azzert.context;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.util.PropertiesLoader;
 import org.objectweb.asm.Opcodes;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+
+import static org.lint.azzert.util.ThrowingFunction.unchecked;
 
 public final class ContextBuilder {
 
     private Context context;
 
-    public Context build() throws IOException, ParseException {
+    public Context build() throws Exception {
         context = new Context(Opcodes.ASM7);
-        this.initFromJsonProperties("/application-properties.json");
+        this.initFromJsonProperties();
         return context;
     }
 
-    private void initFromJsonProperties(String pathToPropertiesFile) throws IOException, ParseException {
-        JSONObject json = (JSONObject) PropertiesLoader.load(pathToPropertiesFile);
+    private void initFromJsonProperties() throws Exception {
 
-        final BiFunction<JSONObject, String, List<String>> function =
-                (jsonObject1, key1) -> (List<String>) (
-                        (JSONArray) jsonObject1.get(key1)).stream().map(Object::toString).collect(Collectors.toList());
+        JSONObject json = (JSONObject) PropertiesLoader.load("/application-properties.json");
 
-        context.addSupportedTestFrameworks(function.apply(json, "test_framework"));
-        context.addSupportedAssertApis(function.apply(json, "assert_api"));
-        context.addSupportedExemptApis(function.apply(json, "exempt_api"));
+        final BiFunction<JSONObject, String, Set<String>> function =
+                (jsn, key) -> (Set<String>)((JSONArray) jsn.get(key)).stream().map(Object::toString).collect(Collectors.toSet());
+
+        Set<String> frameworkNames = function.apply(json, "test_framework");
+
+        Set<TestFrameworkStrategy> frameworks = frameworkNames.stream().map(
+                unchecked(fn -> (TestFrameworkStrategy) Class.forName(fn).newInstance()))
+                .collect(Collectors.toSet());
+
+        context.addSupportedTestFrameworks(frameworks);
     }
 }

@@ -1,17 +1,15 @@
 package org.lint.azzert.strategy;
 
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.context.ContextBuilder;
-
-import java.io.IOException;
+import org.lint.azzert.strategy.output.ToStringStrategy;
 
 class ToStringStrategyTest {
 
     @Test
-    void render() throws IOException, ParseException {
-        ToStringStrategy strategy = new ToStringStrategy(new ContextBuilder().build().getMethodContexts());
+    void render() throws Exception {
+        ToStringStrategy strategy = new ToStringStrategy(new ContextBuilder().build().getMethods());
         String output = strategy.render();
 
         Assertions.assertNotNull(output);

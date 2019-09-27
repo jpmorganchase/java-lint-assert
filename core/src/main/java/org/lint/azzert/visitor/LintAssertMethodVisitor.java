@@ -5,8 +5,6 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
-import java.util.Collections;
-
 public class LintAssertMethodVisitor extends MethodVisitor {
 
     private final Context context;
@@ -20,20 +18,18 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        if (this.context.getAcceptableMethodAnnotations().contains(descriptor)){
-            context.with(descriptor, visible);
-        }
+    public AnnotationVisitor visitAnnotation(String annotation, boolean isMethodVisible) {
+        super.visitAnnotation(annotation, isMethodVisible);
+        context.with(annotation, isMethodVisible);
 
-        return super.visitAnnotation(descriptor, visible);
+        return new LintAssertAnnotationVisitor(context);
     }
 
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-        if (this.context.getSupportedAssertApis().contains(owner)) {
-            this.context.recordAssert(atLineNumber, name);
-            super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
-        }
+    public void visitMethodInsn(int opcode, String definingClass, String methodName, String descriptor, boolean isInterface) {
+        this.context.recordMethodCall(definingClass, methodName, atLineNumber);
+        super.visitMethodInsn(opcode, definingClass, methodName, descriptor, isInterface);
+
     }
 
     @Override
@@ -45,9 +41,6 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     @Override
     public void visitEnd() {
         super.visitEnd();
-
-        if ( ! Collections.disjoint(this.context.getAcceptableMethodAnnotations(), context.getCurrentMethodContext().getAnnotations())) {
-            context.resetCurrentMethodContext();
-        }
+        context.resetCurrentMethodContext();
     }
 }

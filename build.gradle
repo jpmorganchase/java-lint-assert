@@ -19,8 +19,7 @@ allprojects {
     }
     
     test{
-        useJUnitPlatform {
-        }
+        useJUnitPlatform {}
 
         testLogging {
             showStandardStreams = true
@@ -36,8 +35,4 @@ allprojects {
             }
         }
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
 }
