@@ -28,7 +28,7 @@ The plugin for Java Gradle `test` task that reports presence of `assert`s in a t
 * install core and plugin jars into your local maven repo and into `build` dir under the project root 
 
 To see the plugin in action, `cd .\client` 
-and run `gradle cleanTest test -i` . You should see the summary table:
+and run `gradle cleanTest test` . You should see the summary table:
  
 | Package  | Test file name | Test method name  | # asserts  |
 | :-------------: |:-------------:| :-------------:|  :-------------:|  

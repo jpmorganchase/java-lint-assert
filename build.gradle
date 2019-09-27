@@ -2,23 +2,23 @@ allprojects {
 
     apply plugin: 'idea'
     apply plugin: 'java'
-    
+
     repositories {
         mavenLocal()
         mavenCentral()
     }
-    
+
     dependencies {
-        compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.4.2'
-        compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.2'
+        compile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.2'
+        compile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.4.2'
 
         //junit 5
         testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
         testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
         testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
     }
-    
-    test{
+
+    test {
         useJUnitPlatform {}
 
         testLogging {
@@ -36,3 +36,78 @@ allprojects {
         }
     }
 }
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+apply plugin: 'maven'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment {
+                        MavenDeployment deployment -> signing.signPom(deployment)
+                    }
+            repository(url: maven2_url) {
+                authentication(userName: System.getenv('SONATYPE_USERNAME'), password: System.getenv('SONATYPE_PASSWORD'))
+            }
+            snapshotRepository(url: snapshot_url) {
+                authentication(userName: System.getenv('SONATYPE_USERNAME'), password: System.getenv('SONATYPE_PASSWORD'))
+            }
+            pom.project {
+                name project_name
+                packaging 'jar'
+                description project_description
+                url project_url
+                scm {
+                    connection project_scm
+                    developerConnection project_scm
+                    url project_url
+                }
+                licenses {
+                    license {
+                        name project_license_slug
+                        url project_license_url
+                    }
+                }
+                developers {
+                    developer {
+                        id project_developer
+                        name project_developer
+                    }
+                } 
+            }
+        }
+    } 
+}
+
+apply plugin: 'signing'
+import org.gradle.plugins.signing.Sign
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.allTasks.any { it instanceof Sign }) {
+        allprojects { ext."signing.keyId" = System.getenv('GPG_KEY_ID') }
+        allprojects { ext."signing.secretKeyRingFile" = System.getenv('GPG_KEY_LOCATION') }
+        allprojects { ext."signing.password" = System.getenv('GPG_PASSPHRASE') }
+    }
+    // Do not sign archives by default (a local build without gpg keyring should succeed)
+    if (taskGraph.allTasks.any { it.name == 'build' || it.name == 'assemble' }) {
+        tasks.findAll {
+            it.name == 'signArchives' || it.name == 'signDocsJar' || it.name == 'signTestJar'
+        }.each { task ->
+            task.enabled = false
+        }
+    }
+}
+signing {
+    sign configurations.archives
+}
+build.dependsOn.remove(signArchives)
