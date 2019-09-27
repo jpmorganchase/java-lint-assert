@@ -19,8 +19,7 @@ allprojects {
     }
     
     test{
-        useJUnitPlatform {
-        }
+        useJUnitPlatform {}
 
         testLogging {
             showStandardStreams = true

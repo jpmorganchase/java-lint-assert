@@ -2,8 +2,8 @@ package org.lint.azzert;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.lint.azzert.context.TestMethodContext;
-import org.lint.azzert.strategy.ToStringStrategy;
+import org.lint.azzert.context.MethodMetadata;
+import org.lint.azzert.strategy.output.ToStringStrategy;
 
 import java.util.Set;
 
@@ -14,7 +14,7 @@ class LintTestsTest {
         LintTests lt = new LintTests();
         lt.setPackageName("org.lint");
         lt.setVerbose(false);
-        Set<TestMethodContext> result = lt.lintAssert();
+        Set<MethodMetadata> result = lt.lintAssert();
 
         System.out.println(new ToStringStrategy(result).render());
         Assertions.assertNotNull(result);
@@ -24,7 +24,7 @@ class LintTestsTest {
     @Test
     void lint() throws Exception {
         LintTests lt = new LintTests();
-        Set<TestMethodContext> result = lt.lintAssert();
+        Set<MethodMetadata> result = lt.lintAssert();
 
         System.out.println(new ToStringStrategy(result).render());
         Assertions.assertNotNull(result);

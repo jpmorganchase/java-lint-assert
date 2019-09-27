@@ -8,14 +8,14 @@ The plugin for Java Gradle `test` task that reports presence of `assert`s in a t
 
 ## Features:
 1. Prints the number of assert calls in each test method to the console
-1. Excludes test _methods_ annotated with @Ignore (JUnit4) or @Disabled (JUnit5) from linting 
-1. Limits the lint to recursively search from a top level package (for ex. 'com.jpmorgan')
+1. Excludes ignored/disabled test _methods_ from linting 
+1. Limits the lint to recursively search from a top level package (for ex. 'org.samples')
 1. Allows verbose output
-
 
 ## Supported Testing Frameworks:
 - JUnit 4
 - JUnit 5
+- TestNG
 
 ## Supported build types:
 - Gradle 4.9 and above
@@ -32,7 +32,13 @@ and run `gradle cleanTest test -i` . You should see the summary table:
  
 | Package  | Test file name | Test method name  | # asserts  |
 | :-------------: |:-------------:| :-------------:|  :-------------:|  
-| org/lint  | PlaceholderTest.java | dummy | 0 | 
+|    sample/junit4    |    AssertJunit4Style.java    |     withoutAsserts     |        0        |
+|    sample/junit5    |    AssertJunit5Style.java    |      withAsserts       |        2        |
+|    sample/testng    |       TestNgStyle.java       |      withAsserts       |        1        |
+|    sample/junit4    |    AssertJunit4Style.java    |      withAsserts       |        1        |
+|    sample/testng    |       TestNgStyle.java       |     withoutAsserts     |        0        |
+|       sample        |        DummyTest.java        |         dummy          |        0        |
+|    sample/junit5    |    AssertJunit5Style.java    |     withoutAsserts     |        0        |
  
  
 ## Use:
@@ -62,12 +68,12 @@ test{
     }
 }
 ```
-IV: run your tests with `-i` on: `gradle test -i`
+IV: run `gradle clean test`
 
 
 ## Future features:
- 1. Exclude test _classes_ annotated with @Ignore (JUnit4) and @Disabled (JUnit5) from linting 
- 1. Exclude tests annotated with @Expected (JUnit 4) and Assertions.assertThrows (JUnit 5) exception from linting
+ 1. Exclude ignored/disabled test _classes_ from linting 
+ 1. Exclude tests that throw expected exceptions 
  1. Display results in alphabetic order of fully qualified test class name - `org.lint.PlaceholderTest`  
  1. Print the linting summary: number of PASS/FAIL and a list of assertless tests
  1. Support a condensed output mode when only assertless tests are being printed 

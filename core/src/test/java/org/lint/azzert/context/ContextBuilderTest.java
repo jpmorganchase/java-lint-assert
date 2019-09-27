@@ -1,8 +1,7 @@
 package org.lint.azzert.context;
 
 import org.junit.jupiter.api.Test;
-import org.lint.azzert.context.Context;
-import org.lint.azzert.context.ContextBuilder;
+import org.lint.azzert.strategy.framework.JUnit4Strategy;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,9 +13,8 @@ class ContextBuilderTest {
         Context ctx = new ContextBuilder().build();
 
         assertNotNull(ctx.getSupportedTestFrameworks());
-        assertNotNull(ctx.getSupportedAssertApis());
         assertTrue(ctx.getSupportedTestFrameworks().size() > 0, "Expected at least one test_framework defined in application-properties.json");
-        assertTrue(ctx.getSupportedAssertApis().size() > 0, "Expected at least one assert_api defined in application-properties.json");
+        assertTrue(ctx.getSupportedTestFrameworks().containsKey(new JUnit4Strategy().getSupportedFramework()), "object of type JUnit4Strategy should've been loaded");
     }
 
 }

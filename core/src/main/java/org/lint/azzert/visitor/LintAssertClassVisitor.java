@@ -1,19 +1,19 @@
 package org.lint.azzert.visitor;
 
 import org.lint.azzert.context.Context;
-import org.lint.azzert.context.TestMethodContext;
+import org.lint.azzert.context.MethodMetadata;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
 public class LintAssertClassVisitor extends ClassVisitor {
 
-    private final TestMethodContext currentState;
+    private final MethodMetadata currentState;
     private final Context ctx;
 
     public LintAssertClassVisitor(final Context ctx) {
         super(ctx.getAsmVersion());
         this.ctx = ctx;
-        this.currentState = ctx.getCurrentMethodContext();
+        this.currentState = ctx.getMethodInFlight();
     }
 
     @Override
