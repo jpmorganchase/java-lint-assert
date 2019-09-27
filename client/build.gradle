@@ -1,6 +1,7 @@
 apply plugin: 'java'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -8,13 +9,17 @@ dependencies {
     testCompile "org.junit.platform:junit-platform-launcher:1.4.2"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+
+    /** test dependencies */
+    //externally located sample tests
+    testCompile project(":samples") //set includeClasspathJars=true to run them 
 }
 
 buildscript {
 
     repositories {
-        mavenCentral()
         mavenLocal()
+        mavenCentral()
     }
     dependencies {
         classpath 'org.lint.assert:plugin:0.1.0-SNAPSHOT'
@@ -23,10 +28,14 @@ buildscript {
 
 apply plugin: org.lint.azzert.LintTestsPlugin
 
-test{
+test {
     useJUnitPlatform() //enable junit5
-    lintAssert{
-        packageName = "org.lint" //optional or scan all
-        verbose = true //optional, defaults to false
+
+//        the linter
+    lintAssert {
+        packageName = "sample" //optional or scan all
+        verbose = false //optional, defaults to false
+        includeClasspathJars = true //optional, defaults to false
     }
 }
+

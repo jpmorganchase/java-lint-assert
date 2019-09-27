@@ -20,10 +20,13 @@ public final class TestClassFinder {
     public TestClassFinder() {
     	classGraph = new ClassGraph()
                  .enableClassInfo()
-                 	.disableJarScanning()
-                 		.ignoreClassVisibility();
+                 	.ignoreClassVisibility();
     }
-    
+
+    public void disableJarScanning(boolean disable) {
+        if (disable) classGraph.disableJarScanning();
+    }
+
     public void setClassLoader(ClassLoader classLoader) {
     	this.classLoader = classLoader;
     	if (classLoader != null) classGraph.overrideClassLoaders(classLoader);

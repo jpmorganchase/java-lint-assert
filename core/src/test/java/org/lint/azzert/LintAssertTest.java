@@ -1,10 +1,10 @@
 package org.lint.azzert;
 
-import org.javatuples.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.context.MethodCallMetadata;
 import org.lint.azzert.context.MethodMetadata;
+import org.lint.azzert.processor.LintAssertBuildParameters;
 import org.lint.azzert.processor.LintAssertProcessor;
 import org.lint.azzert.strategy.output.ToStringStrategy;
 
@@ -27,15 +27,26 @@ class LintAssertTest {
 
     @Test
     void assertTestNg() throws Exception{
-        final Set<MethodMetadata> methods = new LintAssertProcessor(null, Pair.with("org.lint.azzert.sample.testng", false)).process();
+        final Set<MethodMetadata> methods = new LintAssertProcessor(null,
+                new LintAssertBuildParameters("sample.testng", false, true)).process();
 
         System.out.println(new ToStringStrategy(methods).render());
+
+        Assertions.assertFalse(findMethod.apply(methods, "withAsserts").isEmpty(), "Failed to find method 'withAssert' annotated with @Test");
+        Assertions.assertFalse(findMethod.apply(methods, "withoutAsserts").isEmpty(), "Failed to find method 'withAssert' annotated with @Test");
+
+        //the 'withoutAsserts' should contain no asserts
+        Assertions.assertTrue(findMethod.apply(methods, "withoutAsserts").get(0).getMethodCalls().isEmpty(), "There are *no* asserts in 'withoutAsserts' method");
+
+        //'withAssert' has 1 assert method
+        Assertions.assertTrue(assertsInMethod.apply(methods, "withAsserts").removeIf(m -> m.getAtLineNumber() == 12));
     }
 
     @Test
     void assertJUnit5() throws Exception{
 
-        final Set<MethodMetadata> methods = new LintAssertProcessor(null, Pair.with("org.lint.azzert.sample.junit5", false)).process();
+        final Set<MethodMetadata> methods = new LintAssertProcessor(null,
+                new LintAssertBuildParameters("sample.junit5", false, true)).process();
 
         System.out.println(new ToStringStrategy(methods).render());
 
@@ -58,7 +69,7 @@ class LintAssertTest {
     void assertJUnit4() throws Exception {
 
         final Set<MethodMetadata> methods = new LintAssertProcessor(
-                null, Pair.with("org.lint.azzert.sample.junit4", false)).process();
+                null, new LintAssertBuildParameters("sample.junit4", false, true)).process();
 
         System.out.println(new ToStringStrategy(methods).render());
 

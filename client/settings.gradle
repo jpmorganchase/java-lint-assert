@@ -1,1 +1,5 @@
 rootProject.name = 'java-lint-assert-client'
+
+include ":samples"
+project(":samples").projectDir = file ("../samples")
+include 'client'

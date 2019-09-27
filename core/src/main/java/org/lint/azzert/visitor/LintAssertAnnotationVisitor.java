@@ -20,9 +20,7 @@ public class LintAssertAnnotationVisitor extends AnnotationVisitor {
         Set<AnnotationMetadata> annotations = ctx.getMethodInFlight().getAnnotations();
         AnnotationMetadata annotation = (AnnotationMetadata) annotations.toArray()[annotations.size() -1];
         annotation.addParameter(paramName, paramValue);
-//        annotations.add(annotation);
 
-        System.out.println(ctx.getMethodInFlight());
         super.visit(paramName, paramValue);
     }
 

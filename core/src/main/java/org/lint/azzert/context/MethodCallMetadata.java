@@ -27,7 +27,7 @@ public class MethodCallMetadata {
     public String getOwnerPackage() {
         String ownerPackage = ownerClass.replace('/', '.'); // example: 'org/junit/Assert'
         int i = ownerPackage.lastIndexOf('.');
-        ownerPackage = ownerPackage.substring(0, i);
+        ownerPackage = i > 0 ? ownerPackage.substring(0, i) : null;
 
         return ownerPackage;
     }

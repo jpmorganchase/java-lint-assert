@@ -34,7 +34,8 @@ public class LintTestsPlugin implements Plugin<Project> {
             {
                 try {
                     String result = new ToStringStrategy(taskExtension.lintAssert()).render();
-                    log.info(result);
+                   // log.info(result);
+                    project.getLogger().lifecycle(result);
                 } catch (Exception e) {
                     log.error("Failed to lint", e);
                 }

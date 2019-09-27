@@ -35,18 +35,14 @@ dependencies {
     //testNG
     compile group: 'org.testng', name: 'testng', version: '6.9.10'
 
-    /** test dependencies */
     //junit 4
-    testCompile 'junit:junit:4.12'
-    testCompile "org.junit.vintage:junit-vintage-engine:5.4.2"
+    compile 'junit:junit:4.12'
+    compile "org.junit.vintage:junit-vintage-engine:5.4.2"
 
+    /** test dependencies */
+    //externally located sample tests
+    testCompile project(':samples')
     //junit 5
     testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
-    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
 
-}
-
-test{
-    exclude 'org/lint/azzert/sample/**'
 }

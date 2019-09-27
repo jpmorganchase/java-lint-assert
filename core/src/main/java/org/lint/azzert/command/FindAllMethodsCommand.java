@@ -1,8 +1,8 @@
 package org.lint.azzert.command;
 
-import org.javatuples.Pair;
 import org.lint.azzert.LintCommand;
 import org.lint.azzert.context.Context;
+import org.lint.azzert.processor.LintAssertBuildParameters;
 import org.lint.azzert.util.TestClassFinder;
 import org.lint.azzert.visitor.LintAssertClassVisitor;
 import org.objectweb.asm.ClassReader;
@@ -18,14 +18,13 @@ public class FindAllMethodsCommand implements LintCommand<Void> {
     private final ClassLoader classLoader;
     private final Set<LintCommand> successors;
 
-    private String packageName;
-    private boolean verbose;
+    private LintAssertBuildParameters params;
 
-    public FindAllMethodsCommand(ClassLoader classLoader, Pair<String, Boolean> params ){
+
+    public FindAllMethodsCommand(ClassLoader classLoader, LintAssertBuildParameters params ){
         this.classLoader = classLoader;
         if (params != null) {
-            this.packageName = params.getValue0();
-            this.verbose = params.getValue1();
+            this.params = params;
         }
         this.successors = new HashSet<>();
     }
@@ -42,8 +41,9 @@ public class FindAllMethodsCommand implements LintCommand<Void> {
 
         final TestClassFinder finder = new TestClassFinder();
         finder.setClassLoader(classLoader);
-        finder.setVerbose(this.verbose);
-        finder.setRootPackageName(this.packageName);
+        finder.setVerbose(params.isVerbose());
+        finder.disableJarScanning( ! params.doIncludeClasspathJars());
+        finder.setRootPackageName(params.getPackageName());
 
         List<URL> list = finder.getClasses();
         for (URL c : list) {

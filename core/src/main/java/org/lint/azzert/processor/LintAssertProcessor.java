@@ -1,6 +1,5 @@
 package org.lint.azzert.processor;
 
-import org.javatuples.Pair;
 import org.lint.azzert.AssertProcessor;
 import org.lint.azzert.command.CountAssertsPerMethod;
 import org.lint.azzert.command.ExemptDisabledTestsCommand;
@@ -15,13 +14,13 @@ import java.util.Set;
 public class LintAssertProcessor implements AssertProcessor<Set<MethodMetadata>> {
 
     private final ClassLoader classLoader;
-    private final Pair<String, Boolean> params;
+    private final LintAssertBuildParameters params;
 
     public LintAssertProcessor() {
         this(null, null);
     }
 
-    public LintAssertProcessor(ClassLoader classLoader, Pair<String, Boolean> params ){
+    public LintAssertProcessor(ClassLoader classLoader, LintAssertBuildParameters params){
         this.classLoader = classLoader;
         this.params = params;
     }
