@@ -16,6 +16,7 @@ The plugin for Java Gradle `test` task that reports presence of `assert`s in a t
 ## Supported Testing Frameworks:
 - JUnit 4
 - JUnit 5
+- TestNG
 
 ## Supported build types:
 - Gradle 4.9 and above
@@ -32,7 +33,13 @@ and run `gradle cleanTest test -i` . You should see the summary table:
  
 | Package  | Test file name | Test method name  | # asserts  |
 | :-------------: |:-------------:| :-------------:|  :-------------:|  
-| org/lint  | PlaceholderTest.java | dummy | 0 | 
+|    sample/junit4    |    AssertJunit4Style.java    |     withoutAsserts     |        0        |
+|    sample/junit5    |    AssertJunit5Style.java    |      withAsserts       |        2        |
+|    sample/testng    |       TestNgStyle.java       |      withAsserts       |        1        |
+|    sample/junit4    |    AssertJunit4Style.java    |      withAsserts       |        1        |
+|    sample/testng    |       TestNgStyle.java       |     withoutAsserts     |        0        |
+|       sample        |        DummyTest.java        |         dummy          |        0        |
+|    sample/junit5    |    AssertJunit5Style.java    |     withoutAsserts     |        0        |
  
  
 ## Use:
@@ -62,7 +69,7 @@ test{
     }
 }
 ```
-IV: run your tests with `-i` on: `gradle test -i`
+IV: run `gradle clean test`
 
 
 ## Future features:
