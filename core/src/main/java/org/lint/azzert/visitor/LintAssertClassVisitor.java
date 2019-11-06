@@ -2,6 +2,7 @@ package org.lint.azzert.visitor;
 
 import org.lint.azzert.context.Context;
 import org.lint.azzert.context.MethodMetadata;
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
@@ -10,6 +11,8 @@ public class LintAssertClassVisitor extends ClassVisitor {
     private final MethodMetadata currentState;
     private final Context ctx;
 
+    private String inFlightClassAnnotation;
+
     public LintAssertClassVisitor(final Context ctx) {
         super(ctx.getAsmVersion());
         this.ctx = ctx;
@@ -17,10 +20,18 @@ public class LintAssertClassVisitor extends ClassVisitor {
     }
 
     @Override
+    public AnnotationVisitor visitAnnotation(String annotation, boolean visible) {
+        this.inFlightClassAnnotation = annotation;
+        return super.visitAnnotation(this.inFlightClassAnnotation, visible);
+    }
+
+    @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         super.visitMethod(this.ctx.getAsmVersion(), name, desc, signature, exceptions);
         this.currentState.setMethodName(name);
         this.currentState.setMethodSignature(signature);
+
+        if (inFlightClassAnnotation != null) ctx.with(this.inFlightClassAnnotation, false);
 
         return new LintAssertMethodVisitor(ctx);
     }

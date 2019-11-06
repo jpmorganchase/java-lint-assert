@@ -65,6 +65,7 @@ test{
     lintAssert{
         packageName = "org.lint" //optional or scan all
         verbose = true //optional, defaults to false
+        includeClasspathJars = true //optional, defaults to false, scan alls jars found on the classpath
     }
 }
 ```
