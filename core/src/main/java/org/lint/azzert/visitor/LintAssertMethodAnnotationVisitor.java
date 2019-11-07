@@ -16,11 +16,9 @@ public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
     }
 
     @Override
-    //FIXME::refactor: {@see ClassMedatada}
     public void visit(String paramName, Object paramValue) {
         Set<AnnotationMetadata> annotations = context.getMethodInFlight().getAnnotations();
-        AnnotationMetadata annotation = (AnnotationMetadata) annotations.toArray()[annotations.size() -1];
-        annotation.addParameter(paramName, paramValue);
+        ((AnnotationMetadata) annotations.toArray()[annotations.size() - 1]).addParameter(paramName, paramValue);
 
         super.visit(paramName, paramValue);
     }

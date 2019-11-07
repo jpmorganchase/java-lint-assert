@@ -11,11 +11,17 @@ import java.util.function.Function;
 
 public class JUnit4Strategy implements TestFrameworkStrategy {
 
+    protected final Function<Set<AnnotationMetadata>, Boolean> isDisabled = annotations1 ->
+            annotations1.stream().filter(a ->
+                    a.getAnnotationName().contains(getDisabledAnnotation())).findAny().isPresent();
+
     @Override
     public String getSupportedFramework(){return "Lorg/junit/Test;";}
 
     @Override
     public List<String> getAssertApis(){return Arrays.asList("org.junit");}
+
+    public String getDisabledAnnotation(){return "Lorg/junit/Ignore;";}
 
     @Override
     public boolean isDisabledMethod(MethodMetadata methodMetadata) {
@@ -29,10 +35,5 @@ public class JUnit4Strategy implements TestFrameworkStrategy {
         return isDisabled.apply(annotations);
     }
 
-    public String getDisabledAnnotation(){return "Lorg/junit/Ignore;";}
-
-    protected final Function<Set<AnnotationMetadata>, Boolean> isDisabled = annotations1 ->
-            annotations1.stream().filter(a ->
-                    a.getAnnotationName().contains(getDisabledAnnotation())).findAny().isPresent();
 
 }

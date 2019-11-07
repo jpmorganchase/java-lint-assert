@@ -13,7 +13,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     public LintAssertMethodVisitor(Context ctx) {
         super(ctx.getAsmVersion());
-        this.context = ctx;
+        context = ctx;
         atLineNumber = 0;
     }
 
@@ -27,7 +27,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     @Override
     public void visitMethodInsn(int opcode, String definingClass, String methodName, String descriptor, boolean isInterface) {
-        this.context.recordMethodCall(definingClass, methodName, atLineNumber);
+        context.recordMethodCall(definingClass, methodName, atLineNumber);
         super.visitMethodInsn(opcode, definingClass, methodName, descriptor, isInterface);
 
     }
@@ -35,7 +35,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
     @Override
     public void visitLineNumber(int line, Label start) {
         super.visitLineNumber(line, start);
-        this.atLineNumber = line;
+        atLineNumber = line;
     }
 
     @Override

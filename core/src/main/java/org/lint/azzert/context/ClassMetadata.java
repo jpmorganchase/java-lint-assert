@@ -6,18 +6,13 @@ import java.util.Set;
 public class ClassMetadata {
 
     private final Set<AnnotationMetadata> annotations;
-    private boolean visible;
 
     public ClassMetadata(){
         annotations = new LinkedHashSet<>();
     }
 
-    public ClassMetadata(ClassMetadata classMetadata) {
-        annotations = new LinkedHashSet<>(classMetadata.annotations);
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public ClassMetadata(ClassMetadata that) {
+        this.annotations = new LinkedHashSet<>(that.annotations);
     }
 
     public Set<AnnotationMetadata> getAnnotations() {
