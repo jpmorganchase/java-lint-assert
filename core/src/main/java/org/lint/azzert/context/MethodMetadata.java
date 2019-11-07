@@ -13,8 +13,12 @@ public class MethodMetadata {
     private String fileName;
     private String methodName;
     private String methodSignature;
+
+    //TODO::should packageName/className be part of ClassMetadata or ClssMetadata should be inlined?
     private String packageName;
     private String className;
+    private ClassMetadata classMetadata;
+
     private boolean visible;
 
     private TestFrameworkStrategy testFramework;
@@ -25,8 +29,10 @@ public class MethodMetadata {
     public MethodMetadata() {
         this.annotations = new LinkedHashSet<>();
         this.methodCall = new LinkedList<>();
+        this.classMetadata = new ClassMetadata();
     }
 
+    //TODO::it's getting harder to cleanly clone with growing number of fields. Consider marshaling
     public MethodMetadata(MethodMetadata source) {
         this.fileName = source.fileName;
         this.methodName = source.methodName;
@@ -36,6 +42,7 @@ public class MethodMetadata {
         this.visible = source.visible;
         this.annotations = new LinkedHashSet<>(source.annotations);
         this.methodCall = new LinkedList<>(source.methodCall);
+        this.classMetadata = new ClassMetadata(source.getClassMetadata());
         this.testFramework = source.testFramework;
     }
 
@@ -52,43 +59,77 @@ public class MethodMetadata {
         this.fileName = "";
         this.packageName = "";
         this.className = "";
+        this.classMetadata = new ClassMetadata();
+    }
+
+    public void inClassAnnotatedWith(String annotation, boolean isAvailableForClientUse) {
+        this.classMetadata.getAnnotations().add(new AnnotationMetadata(annotation));
+        this.classMetadata.setVisible(isAvailableForClientUse);
     }
 
     public String getMethodName() {
         return this.methodName;
     }
 
-    public void setFileName(String name) { this.fileName = name; }
+    public void setMethodName(String name) {
+        this.methodName = name;
+    }
 
-    public void setMethodName(String name) { this.methodName = name; }
+    public void setMethodSignature(String name) {
+        this.methodSignature = name;
+    }
 
-    public void setMethodSignature(String name) { this.methodSignature = name; }
+    public void setClassName(String name) {
+        this.className = name;
+    }
 
-    public void setPackageName(String name) { this.packageName = name; }
+    public ClassMetadata getClassMetadata() {
+        return this.classMetadata;
+    }
 
-    public void setClassName(String name) { this.className = name; }
-
-    public void setVisible(boolean visible) { this.visible = visible; }
-
-    public List<MethodCallMetadata> getMethodCalls() { return this.methodCall; }
+    public List<MethodCallMetadata> getMethodCalls() {
+        return this.methodCall;
+    }
 
     public String getFileName() {
         return this.fileName;
     }
 
-    public String getPackageName(){
+    public void setFileName(String name) {
+        this.fileName = name;
+    }
+
+    public String getPackageName() {
         return this.packageName;
     }
 
-    public LinkedHashSet<AnnotationMetadata> getAnnotations() { return annotations; }
+    public void setPackageName(String name) {
+        this.packageName = name;
+    }
 
-    public boolean getVisible() { return this.visible; }
+    public LinkedHashSet<AnnotationMetadata> getAnnotations() {
+        return annotations;
+    }
 
-    public void addMethodCall(MethodCallMetadata methodCallMetadata) { this.methodCall.add(methodCallMetadata); }
+    public boolean getVisible() {
+        return this.visible;
+    }
 
-    public TestFrameworkStrategy getTestFramework() { return this.testFramework; }
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
-    public void setTestFramework(TestFrameworkStrategy testFramework){ this.testFramework = testFramework; }
+    public void addMethodCall(MethodCallMetadata methodCallMetadata) {
+        this.methodCall.add(methodCallMetadata);
+    }
+
+    public TestFrameworkStrategy getTestFramework() {
+        return this.testFramework;
+    }
+
+    public void setTestFramework(TestFrameworkStrategy testFramework) {
+        this.testFramework = testFramework;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -112,13 +153,13 @@ public class MethodMetadata {
                 "fileName='" + fileName + '\'' +
                 ", methodName='" + methodName + '\'' +
                 ", methodSignature='" + methodSignature + '\'' +
-                ", annotations=" + annotations +
                 ", packageName='" + packageName + '\'' +
                 ", className='" + className + '\'' +
+                ", classMetadata=" + classMetadata +
                 ", visible=" + visible +
-                ", methodCall=" + methodCall +
                 ", testFramework=" + testFramework +
+                ", annotations=" + annotations +
+                ", methodCall=" + methodCall +
                 '}';
     }
-
 }

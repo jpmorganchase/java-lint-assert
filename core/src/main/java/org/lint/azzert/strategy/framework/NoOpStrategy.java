@@ -14,7 +14,7 @@ public class NoOpStrategy implements TestFrameworkStrategy {
     }
 
     @Override
-    public boolean isDisabled(MethodMetadata context) {
+    public boolean isDisabledMethod(MethodMetadata context) {
         return false;
     }
 

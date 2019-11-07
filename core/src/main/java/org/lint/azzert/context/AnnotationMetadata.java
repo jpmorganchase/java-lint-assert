@@ -10,11 +10,10 @@ public class AnnotationMetadata {
 
     private final String annotationName;
 
-    private final Collection<Pair<String, String>> parameters;
+    private final Collection<Pair<String, String>> parameters = new HashSet<>();
 
     public AnnotationMetadata(String name){
         this.annotationName = name;
-        this.parameters = new HashSet<>();
     }
 
     public String getAnnotationName() {

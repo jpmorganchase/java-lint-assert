@@ -9,8 +9,6 @@ import java.util.function.Function;
 public class Context {
 
     private final int asmVersion;
-
-    //FIXME::use Iterator that points to the last inserted method
     private final MethodMetadata methodInFlight;
     private final Set<MethodMetadata> methods;
     private final TreeMap<String, TestFrameworkStrategy> testFrameworks;
@@ -18,8 +16,7 @@ public class Context {
     public Context(int asmVersion) {
         this.asmVersion = asmVersion;
         methodInFlight = new MethodMetadata();
-        //FIXME::use LinkedHashSet to keep track of last inserted (aka "in flight") method
-        methods = new HashSet<>();
+        methods = new LinkedHashSet<>();
         testFrameworks = new TreeMap<>();
     }
 
@@ -28,7 +25,7 @@ public class Context {
     }
 
     public void resetCurrentMethodContext() {
-
+        //FIXME::setting the framework should be done at the class level
         final Function<Set<AnnotationMetadata>, TestFrameworkStrategy> getTestFrameworkStrategy = ants -> {
             TestFrameworkStrategy strategy;
             for (AnnotationMetadata ann : ants) {
@@ -49,9 +46,9 @@ public class Context {
         this.methodInFlight.resetClassDetails();
     }
 
-    public void with(String annotation, boolean isMethodVisible) {
+    public void withAnnotation(String annotation, boolean isAvailableForClientUse) {
         this.methodInFlight.getAnnotations().add(new AnnotationMetadata(annotation));
-        this.methodInFlight.setVisible(isMethodVisible);
+        this.methodInFlight.setVisible(isAvailableForClientUse);
     }
 
     public void addSupportedTestFrameworks(Collection<TestFrameworkStrategy> fwks) {
@@ -77,5 +74,6 @@ public class Context {
                 ", testFrameworks=" + testFrameworks +
                 '}';
     }
+
 }
 

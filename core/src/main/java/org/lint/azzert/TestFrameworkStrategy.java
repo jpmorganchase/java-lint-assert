@@ -11,7 +11,11 @@ public interface TestFrameworkStrategy {
 
     List<String> getAssertApis();
 
-    boolean isDisabled(MethodMetadata methodMetadata);
+    boolean isDisabledMethod(MethodMetadata methodMetadata);
+
+    default boolean isDisabledClass(MethodMetadata methodMetadata){
+        return false;
+    }
 
     default void removeAllNotAssertCalls(MethodMetadata methodMetadata){
         List<MethodCallMetadata> methodCalls = methodMetadata.getMethodCalls();

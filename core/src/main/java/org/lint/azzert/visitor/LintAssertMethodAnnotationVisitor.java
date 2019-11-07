@@ -6,18 +6,19 @@ import org.objectweb.asm.AnnotationVisitor;
 
 import java.util.Set;
 
-public class LintAssertAnnotationVisitor extends AnnotationVisitor {
+public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
 
-    private final Context ctx;
+    private final Context context;
 
-    public LintAssertAnnotationVisitor(Context context) {
+    public LintAssertMethodAnnotationVisitor(Context context) {
         super(context.getAsmVersion());
-        this.ctx = context;
+        this.context = context;
     }
 
     @Override
+    //FIXME::refactor: {@see ClassMedatada}
     public void visit(String paramName, Object paramValue) {
-        Set<AnnotationMetadata> annotations = ctx.getMethodInFlight().getAnnotations();
+        Set<AnnotationMetadata> annotations = context.getMethodInFlight().getAnnotations();
         AnnotationMetadata annotation = (AnnotationMetadata) annotations.toArray()[annotations.size() -1];
         annotation.addParameter(paramName, paramValue);
 

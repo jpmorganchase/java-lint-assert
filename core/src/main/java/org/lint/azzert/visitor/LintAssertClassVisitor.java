@@ -3,37 +3,41 @@ package org.lint.azzert.visitor;
 import org.lint.azzert.context.Context;
 import org.lint.azzert.context.MethodMetadata;
 import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
 public class LintAssertClassVisitor extends ClassVisitor {
 
     private final MethodMetadata currentState;
-    private final Context ctx;
-
-    private String inFlightClassAnnotation;
+    private final Context context;
 
     public LintAssertClassVisitor(final Context ctx) {
         super(ctx.getAsmVersion());
-        this.ctx = ctx;
+        this.context = ctx;
         this.currentState = ctx.getMethodInFlight();
     }
 
+
     @Override
-    public AnnotationVisitor visitAnnotation(String annotation, boolean visible) {
-        this.inFlightClassAnnotation = annotation;
-        return super.visitAnnotation(this.inFlightClassAnnotation, visible);
+    public void visitAttribute(Attribute attribute) {
+        super.visitAttribute(attribute);
+    }
+
+    @Override
+    public AnnotationVisitor visitAnnotation(String annotation, boolean isClassVisible) {
+        super.visitAnnotation(annotation, isClassVisible);
+        context.getMethodInFlight().inClassAnnotatedWith(annotation, isClassVisible);
+        return new LintAssertClassAnnotationVisitor(context);
     }
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        super.visitMethod(this.ctx.getAsmVersion(), name, desc, signature, exceptions);
+        super.visitMethod(this.context.getAsmVersion(), name, desc, signature, exceptions);
         this.currentState.setMethodName(name);
         this.currentState.setMethodSignature(signature);
 
-        if (inFlightClassAnnotation != null) ctx.with(this.inFlightClassAnnotation, false);
-
-        return new LintAssertMethodVisitor(ctx);
+        return new LintAssertMethodVisitor(context);
     }
 
     @Override
@@ -52,7 +56,7 @@ public class LintAssertClassVisitor extends ClassVisitor {
 
     @Override
     public void visitEnd() {
+        context.resetCurrentClassContext();
         super.visitEnd();
-        ctx.resetCurrentClassContext();
     }
 }
