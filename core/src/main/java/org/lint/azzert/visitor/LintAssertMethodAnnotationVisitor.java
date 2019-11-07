@@ -24,5 +24,4 @@ public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
 
         super.visit(paramName, paramValue);
     }
-
 }

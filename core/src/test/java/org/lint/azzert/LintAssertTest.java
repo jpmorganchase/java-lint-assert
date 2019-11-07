@@ -43,7 +43,7 @@ class LintAssertTest {
         //'withAssert' has 1 assert method
         Assertions.assertTrue(assertsInMethod.apply(methods, "iAmTestWithAssert").removeIf(m -> m.getAtLineNumber() == 12));
 
-        //TODO::
+        //Ignored class' methods must be excluded
         Assertions.assertEquals(2, methods.size(), "Expected to find exactly 2 testNG style tests.");
     }
 
