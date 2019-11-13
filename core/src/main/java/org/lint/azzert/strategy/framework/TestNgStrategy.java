@@ -7,6 +7,7 @@ import org.lint.azzert.context.MethodMetadata;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class TestNgStrategy implements TestFrameworkStrategy {
 
@@ -17,8 +18,20 @@ public class TestNgStrategy implements TestFrameworkStrategy {
     public List<String> getAssertApis(){ return Arrays.asList("org.testng");}
 
     @Override
-    public boolean isDisabled(MethodMetadata methodMetadata) {
-        AnnotationMetadata annotation = methodMetadata.getAnnotations().stream().filter(a ->
+    public boolean isDisabledMethod(MethodMetadata methodMetadata) {
+        return isDisabled(methodMetadata.getAnnotations());
+    }
+
+    @Override
+    public boolean isDisabledClass(MethodMetadata methodMetadata){
+        return isDisabled(methodMetadata.getClassMetadata().getAnnotations());
+    }
+
+    private boolean isDisabled(Set<AnnotationMetadata> annotations) {
+        if (annotations.isEmpty())
+            return false;
+
+        AnnotationMetadata annotation = annotations.stream().filter(a ->
                 a.getAnnotationName().equals(this.getSupportedFramework())
         ).findAny().get();
 

@@ -13,15 +13,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class FindAllMethodsCommand implements LintCommand<Void> {
+public class FindTestMethodsCommand implements LintCommand<Void> {
 
     private final ClassLoader classLoader;
     private final Set<LintCommand> successors;
 
     private LintAssertBuildParameters params;
 
-
-    public FindAllMethodsCommand(ClassLoader classLoader, LintAssertBuildParameters params ){
+    public FindTestMethodsCommand(ClassLoader classLoader, LintAssertBuildParameters params ){
         this.classLoader = classLoader;
         if (params != null) {
             this.params = params;
@@ -29,14 +28,13 @@ public class FindAllMethodsCommand implements LintCommand<Void> {
         this.successors = new HashSet<>();
     }
 
-    public FindAllMethodsCommand withSuccessor(LintCommand successor){
+    public FindTestMethodsCommand withSuccessor(LintCommand successor){
         this.successors.add(successor);
         return this;
     }
 
     @Override
     public Void execute(final Context context) throws Exception {
-
         final ClassVisitor classVisitor = new LintAssertClassVisitor(context);
 
         final TestClassFinder finder = new TestClassFinder();
@@ -55,6 +53,7 @@ public class FindAllMethodsCommand implements LintCommand<Void> {
             successor.execute(context);
         }
 
+//        context.getMethods().forEach(System.out::println);
         return null;
     }
 }

@@ -32,14 +32,19 @@ class LintAssertTest {
 
         System.out.println(new ToStringStrategy(methods).render());
 
-        Assertions.assertFalse(findMethod.apply(methods, "withAsserts").isEmpty(), "Failed to find method 'withAssert' annotated with @Test");
-        Assertions.assertFalse(findMethod.apply(methods, "withoutAsserts").isEmpty(), "Failed to find method 'withAssert' annotated with @Test");
+        Assertions.assertFalse(findMethod.apply(methods, "iAmTestWithAssert").isEmpty(), "Failed to find method 'iAmTestwithAssert' annotated with @Test");
+        Assertions.assertFalse(findMethod.apply(methods, "iAmTestwithoutAssert").isEmpty(), "Failed to find method 'iAmTestwithoutAssert' annotated with @Test");
+        Assertions.assertTrue(findMethod.apply(methods, "iAmNotATest").isEmpty(), "Methods without @Test annotation should not be included");
+        Assertions.assertTrue(findMethod.apply(methods, "iAmNotATestButDeprecatedMethod").isEmpty(), "Methods without @Test annotation should not be included");
 
         //the 'withoutAsserts' should contain no asserts
-        Assertions.assertTrue(findMethod.apply(methods, "withoutAsserts").get(0).getMethodCalls().isEmpty(), "There are *no* asserts in 'withoutAsserts' method");
+        Assertions.assertTrue(findMethod.apply(methods, "iAmTestWithoutAssert").get(0).getMethodCalls().isEmpty(), "There are *no* asserts in 'iAmTestWithoutAssert' method");
 
         //'withAssert' has 1 assert method
-        Assertions.assertTrue(assertsInMethod.apply(methods, "withAsserts").removeIf(m -> m.getAtLineNumber() == 12));
+        Assertions.assertTrue(assertsInMethod.apply(methods, "iAmTestWithAssert").removeIf(m -> m.getAtLineNumber() == 12));
+
+        //Ignored class' methods must be excluded
+        Assertions.assertEquals(2, methods.size(), "Expected to find exactly 2 testNG style tests.");
     }
 
     @Test
@@ -54,7 +59,7 @@ class LintAssertTest {
         Assertions.assertFalse(findMethod.apply(methods, "withoutAsserts").isEmpty(), "Failed to find method 'withoutAsserts' annotated with @Test");
         Assertions.assertTrue(findMethod.apply(methods, "iAmDisabled").isEmpty(), "Method 'iAmDisabled' should not be in the result set");
         Assertions.assertTrue(findMethod.apply(methods, "iAmNotATest1").isEmpty(), "Method 'iAmNotATest' should not be in the result set");
-        Assertions.assertEquals(2, methods.size(), "Expected to find at least one JUnit 5 test method.");
+        Assertions.assertEquals(2, methods.size(), "Expected to find exactly 2 JUnit 5 test methods.");
 
         //the 'withoutAsserts' should contain no asserts
         Assertions.assertTrue(findMethod.apply(methods, "withoutAsserts").get(0).getMethodCalls().isEmpty(), "There are *no* asserts in 'withoutAsserts' method");
@@ -77,7 +82,7 @@ class LintAssertTest {
         Assertions.assertEquals(1, assertsInMethod.apply(methods, "withAsserts").size());
         Assertions.assertEquals(0, countMethodOccurrencesInFile(methods,"AssertJunit4Style.java", "disabledTest"), "AssertJunit4Style::disabledTest should've been excluded");
         Assertions.assertEquals(0, countMethodOccurrencesInFile(methods,"AssertJunit4Style.java", "notATest"), "AssertJunit4Style::notATest should've been excluded");
-        Assertions.assertTrue(methods.size() == 2, "Expected to find at least one JUnit 4 test method.");
+        Assertions.assertTrue(methods.size() == 2, "Expected to find exactly 2 JUnit 4 test methods.");
 
     }
 

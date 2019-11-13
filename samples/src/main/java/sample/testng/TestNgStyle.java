@@ -8,27 +8,27 @@ import java.util.function.Function;
 public class TestNgStyle {
 
     @Test
-    void withAsserts(){
+    void iAmTestWithAssert(){
         Assert.assertTrue(true);
     }
 
     @Test
-    void withoutAsserts(){
+    void iAmTestWithoutAssert(){
         Function<String, String> toLowerCase = input -> input.toLowerCase();
         toLowerCase.apply("ZZZ");
     }
 
     @Test(enabled = false)
-    void iAmDisabled(){
+    void iAmDisabledTest(){
         Assert.assertTrue(true);
     }
 
-    void iAmNotATest1(){
+    void iAmNotATest(){
         throw new UnsupportedOperationException();
     }
 
     @Deprecated
-    void iAmNotATest2(){
+    void iAmNotATestButDeprecatedMethod(){
         throw new UnsupportedOperationException();
     }
 }

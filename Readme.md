@@ -8,7 +8,7 @@ The plugin for Java Gradle `test` task that reports presence of `assert`s in a t
 
 ## Features:
 1. Prints the number of assert calls in each test method to the console
-1. Excludes ignored/disabled test _methods_ from linting 
+1. Excludes ignored/disabled test _classes_ and _methods_ from linting 
 1. Limits the lint to recursively search from a top level package (for ex. 'org.samples')
 1. Allows verbose output
 
@@ -28,7 +28,7 @@ The plugin for Java Gradle `test` task that reports presence of `assert`s in a t
 * install core and plugin jars into your local maven repo and into `build` dir under the project root 
 
 To see the plugin in action, `cd .\client` 
-and run `gradle cleanTest test -i` . You should see the summary table:
+and run `gradle cleanTest test` . You should see the summary table:
  
 | Package  | Test file name | Test method name  | # asserts  |
 | :-------------: |:-------------:| :-------------:|  :-------------:|  
@@ -65,14 +65,14 @@ test{
     lintAssert{
         packageName = "org.lint" //optional or scan all
         verbose = true //optional, defaults to false
+        includeClasspathJars = true //optional, defaults to false, scan alls jars found on the classpath
     }
 }
 ```
 IV: run `gradle clean test`
 
 
-## Future features:
- 1. Exclude ignored/disabled test _classes_ from linting 
+## Future features: 
  1. Exclude tests that throw expected exceptions 
  1. Display results in alphabetic order of fully qualified test class name - `org.lint.PlaceholderTest`  
  1. Print the linting summary: number of PASS/FAIL and a list of assertless tests

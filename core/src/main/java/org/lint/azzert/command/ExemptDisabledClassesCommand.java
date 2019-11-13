@@ -3,13 +3,11 @@ package org.lint.azzert.command;
 import org.lint.azzert.LintCommand;
 import org.lint.azzert.context.Context;
 
-public class ExemptDisabledTestsCommand implements LintCommand<Void> {
-
+public class ExemptDisabledClassesCommand implements LintCommand {
     @Override
     //remove all disabled tests
     public Void execute(final Context context){
-        //FIXME::proxy the method context
-        context.getMethods().removeIf(method -> method.getTestFramework().isDisabled(method));
+        context.getMethods().removeIf(method -> method.getTestFramework().isDisabledClass(method));
         return null;
     }
 }

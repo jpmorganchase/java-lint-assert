@@ -3,18 +3,20 @@ package org.lint.azzert.context;
 import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.strategy.framework.NoOpStrategy;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
 
 public class MethodMetadata {
 
     private String fileName;
     private String methodName;
     private String methodSignature;
+
+    //TODO::should packageName/className be part of ClassMetadata or ClssMetadata should be inlined?
     private String packageName;
     private String className;
+    private ClassMetadata classMetadata;
+
     private boolean visible;
 
     private TestFrameworkStrategy testFramework;
@@ -25,86 +27,105 @@ public class MethodMetadata {
     public MethodMetadata() {
         this.annotations = new LinkedHashSet<>();
         this.methodCall = new LinkedList<>();
-    }
-
-    public MethodMetadata(MethodMetadata source) {
-        this.fileName = source.fileName;
-        this.methodName = source.methodName;
-        this.methodSignature = source.methodSignature;
-        this.packageName = source.packageName;
-        this.className = source.className;
-        this.visible = source.visible;
-        this.annotations = new LinkedHashSet<>(source.annotations);
-        this.methodCall = new LinkedList<>(source.methodCall);
-        this.testFramework = source.testFramework;
-    }
-
-    public void resetMethodDetails() {
         this.methodName = "";
         this.methodSignature = "";
-        this.annotations = new LinkedHashSet<>();
-        this.methodCall = new LinkedList<>();
-        this.visible = false;
         this.testFramework = new NoOpStrategy();
+
+        resetClassDetails();
     }
 
     public void resetClassDetails() {
         this.fileName = "";
         this.packageName = "";
         this.className = "";
+        this.classMetadata = new ClassMetadata();
+    }
+
+    void addMethodCall(MethodCallMetadata methodCallMetadata) {
+        this.methodCall.add(methodCallMetadata);
     }
 
     public String getMethodName() {
         return this.methodName;
     }
 
-    public void setFileName(String name) { this.fileName = name; }
+    public void setMethodName(String name) {
+        this.methodName = name;
+    }
 
-    public void setMethodName(String name) { this.methodName = name; }
+    public void setMethodSignature(String name) {
+        this.methodSignature = name;
+    }
 
-    public void setMethodSignature(String name) { this.methodSignature = name; }
+    public void setClassName(String name) {
+        this.className = name;
+    }
 
-    public void setPackageName(String name) { this.packageName = name; }
+    public String getClassName() {
+        return this.className;
+    }
 
-    public void setClassName(String name) { this.className = name; }
+    public void setClassMetadata(ClassMetadata metadata) {
+        this.classMetadata = new ClassMetadata(metadata);
+    }
 
-    public void setVisible(boolean visible) { this.visible = visible; }
+    public ClassMetadata getClassMetadata() {
+        return this.classMetadata;
+    }
 
-    public List<MethodCallMetadata> getMethodCalls() { return this.methodCall; }
+    public List<MethodCallMetadata> getMethodCalls() {
+        return this.methodCall;
+    }
 
     public String getFileName() {
         return this.fileName;
     }
 
-    public String getPackageName(){
+    public void setFileName(String name) {
+        this.fileName = name;
+    }
+
+    public String getPackageName() {
         return this.packageName;
     }
 
-    public LinkedHashSet<AnnotationMetadata> getAnnotations() { return annotations; }
-
-    public boolean getVisible() { return this.visible; }
-
-    public void addMethodCall(MethodCallMetadata methodCallMetadata) { this.methodCall.add(methodCallMetadata); }
-
-    public TestFrameworkStrategy getTestFramework() { return this.testFramework; }
-
-    public void setTestFramework(TestFrameworkStrategy testFramework){ this.testFramework = testFramework; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MethodMetadata that = (MethodMetadata) o;
-        return methodName.equals(that.methodName) &&
-                Objects.equals(methodSignature, that.methodSignature) &&
-                Objects.equals(packageName, that.packageName) &&
-                className.equals(that.className);
+    public void setPackageName(String name) {
+        this.packageName = name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(methodName, methodSignature, packageName, className);
+    public void inClassAnnotatedWith(String annotation) {
+        this.classMetadata.getAnnotations().add(new AnnotationMetadata(annotation));
     }
+
+    public Set<AnnotationMetadata> getAnnotations() {
+        return annotations;
+    }
+
+    public boolean getVisible() {
+        return this.visible;
+    }
+
+    void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public TestFrameworkStrategy getTestFramework() {
+        return this.testFramework;
+    }
+
+    public void seedTestFramework(Map<String, TestFrameworkStrategy> supportedTestFrameworks) {
+        final Function<Set<AnnotationMetadata>, TestFrameworkStrategy> getTestFrameworkStrategy = ants -> {
+            TestFrameworkStrategy strategy;
+            for (AnnotationMetadata ann : ants) {
+                strategy = supportedTestFrameworks.get(ann.getAnnotationName());
+                if (strategy != null)
+                    return strategy;
+            }
+            return new NoOpStrategy();
+        };
+        this.testFramework = getTestFrameworkStrategy.apply(this.getAnnotations());
+    }
+
 
     @Override
     public String toString() {
@@ -112,13 +133,13 @@ public class MethodMetadata {
                 "fileName='" + fileName + '\'' +
                 ", methodName='" + methodName + '\'' +
                 ", methodSignature='" + methodSignature + '\'' +
-                ", annotations=" + annotations +
                 ", packageName='" + packageName + '\'' +
                 ", className='" + className + '\'' +
+                ", classMetadata=" + classMetadata +
                 ", visible=" + visible +
-                ", methodCall=" + methodCall +
                 ", testFramework=" + testFramework +
+                ", annotations=" + annotations +
+                ", methodCall=" + methodCall +
                 '}';
     }
-
 }
