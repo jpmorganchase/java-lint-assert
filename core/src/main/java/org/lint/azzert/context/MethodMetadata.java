@@ -27,10 +27,11 @@ public class MethodMetadata {
     public MethodMetadata() {
         this.annotations = new LinkedHashSet<>();
         this.methodCall = new LinkedList<>();
-        this.classMetadata = new ClassMetadata();
         this.methodName = "";
         this.methodSignature = "";
         this.testFramework = new NoOpStrategy();
+
+        resetClassDetails();
     }
 
     public void resetClassDetails() {
