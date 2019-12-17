@@ -2,4 +2,4 @@ rootProject.name = 'java-lint-assert'
 
 include 'samples'
 include 'core'
-include 'plugin'
+include 'plugin-gradle'
