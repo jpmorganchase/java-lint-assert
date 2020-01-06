@@ -16,6 +16,9 @@
 
     <properties>
         <maven-mojo-plugin.version>3.6.0</maven-mojo-plugin.version>
+
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
     <dependencies>
