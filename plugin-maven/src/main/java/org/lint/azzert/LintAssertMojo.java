@@ -2,11 +2,11 @@ package org.lint.azzert;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /*
 Test stand-alone:
-mvn install
-mvn lint-assert:lint-assert
+mvn install lint-assert:lint-assert
  */
 @Mojo(name = "lint-assert")
 public class LintAssertMojo extends AbstractMojo {
@@ -14,15 +14,15 @@ public class LintAssertMojo extends AbstractMojo {
     @Parameter( property = "packageName")
     private String packageName;
 
-    @Parameter( property = "includeClasspathJars", defaultValue = false)
+    @Parameter( property = "includeClasspathJars", defaultValue = "false")
     private boolean includeClasspathJars;
 
-    @Parameter( property = "verbose", defaultValue = false)
+    @Parameter( property = "verbose", defaultValue = "false")
     private boolean verbose;
 
     public void execute() {
-        getLog().info("Hello from LintAssertMojo!");
-        getLog().info(toString());
+        getLog().info("Hello from LintAssertMojo!;;" + this.toString());
+        getLog().info(this.toString());
     }
 
     @Override

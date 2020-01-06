@@ -47,6 +47,10 @@
                 <groupId>org.lint.assert</groupId>
                 <artifactId>lint-assert-maven-plugin</artifactId>
                 <version>0.1.0-SNAPSHOT</version>
+                <configuration>
+                    <includeClasspathJars>true</includeClasspathJars>
+                    <verbose>true</verbose>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -11,7 +11,7 @@
     <modules>
         <module>samples</module>
         <module>core</module>
-        <module>lint-assert-maven-plugin</module>
+        <module>plugin-maven</module>
     </modules>
 
     <properties>
