@@ -37,7 +37,7 @@ branches:
 
 before_install:
   - chmod -R ug+x .travis
-    - .travis/install.sh
+  - .travis/install.sh
 script:
   - chmod -R ug+x .travis
   - .travis/build.sh
