@@ -38,6 +38,10 @@ allprojects {
 }
 /* Travis builds and  Maven Central deployments */
 
+task integrationTest{
+    logger.info('\n' + 'Integration tests placeholder task' + '\n' )
+}
+
 apply plugin: 'maven'
 task javadocJar(type: Jar) {
     classifier = 'javadoc'

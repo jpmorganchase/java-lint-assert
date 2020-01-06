@@ -3,7 +3,8 @@
 .idea/
 out/
 build/
-java-lint-assert.iml
+.iml
 init.gradle
 .project
 .settings/
+target/
