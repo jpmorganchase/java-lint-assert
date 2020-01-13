@@ -13,8 +13,8 @@ allprojects {
         compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.2'
 
         //junit 5
-        testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.2'
-        testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+        testImplementation "org.junit.platform:junit-platform-launcher:1.4.2"
+        testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
         testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
     }
     
@@ -55,7 +55,7 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-apply plugin: 'maven'
+/*apply plugin: 'maven'
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -129,4 +129,4 @@ task publishToNexusAndClose(dependsOn: 'publish'){
     doLast {
         uploadAndRelease(System.getenv('SONATYPE_USERNAME'), System.getenv('SONATYPE_PASSWORD'), "$rootDir/build/deploy")
     }
-}
+}*/

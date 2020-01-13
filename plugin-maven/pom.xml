@@ -45,13 +45,13 @@
             <artifactId>maven-core</artifactId>
             <version>3.6.0</version>
         </dependency>
-        <dependency>
+   <!--     <dependency>
             <groupId>org.lint.assert</groupId>
             <artifactId>samples</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <!-- FIXME:: needs to work with 'test' scope -->
+            &lt;!&ndash; FIXME:: needs to work with 'test' scope &ndash;&gt;
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
@@ -61,19 +61,27 @@
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>${maven-mojo-plugin.version}</version>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.lint.assert</groupId>
                 <artifactId>lint-assert-maven-plugin</artifactId>
                 <version>0.1.0-SNAPSHOT</version>
                 <configuration>
-                    <!-- optional, defaults to false -->
+                    &lt;!&ndash; optional, defaults to false &ndash;&gt;
                     <includeClasspathJars>false</includeClasspathJars>
-                    <!-- optional, defaults to false -->
+                    &lt;!&ndash; optional, defaults to false &ndash;&gt;
                     <verbose>true</verbose>
-                    <!-- optional or scan all -->
+                    &lt;!&ndash; optional or scan all &ndash;&gt;
                     <packageName>sample</packageName>
                 </configuration>
-            </plugin>
+                <executions>
+                    <execution>
+                    <phase>test</phase>
+                    <goals>
+                        <goal>lint-assert</goal>
+                    </goals>
+                </execution>
+                </executions>
+            </plugin>-->
         </plugins>
     </build>
 
