@@ -14,6 +14,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: jpmorganchase/java-lint-assert
+    repo: An-Nadein/java-lint-assert
   name: $project_version  
 notifications:
   email:
