@@ -2,6 +2,8 @@ allprojects {
 
     apply plugin: 'idea'
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
     
     repositories {
         mavenLocal()
@@ -14,7 +16,7 @@ allprojects {
 
         //junit 5
         testImplementation "org.junit.platform:junit-platform-launcher:1.4.2"
-        testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+        testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2') //!IMPORTANT:do not modify, this is the only syntax travis understands.
         testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
     }
     
@@ -35,4 +37,20 @@ allprojects {
             }
         }
     }
+}
+
+task sourceJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives sourceJar
+    archives javadocJar
 }
