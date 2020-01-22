@@ -2,9 +2,7 @@ allprojects {
 
     apply plugin: 'idea'
     apply plugin: 'java'
-    apply plugin: 'maven-publish'
-    apply plugin: 'signing'
-    
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -53,4 +51,79 @@ artifacts {
     archives jar
     archives sourceJar
     archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            customizePom(pom)
+            groupId 'org.lint.azzert'
+            artifactId 'java-lint-assert'
+            version '0.1.0-SNAPSHOT'
+
+            from components.java
+
+            artifact(sourceJar) {
+                classifier = 'sources'
+            }
+            artifact(javadocJar) {
+                classifier = 'javadoc'
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username sonatypeUsername
+                password sonatypePassword
+            }
+        }
+    }
+}
+
+def customizePom(pom) {
+    pom.withXml {
+        def root = asNode()
+
+        // eliminate test-scoped dependencies (no need in maven central POMs)
+        root.dependencies.removeAll { dep ->
+            dep.scope == "test"
+        }
+
+        // add all items necessary for maven central publication
+        root.children().last() + {
+            resolveStrategy = groovy.lang.Closure.DELEGATE_FIRST
+
+            description 'Serialize and Deserialize Json-LD into Java entities'
+            name 'Schema.org Java'
+            url 'https://github.com/mautini/schemaorg-java'
+            organization {
+                name 'com.github.mautini'
+                url 'https://github.com/mautini'
+            }
+            issueManagement {
+                system 'GitHub'
+                url 'https://github.com/mautini/schemaorg-java/issues'
+            }
+            licenses {
+                license {
+                    name 'Apache License 2.0'
+                    url 'https://github.com/mautini/schemaorg-java/blob/master/LICENSE'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url 'https://github.com/mautini/schemaorg-java'
+                connection 'scm:git:git://github.com/mautini/schemaorg-java.git'
+                developerConnection 'scm:git:ssh://git@github.com:mautini/schemaorg-java.git'
+            }
+        }
+    }
+}
+
+model {
+    tasks.generatePomFileForMavenJavaPublication {
+        destination = file("$buildDir/generated-pom.xml")
+    }
 }
