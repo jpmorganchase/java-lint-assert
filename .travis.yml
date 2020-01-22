@@ -34,14 +34,3 @@ branches:
   only:
     - master
     - dev
-
-before_install:
-  - chmod -R ug+x .travis
-  - .travis/install.sh
-script:
-  - chmod -R ug+x .travis
-  - .travis/build.sh
-  - .travis/merge-dev-to-master-gate.sh
-  - .travis/deploy-gate.sh
-  - .travis/tag-master-gate.sh
-    
