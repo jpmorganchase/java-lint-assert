@@ -2,6 +2,8 @@ allprojects {
 
     apply plugin: 'idea'
     apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply plugin: 'maven'
 
     repositories {
         mavenLocal()
@@ -35,6 +37,17 @@ allprojects {
             }
         }
     }
+}
+
+apply plugin: 'groovy'
+
+plugins {
+    id 'com.gradle.plugin-publish' version '0.10.1'
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
 }
 
 task sourceJar(type: Jar) {
@@ -93,7 +106,7 @@ def customizePom(pom) {
 
         // add all items necessary for maven central publication
         root.children().last() + {
-            resolveStrategy = groovy.lang.Closure.DELEGATE_FIRST
+            resolveStrategy = Closure.DELEGATE_FIRST
 
             description 'Lint Java unit tests on presense of asserts'
             name 'java-assert-linter'
@@ -121,9 +134,41 @@ def customizePom(pom) {
         }
     }
 }
-
 model {
     tasks.generatePomFileForMavenJavaPublication {
         destination = file("$buildDir/generated-pom.xml")
+    }
+}
+signing {
+    sign configurations.archives
+}
+// create and sign pom artifact
+pom.withXml {
+    def pomFile = file("${project.buildDir}/generated-pom.xml")
+    writeTo(pomFile)
+    def pomAscFile = signing.sign(pomFile).signatureFiles[0]
+    artifact(pomAscFile) {
+        classifier = null
+        extension = 'pom.asc'
+    }
+}
+// create the signed artifacts
+project.tasks.signArchives.signatureFiles.each {
+    artifact(it) {
+        def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
+        if (matcher.find()) {
+            classifier = matcher.group(1)
+        } else {
+            classifier = null
+        }
+        extension = 'jar.asc'
+    }
+}
+model {
+    tasks.publishMavenJavaPublicationToMavenLocal {
+        dependsOn project.tasks.signArchives
+    }
+    tasks.publishMavenJavaPublicationToMavenRepository {
+        dependsOn project.tasks.signArchives
     }
 }
