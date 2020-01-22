@@ -95,28 +95,28 @@ def customizePom(pom) {
         root.children().last() + {
             resolveStrategy = groovy.lang.Closure.DELEGATE_FIRST
 
-            description 'Serialize and Deserialize Json-LD into Java entities'
-            name 'Schema.org Java'
-            url 'https://github.com/mautini/schemaorg-java'
+            description 'Lint Java unit tests on presense of asserts'
+            name 'java-assert-linter'
+            url 'https://github.com/jpmorganchase/java-lint-assert'
             organization {
-                name 'com.github.mautini'
-                url 'https://github.com/mautini'
+                name 'com.github.jpmorganchase'
+                url 'https://github.com/jpmorganchase'
             }
             issueManagement {
                 system 'GitHub'
-                url 'https://github.com/mautini/schemaorg-java/issues'
+                url 'https://github.com/jpmorganchase/java-lint-assert/issues'
             }
             licenses {
                 license {
                     name 'Apache License 2.0'
-                    url 'https://github.com/mautini/schemaorg-java/blob/master/LICENSE'
+                    url 'https://github.com/jpmorganchase/java-lint-assert/blob/master/LICENSE'
                     distribution 'repo'
                 }
             }
             scm {
-                url 'https://github.com/mautini/schemaorg-java'
-                connection 'scm:git:git://github.com/mautini/schemaorg-java.git'
-                developerConnection 'scm:git:ssh://git@github.com:mautini/schemaorg-java.git'
+                url 'https://github.com/jpmorganchase/java-lint-assert'
+                connection 'scm:git:git://github.com/jpmorganchase/java-lint-assert.git'
+                developerConnection 'scm:git:ssh://git@github.com:jpmorganchase/java-lint-assert.git'
             }
         }
     }
