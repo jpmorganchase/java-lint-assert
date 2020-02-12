@@ -31,11 +31,8 @@ The Java _Gradle_ and _Maven_ plugin for the `test` task that reports presence o
 * build samples module
 * install core and plugin-gradle jars into your local maven repo and into `build` dir under the project root 
 
-To see the plugin in action, 
-for Gradle `cd .\client-gradle` and run `gradle cleanTest test` . 
-for Maven  `cd .\client-maven` and run `mvn lint-assert:lint-assert` . 
-
-You should see the summary table:
+To see the plugin in action, `cd .\client-gradle` 
+and run `gradle cleanTest test` . You should see the summary table:
  
 | Package  | Test file name | Test method name  | # asserts  |
 | :-------------: |:-------------:| :-------------:|  :-------------:|  
@@ -60,11 +57,11 @@ You should see the summary table:
 
 In your `build.gradle` 
 
-I: add the dependency to the `buildscript` section: 
+I: add the `java-lint-plugin` dependency to the `buildscript` section: 
 ```
 buildscript {
    dependencies {
-        classpath 'org.lint.assert:plugin:0.1.0-SNAPSHOT'
+        classpath 'org.lint:plugin:0.1.0-SNAPSHOT'
     }
 }
 ```
@@ -86,7 +83,7 @@ IV: run `gradle clean test`
 #### Maven:
 In your `pom.xml` 
 
-I: Add the dependency to the `plugins` section in the `build`: 
+I: Include the plugin in the build plugins and optionally overwrite default values in the <configuration/> section
 ```
   <build>
   ...
@@ -101,29 +98,17 @@ I: Add the dependency to the `plugins` section in the `build`:
                 <groupId>org.lint.assert</groupId>
                 <artifactId>lint-assert-maven-plugin</artifactId>
                 <version>0.1.0-SNAPSHOT</version>
+                <configuration>
+                    <includeClasspathJars>false</includeClasspathJars>
+                    <verbose>true</verbose>
+                    <packageName>org.lint</packageName>
+                </configuration>
             </plugin>
             ...
         </plugins>
         ...
     </build>
 ```
-II: optionally overwrite default values in the `<configuration/>` section
-```
- <plugin>
-    <groupId>org.lint.assert</groupId>
-    <artifactId>lint-assert-maven-plugin</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
-    <configuration>
-        <!-- optional, defaults to false -->
-        <includeClasspathJars>false</includeClasspathJars>
-         <!-- optional, defaults to false -->
-        <verbose>true</verbose>
-         <!-- optional or scan all -->
-        <packageName>org.lint</packageName>
-    </configuration>
-  </plugin>
-```
-IV: run `mvn lint-assert:lint-assert`
 
 ## Future features: 
  1. Exclude tests that throw expected exceptions 
