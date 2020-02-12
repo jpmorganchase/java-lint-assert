@@ -16,6 +16,7 @@
 
     <properties>
         <maven-mojo-plugin.version>3.6.0</maven-mojo-plugin.version>
+        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
 
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -43,15 +44,22 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-            <version>3.6.0</version>
+            <version>${maven-mojo-plugin.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.lint.assert</groupId>
-            <artifactId>samples</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-            <!-- FIXME:: needs to work with 'test' scope -->
-            <scope>compile</scope>
+            <groupId>org.apache.maven.plugin-testing</groupId>
+            <artifactId>maven-plugin-testing-harness</artifactId>
+            <version>3.3.0</version>
+            <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-compat</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -59,9 +67,30 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>${maven-mojo-plugin.version}</version>
+                <version>3.6.0</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <!-- for version prior to 2.22.0 to support JUnit5-->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.1.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>5.1.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- to run the plugin from cmd with
+            mvn install lint-assert:lint-assert -->
+         <plugin>
                 <groupId>org.lint.assert</groupId>
                 <artifactId>lint-assert-maven-plugin</artifactId>
                 <version>0.1.0-SNAPSHOT</version>

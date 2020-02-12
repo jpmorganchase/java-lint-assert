@@ -26,6 +26,11 @@
             <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.lint.assert</groupId>
+            <artifactId>samples</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -36,7 +41,7 @@
                 <version>0.1.0-SNAPSHOT</version>
                 <configuration>
                     <!-- optional, defaults to false -->
-                    <includeClasspathJars>false</includeClasspathJars>
+                    <includeClasspathJars>true</includeClasspathJars>
                     <!-- optional, defaults to false -->
                     <verbose>true</verbose>
                     <!-- optional or scan all -->
