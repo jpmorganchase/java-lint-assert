@@ -40,6 +40,8 @@ public class LintAssertMojo extends AbstractMojo {
     protected MavenProject project;
 
     public void execute() {
+        getLog().info("Hello from LintAssertMojo!;;" + this.toString());
+        getLog().info(this.toString());
         try {
             Set<MethodMetadata> methodMetadata = new LintAssertProcessor(getUrlClassLoader(),
                     new LintAssertBuildParameters(packageName, verbose, includeClasspathJars)).process();
@@ -51,7 +53,8 @@ public class LintAssertMojo extends AbstractMojo {
     }
 
     URLClassLoader getUrlClassLoader() throws DependencyResolutionRequiredException {
-        final List<String> testDir = this.project.getTestClasspathElements();
+        final List<String> testDir = this.project.getCompileClasspathElements();
+        testDir.addAll(this.project.getTestClasspathElements());
 
         URL[] compiledTestsDirs = testDir.stream()
                 .map(File::new)
@@ -70,6 +73,10 @@ public class LintAssertMojo extends AbstractMojo {
             final PluginDescriptor pluginDescriptor = (PluginDescriptor) getPluginContext().get("pluginDescriptor");
             final ClassRealm classRealm = pluginDescriptor.getClassRealm();
             compiledTestsDirs = ArrayUtils.addAll(compiledTestsDirs,classRealm.getURLs() );
+        }
+
+        for (URL compiledTestsDir : compiledTestsDirs) {
+            getLog().info("compiledTestsDir::" + compiledTestsDir);
         }
 
         return new URLClassLoader(compiledTestsDirs, null);

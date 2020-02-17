@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <conversionRule conversionWord="traceCompressor" converterClass="com.jpmorgan.cib.testsight.producer.log.CompressedStackTraceConverter" />
+    <appender name="stdout"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%4p] [PRODUCER] [%d{ISO8601}] [%t] [%X{messageId}] [%c{2}] - %msg %traceCompressor %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.ling.azzert" level="DEBUG" />
+
+    <root level="INFO">
+        <appender-ref ref="stdout" />
+    </root>
+</configuration>
