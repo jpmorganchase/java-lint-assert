@@ -13,7 +13,7 @@ public class RemoveMethodsThatAreNotTests implements LintCommand<Void> {
                                 && m.getTestFramework().isTest(m)) //i should be able to handle this framework
 
         );
-        context.getMethods().forEach(m -> System.out.println(m.getMethodName() +"-->" + m.getAnnotations().isEmpty() + ";" + m.getVisible() + "::" + m.getTestFramework().isTest(m)));
+//        context.getMethods().forEach(m -> System.out.println(m.getMethodName() +"-->" + m.getAnnotations().isEmpty() + ";" + m.getVisible() + "::" + m.getTestFramework().isTest(m)));
 
         return null;
     }
