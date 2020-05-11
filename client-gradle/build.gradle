@@ -22,7 +22,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.lint.assert:plugin:0.1.0-SNAPSHOT'
+        classpath 'com.github.jpmorganchase.lint-assert:plugin:0.1.0-SNAPSHOT'
     }
 }
 
