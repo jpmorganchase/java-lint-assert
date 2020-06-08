@@ -4,9 +4,9 @@
          xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.lint.assert</groupId>
+        <groupId>com.github.jpmorganchase.lint-assert</groupId>
         <artifactId>java-lint-assert</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -85,9 +85,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.lint.assert</groupId>
+            <groupId>com.github.jpmorganchase.lint-assert</groupId>
             <artifactId>samples</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>0.1.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>

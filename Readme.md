@@ -95,7 +95,7 @@ I: Include the plugin in the build plugins and optionally overwrite default valu
                 <version>${maven-mojo-plugin.version}</version>
             </plugin>
             <plugin>
-                <groupId>org.lint.assert</groupId>
+                <groupId>com.github.jpmorganchase.lint-assert</groupId>
                 <artifactId>lint-assert-maven-plugin</artifactId>
                 <version>0.1.0-SNAPSHOT</version>
                 <configuration>
