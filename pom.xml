@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.jpmorganchase.lint-assert</groupId>
     <artifactId>java-lint-assert</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.2.0</version>
     <packaging>pom</packaging>
 	<name>Java Lint Assert</name>
 	<description>Pluggable linting utility for Java tests</description>
@@ -190,7 +188,7 @@
 		<url>https://github.com/jpmorganchase/java-lint-assert</url>
 		<connection>scm:git:https://github.com/jpmorganchase/java-lint-assert.git</connection>
 		<developerConnection>scm:git:https://github.com/jpmorganchase/java-lint-assert.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>0.2.0</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
