@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.jpmorganchase.lint-assert</groupId>
     <artifactId>java-lint-assert</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 	<name>Java Lint Assert</name>
 	<description>Pluggable linting utility for Java tests</description>
@@ -188,7 +188,7 @@
 		<url>https://github.com/jpmorganchase/java-lint-assert</url>
 		<connection>scm:git:https://github.com/jpmorganchase/java-lint-assert.git</connection>
 		<developerConnection>scm:git:https://github.com/jpmorganchase/java-lint-assert.git</developerConnection>
-		<tag>0.2.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
