@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.github.jpmorganchase.lint-assert</groupId>
             <artifactId>samples</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <version>0.2.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -39,7 +39,7 @@
             <plugin>
                 <groupId>com.github.jpmorganchase.lint-assert</groupId>
                 <artifactId>lint-assert-maven-plugin</artifactId>
-                <version>0.1.1-SNAPSHOT</version>
+                <version>0.2.1-SNAPSHOT</version>
                 <configuration>
                     <!-- optional, defaults to false -->
                     <includeClasspathJars>true</includeClasspathJars>
@@ -47,6 +47,8 @@
                     <verbose>true</verbose>
                     <!-- optional or scan all -->
                     <packageName>sample</packageName>
+                    <!-- optional. available values:{ASSERTLESS_ONLY (default), ALL} -->
+                    <printMode>ASSERTLESS_ONLY</printMode>
                 </configuration>
                 <executions>
                     <execution>

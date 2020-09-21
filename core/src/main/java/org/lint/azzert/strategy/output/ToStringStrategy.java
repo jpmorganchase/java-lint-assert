@@ -1,5 +1,6 @@
 package org.lint.azzert.strategy.output;
 
+import org.lint.azzert.OutputFormatterCommand;
 import org.lint.azzert.context.MethodMetadata;
 
 import java.util.*;
@@ -20,6 +21,15 @@ public class ToStringStrategy {
     public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
         this.contexts = new HashSet<>(methodMetadata);
         this.maxLength = new ArrayList<>();
+    }
+
+    public Set<MethodMetadata> format(OutputFormatterCommand... commands){
+        if (commands != null) {
+            for (OutputFormatterCommand command: commands) {
+                command.execute(contexts);
+            }
+        }
+        return contexts;
     }
 
     public String render() {
