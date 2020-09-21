@@ -53,7 +53,7 @@
                 <executions>
                     <execution>
                         <phase>test</phase>
-                        <goals>
+                        <goals>How does TestSight identify a test case as an evergreen test?
                             <goal>lint-assert</goal>
                         </goals>
                     </execution>
