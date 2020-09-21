@@ -22,7 +22,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.github.jpmorganchase.lint-assert:plugin:0.1.0-SNAPSHOT'
+        classpath 'com.github.jpmorganchase.lint-assert:plugin:0.2.1-SNAPSHOT'
     }
 }
 
@@ -36,6 +36,7 @@ test {
         packageName = "sample" //optional or scan all
         verbose = false //optional, defaults to false
         includeClasspathJars = true //optional, defaults to false
+        printMode = "ALL" //optional, defaults to "ASSERTLESS_ONLY"
     }
 }
 
