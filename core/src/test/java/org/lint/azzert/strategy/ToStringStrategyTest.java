@@ -15,5 +15,4 @@ class ToStringStrategyTest {
         Assertions.assertNotNull(output);
         Assertions.assertTrue(output.contains("Package"));
     }
-
 }

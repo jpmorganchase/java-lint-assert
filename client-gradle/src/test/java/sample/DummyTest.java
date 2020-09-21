@@ -9,6 +9,12 @@ import java.util.function.Function;
 public class DummyTest {
 
     @Test
-    void dummy() {
+    void dummyNoAssert() {
     }
+
+    @Test
+    void dummyWithAssert() {
+        Assertions.assertTrue(true);
+    }
+
 }

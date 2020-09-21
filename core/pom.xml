@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.lint.assert</groupId>
+        <groupId>com.github.jpmorganchase.lint-assert</groupId>
         <artifactId>java-lint-assert</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.2.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -85,9 +83,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.lint.assert</groupId>
+            <groupId>com.github.jpmorganchase.lint-assert</groupId>
             <artifactId>samples</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>0.2.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>

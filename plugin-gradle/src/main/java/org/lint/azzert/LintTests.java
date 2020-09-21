@@ -17,6 +17,7 @@ public class LintTests {
     private String packageName;
     private boolean verbose;
     private boolean includeClasspathJars;
+    private String printMode = PrintMode.ALL.name();
 
     public Set<MethodMetadata> lintAssert() throws Exception {
 
@@ -33,10 +34,24 @@ public class LintTests {
         this.packageName = packageName;
     }
 
-    public void setVerbose(boolean verbose) { this.verbose = verbose; }
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
 
-    public boolean isIncludeClasspathJars() { return includeClasspathJars; }
+    public boolean isIncludeClasspathJars() {
+        return includeClasspathJars;
+    }
 
-    public void setIncludeClasspathJars(boolean includeClasspathJars) { this.includeClasspathJars = includeClasspathJars; }
+    public void setIncludeClasspathJars(boolean includeClasspathJars) {
+        this.includeClasspathJars = includeClasspathJars;
+    }
+
+    public String getPrintMode() {
+        return printMode;
+    }
+
+    public void setPrintMode(String printMode) {
+        this.printMode = printMode;
+    }
 
 }

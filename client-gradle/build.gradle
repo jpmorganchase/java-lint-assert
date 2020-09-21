@@ -22,7 +22,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.lint.assert:plugin:0.1.0-SNAPSHOT'
+        classpath 'com.github.jpmorganchase.lint-assert:plugin-gradle:0.2.1-SNAPSHOT'
     }
 }
 
@@ -33,9 +33,10 @@ test {
 
 //        the linter
     lintAssert {
-        packageName = "sample" //optional or scan all
-        verbose = false //optional, defaults to false
-        includeClasspathJars = true //optional, defaults to false
+        // packageName = "sample" //optional or scan all in current project
+        // verbose = false //optional, defaults to false
+        // includeClasspathJars = false //optional, defaults to false
+         printMode = "ASSERTLESS_ONLY" //optional, defaults to "ASSERTLESS_ONLY"
     }
 }
 

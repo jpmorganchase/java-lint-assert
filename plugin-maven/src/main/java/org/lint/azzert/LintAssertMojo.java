@@ -22,7 +22,7 @@ import java.util.Set;
 
 /*
 Test stand-alone:
-mvn install lint-assert:lint-assert
+mvn install lint-assert:lint-assert  -DprintMode=ALL
  */
 @Mojo(name = "lint-assert")
 public class LintAssertMojo extends AbstractMojo {
@@ -33,19 +33,26 @@ public class LintAssertMojo extends AbstractMojo {
     @Parameter( property = "includeClasspathJars", defaultValue = "false", required = false)
     private boolean includeClasspathJars;
 
-    @Parameter( property = "verbose", defaultValue = "false", required = false)
+    @Parameter( property = "verbose", required = false)
     private boolean verbose;
+
+    @Parameter( property = "printMode", required = false)
+    private String printMode = "ASSERTLESS_ONLY";
 
     @Parameter(defaultValue = "${project}", readonly = true, required = true)
     protected MavenProject project;
 
     public void execute() {
-        getLog().info("Hello from LintAssertMojo!;;" + this.toString());
         getLog().info(this.toString());
         try {
             Set<MethodMetadata> methodMetadata = new LintAssertProcessor(getUrlClassLoader(),
                     new LintAssertBuildParameters(packageName, verbose, includeClasspathJars)).process();
-            String result = new ToStringStrategy(methodMetadata).render();
+
+            final ToStringStrategy strategy = new ToStringStrategy(methodMetadata);
+            OutputFormatterCommand command = PrintMode.valueOf(printMode).getOutputFormatterCommand();
+            strategy.format(command);
+            String result = strategy.render();
+
             getLog().info(result);
         } catch (Exception e) {
             getLog().error("Failed to lint", e);

@@ -8,3 +8,4 @@ init.gradle
 .project
 .settings/
 target/
+.classpath

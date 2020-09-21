@@ -27,13 +27,16 @@ public class LintTestsPlugin implements Plugin<Project> {
                 project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets());
 
         project.getTasks().withType(Test.class).forEach(task -> {
-            LintTests taskExtension = task.getExtensions().create(EXTENSION_NAME, LintTests.class);
-            taskExtension.setClassLoader(urlClassLoader);
+            LintTests params = task.getExtensions().create(EXTENSION_NAME, LintTests.class);
+            params.setClassLoader(urlClassLoader);
 
             task.doLast(task1 ->
             {
                 try {
-                    String result = new ToStringStrategy(taskExtension.lintAssert()).render();
+                    final ToStringStrategy strategy = new ToStringStrategy(params.lintAssert());
+                    OutputFormatterCommand command = PrintMode.valueOf(params.getPrintMode()).getOutputFormatterCommand();
+                    strategy.format(command);
+                    String result = strategy.render();
                    // log.info(result);
                     project.getLogger().lifecycle(result);
                 } catch (Exception e) {
