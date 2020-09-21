@@ -112,7 +112,7 @@ I: Include the plugin in the build plugins and optionally overwrite default valu
 | -------------: |:-------------:| :-------------:|  :-------------:| :-------------:|  
 | includeClasspathJars | No| false | true, false | If true, scans classpath dependencies for test classes|
 | verbose    | No |  false  | true, false | If true, produced a lot of output before it prints the summary table|
-| packageName| No |   | tests package name (for ex. org.lint in Maven or "org.lint" in Gradle)| A root package to start scanning for test classes. If not specified, scans all packages. |
+| packageName| No |   | tests package name (for ex. org.lint in Maven or "org.lint" in Gradle)| A root package to start scanning for test classes. If not specified, scans all packages in a project. |
 | printMode  | No | ASSERTLESS_ONLY | Maven: {ALL, ASSERTLESS_ONLY}, Gradle: {"ALL", "ASSERTLESS_ONLY"} | Print ALL avalible test methods or ASSERTLESS_ONLY | 
 
 ## Future features: 

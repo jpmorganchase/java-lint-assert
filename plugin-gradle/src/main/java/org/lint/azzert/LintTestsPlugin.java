@@ -34,7 +34,7 @@ public class LintTestsPlugin implements Plugin<Project> {
             {
                 try {
                     final ToStringStrategy strategy = new ToStringStrategy(params.lintAssert());
-                    OutputFormatterCommand command = PrintMode.valueOf(params.getOutputMode()).getOutputFormatterCommand();
+                    OutputFormatterCommand command = PrintMode.valueOf(params.getPrintMode()).getOutputFormatterCommand();
                     strategy.format(command);
                     String result = strategy.render();
                    // log.info(result);
