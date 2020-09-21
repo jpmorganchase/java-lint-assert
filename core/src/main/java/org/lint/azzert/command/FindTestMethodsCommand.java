@@ -53,7 +53,6 @@ public class FindTestMethodsCommand implements LintCommand<Void> {
             successor.execute(context);
         }
 
-//        context.getMethods().forEach(System.out::println);
         return null;
     }
 }

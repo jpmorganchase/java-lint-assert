@@ -23,8 +23,6 @@ public class Context {
     }
 
     public MethodMetadata getMethodInFlight() {
-        if (methods.isEmpty())
-            return null;
         return (MethodMetadata) methods.toArray()[methods.size() - 1];
     }
 

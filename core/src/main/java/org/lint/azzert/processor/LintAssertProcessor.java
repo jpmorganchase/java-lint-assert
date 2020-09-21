@@ -17,15 +17,16 @@ public class LintAssertProcessor implements AssertProcessor<Set<MethodMetadata>>
         this.classLoader = classLoader;
         this.params = params;
     }
-    
+
     @Override
     public Set<MethodMetadata> process() throws Exception {
         final Context context = new ContextBuilder().build();
+
         new FindTestMethodsCommand(classLoader, params)
                 .withSuccessor(new ExemptDisabledClassesCommand())
-                    .withSuccessor(new RemoveMethodsThatAreNotTests())
+                    .withSuccessor(new RemoveMethodsThatAreNotTestsCommand())
                         .withSuccessor(new ExemptDisabledMethodsCommand())
-                            .withSuccessor(new CountAssertsPerMethod())
+                            .withSuccessor(new RemoveNonAssertCallsCommand())
                                 .execute(context);
 
         return context.getMethods();
