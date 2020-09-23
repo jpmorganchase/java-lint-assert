@@ -11,7 +11,7 @@ class ToStringStrategyTest {
     void render() throws Exception {
         ToStringStrategy strategy = new ToStringStrategy(new ContextBuilder().build().getMethods());
         String output = strategy.render();
-
+        System.out.println(output);
         Assertions.assertNotNull(output);
         Assertions.assertTrue(output.contains("Package"));
     }

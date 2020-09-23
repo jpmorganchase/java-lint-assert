@@ -13,7 +13,7 @@ public class ToStringStrategy {
     public static final int PADDING = 4;
     public static final char SEPARATOR_CHAR = '-';
 
-    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList("Package", "Test file name", "Test method name", "# asserts"));
+    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList("Package", "Test file name", "Test method name", "Asserts count", "Expected exception?"));
 
     private ArrayList<Integer> maxLength;
     private final Set<MethodMetadata> contexts;
@@ -107,6 +107,7 @@ public class ToStringStrategy {
         renderCell(sb, context.getFileName(), 1);
         renderCell(sb, context.getMethodName(), 2);
         renderCell(sb, context.getMethodCalls().size(), 3);
+        renderCell(sb, context.getAnnotations().size(), 4);
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {

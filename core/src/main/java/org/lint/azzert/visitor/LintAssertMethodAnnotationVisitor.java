@@ -17,6 +17,7 @@ public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
 
     @Override
     public void visit(String paramName, Object paramValue) {
+        System.out.println("paramName=" + paramName +", paramValue=" + paramValue);
         Set<AnnotationMetadata> annotations = context.getMethodInFlight().getAnnotations();
         ((AnnotationMetadata) annotations.toArray()[annotations.size() - 1]).addParameter(paramName, paramValue);
 

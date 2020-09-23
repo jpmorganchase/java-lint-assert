@@ -1,5 +1,6 @@
-package org.lint.azzert;
+package org.lint.azzert.strategy.output;
 
+import org.lint.azzert.OutputFormatterCommand;
 import org.lint.azzert.command.output.OutputOnlyAssertlessMethods;
 
 public enum PrintMode {

@@ -12,7 +12,7 @@ public class MethodMetadata {
     private String methodName;
     private String methodSignature;
 
-    //TODO::should packageName/className be part of ClassMetadata or ClssMetadata should be inlined?
+    //TODO::should packageName/className be part of ClassMetadata or instead ClassMetadata should be inlined?
     private String packageName;
     private String className;
     private ClassMetadata classMetadata;

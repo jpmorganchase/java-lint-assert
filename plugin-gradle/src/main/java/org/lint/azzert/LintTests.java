@@ -3,6 +3,7 @@ package org.lint.azzert;
 import org.lint.azzert.context.MethodMetadata;
 import org.lint.azzert.processor.LintAssertBuildParameters;
 import org.lint.azzert.processor.LintAssertProcessor;
+import org.lint.azzert.strategy.output.PrintMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
