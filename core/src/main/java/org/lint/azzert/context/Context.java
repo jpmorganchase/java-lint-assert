@@ -36,7 +36,7 @@ public class Context {
         next.setFileName(method.getFileName());
         next.setPackageName(method.getPackageName());
         next.setClassName(method.getClassName());
-        next.setClassMetadata(method.getClassMetadata());
+        next.setClassMetadata(method.getClassMetadata());;
     }
 
     public void withAnnotation(String annotation, boolean isAvailableForClientUse) {

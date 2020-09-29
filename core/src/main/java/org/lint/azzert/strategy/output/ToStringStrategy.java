@@ -1,6 +1,7 @@
 package org.lint.azzert.strategy.output;
 
 import org.lint.azzert.OutputFormatterCommand;
+import org.lint.azzert.command.output.ReadExpectedExceptionsCommand;
 import org.lint.azzert.context.MethodMetadata;
 
 import java.util.*;
@@ -13,7 +14,8 @@ public class ToStringStrategy {
     public static final int PADDING = 4;
     public static final char SEPARATOR_CHAR = '-';
 
-    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList("Package", "Test file name", "Test method name", "Asserts count", "Expected exception?"));
+    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList(
+            "Package", "Test file name", "Test method name", "Asserts count", "Expected exception"));
 
     private ArrayList<Integer> maxLength;
     private final Set<MethodMetadata> contexts;
@@ -33,6 +35,8 @@ public class ToStringStrategy {
     }
 
     public String render() {
+        format(new ReadExpectedExceptionsCommand());
+
         calculateEachCellWidth();
 
         StringBuilder content = this.renderHeader();
@@ -55,6 +59,15 @@ public class ToStringStrategy {
             consumer.accept(1, context.getFileName().length());
             consumer.accept(2, context.getMethodName().length());
             consumer.accept(3, context.getMethodCalls().size());
+
+//            Integer longestAnnotationLength = 0;
+//            Set<AnnotationMetadata> annotations = context.getAnnotations();
+//            for(AnnotationMetadata annotation: annotations){
+//                final Collection<Pair<String, String>> parameters = annotation.getParameters();
+//                if ( parameters.size() > 0)
+//                    longestAnnotationLength = parameters.iterator().next().getValue(1).toString().length();
+//            }
+//            consumer.accept(4, longestAnnotationLength);
         }
     }
 
@@ -107,7 +120,15 @@ public class ToStringStrategy {
         renderCell(sb, context.getFileName(), 1);
         renderCell(sb, context.getMethodName(), 2);
         renderCell(sb, context.getMethodCalls().size(), 3);
-        renderCell(sb, context.getAnnotations().size(), 4);
+
+//        Object exception = "";
+//        Set<AnnotationMetadata> annotations = context.getAnnotations();
+//        for(AnnotationMetadata annotation: annotations){
+//            final Collection<Pair<String, String>> parameters = annotation.getParameters();
+//            if ( parameters.size() > 0)
+//                exception = parameters.iterator().next().getValue(1);
+//        }
+//        renderCell(sb, exception, 4);
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {

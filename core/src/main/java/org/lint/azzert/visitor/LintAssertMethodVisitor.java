@@ -11,7 +11,7 @@ public class LintAssertMethodVisitor extends MethodVisitor {
 
     private int atLineNumber;
 
-    public LintAssertMethodVisitor(Context ctx) {
+    LintAssertMethodVisitor(Context ctx) {
         super(ctx.getAsmVersion());
         context = ctx;
         atLineNumber = 0;
