@@ -11,6 +11,7 @@ import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.lint.azzert.context.MethodMetadata;
 import org.lint.azzert.processor.LintAssertBuildParameters;
 import org.lint.azzert.processor.LintAssertProcessor;
+import org.lint.azzert.strategy.output.PrintMode;
 import org.lint.azzert.strategy.output.ToStringStrategy;
 
 import java.io.File;

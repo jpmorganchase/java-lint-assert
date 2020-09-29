@@ -19,8 +19,9 @@ public class ReadExpectedExceptionsCommand implements OutputFormatterCommand<Int
             Set<AnnotationMetadata> annotations = method.getAnnotations();
             for (AnnotationMetadata annotation : annotations) {
                 final Collection<Pair<String, String>> parameters = annotation.getParameters();
-                if (parameters.size() > 0)
-                    longestAnnotationLength = parameters.iterator().next().getValue(1).toString().length();
+
+//                if (parameters.size() > 0)
+//                    longestAnnotationLength = parameters.iterator().next().getValue(1).toString().length();
             }
         }
         return longestAnnotationLength;

@@ -1,8 +1,9 @@
 package org.lint.azzert.strategy.output;
 
 import org.lint.azzert.OutputFormatterCommand;
-import org.lint.azzert.command.output.ReadExpectedExceptionsCommand;
+import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
+import org.lint.azzert.strategy.decorator.Junit4AnnotationDecorator;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -35,7 +36,6 @@ public class ToStringStrategy {
     }
 
     public String render() {
-        format(new ReadExpectedExceptionsCommand());
 
         calculateEachCellWidth();
 
@@ -49,6 +49,7 @@ public class ToStringStrategy {
             maxLength.add(header.length());
         }
 
+        //set the initial cell width to be equal to its longest content
         for (MethodMetadata context : contexts) {
             final BiConsumer<Integer, Integer> consumer = (index, size) -> {
                 if (maxLength.get(index) < size) {
@@ -60,14 +61,12 @@ public class ToStringStrategy {
             consumer.accept(2, context.getMethodName().length());
             consumer.accept(3, context.getMethodCalls().size());
 
-//            Integer longestAnnotationLength = 0;
-//            Set<AnnotationMetadata> annotations = context.getAnnotations();
-//            for(AnnotationMetadata annotation: annotations){
-//                final Collection<Pair<String, String>> parameters = annotation.getParameters();
-//                if ( parameters.size() > 0)
-//                    longestAnnotationLength = parameters.iterator().next().getValue(1).toString().length();
+            Set<AnnotationMetadata> annotations = context.getAnnotations();
+            new Junit4AnnotationDecorator(annotations).getExpectedExceptionsLength();
+//            for (AnnotationMetadata annotation: annotations) {
+//                int cellWidth = new Junit4AnnotationDecorator(annotation).getExpectedExceptionsLength();
+//                consumer.accept(4, cellWidth);
 //            }
-//            consumer.accept(4, longestAnnotationLength);
         }
     }
 
