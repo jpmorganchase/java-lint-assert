@@ -36,9 +36,7 @@ public class ToStringStrategy {
     }
 
     public String render() {
-
         calculateEachCellWidth();
-
         StringBuilder content = this.renderHeader();
         return content.append(this.renderBody()).toString();
     }
@@ -62,11 +60,8 @@ public class ToStringStrategy {
             consumer.accept(3, context.getMethodCalls().size());
 
             Set<AnnotationMetadata> annotations = context.getAnnotations();
-            new Junit4AnnotationDecorator(annotations).getExpectedExceptionsLength();
-//            for (AnnotationMetadata annotation: annotations) {
-//                int cellWidth = new Junit4AnnotationDecorator(annotation).getExpectedExceptionsLength();
-//                consumer.accept(4, cellWidth);
-//            }
+            int length = new Junit4AnnotationDecorator(annotations).getExpectedExceptionLength();
+            consumer.accept(4, length);
         }
     }
 
@@ -84,9 +79,7 @@ public class ToStringStrategy {
     }
 
     protected StringBuilder renderBody() {
-
         final StringBuilder sb = new StringBuilder();
-
         for (MethodMetadata context : contexts) {
             renderRow(context, sb);
             sb.append(PIPE);
@@ -120,14 +113,12 @@ public class ToStringStrategy {
         renderCell(sb, context.getMethodName(), 2);
         renderCell(sb, context.getMethodCalls().size(), 3);
 
-//        Object exception = "";
-//        Set<AnnotationMetadata> annotations = context.getAnnotations();
-//        for(AnnotationMetadata annotation: annotations){
-//            final Collection<Pair<String, String>> parameters = annotation.getParameters();
-//            if ( parameters.size() > 0)
-//                exception = parameters.iterator().next().getValue(1);
-//        }
-//        renderCell(sb, exception, 4);
+        Set<AnnotationMetadata> annotations = context.getAnnotations();
+        //ex. [AnnotationMetadata{annotationName='Lorg/junit/Test;', parameters=[[expected, Ljava/lang/NullPointerException;]]}]
+        //ex. [AnnotationMetadata{annotationName='Lorg/junit/Test;', parameters=[]}]
+        String ex = new Junit4AnnotationDecorator(annotations).getExpectedException();
+        if (ex == null) ex = "";
+        renderCell(sb, ex, 4);
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {
