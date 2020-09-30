@@ -2,12 +2,13 @@ package org.lint.azzert.strategy.decorator;
 
 import org.javatuples.Pair;
 import org.lint.azzert.context.AnnotationMetadata;
+import org.lint.azzert.strategy.AnnotationDecorator;
 
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Function;
 
-public class Junit4AnnotationDecorator {
+public class Junit4AnnotationDecorator implements AnnotationDecorator {
 
     private final AnnotationMetadata annotation;
 
@@ -27,11 +28,13 @@ public class Junit4AnnotationDecorator {
         annotation = annotations.stream().filter(a-> "Lorg/junit/Test;".equals(a.getAnnotationName())).findAny().orElse(null);
     }
 
+    @Override
     public String getExpectedException() {
         if (annotation == null) return null;
         return expectedExceptionString.apply(annotation.getParameters());
     }
 
+    @Override
     public int getExpectedExceptionLength() {
         if (annotation == null) return 0;
         String exception = expectedExceptionString.apply(annotation.getParameters());

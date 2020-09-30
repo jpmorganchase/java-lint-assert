@@ -3,10 +3,11 @@ package org.lint.azzert.strategy.output;
 import org.lint.azzert.OutputFormatterCommand;
 import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.strategy.decorator.Junit4AnnotationDecorator;
+import org.lint.azzert.strategy.AnnotationDecorator;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public class ToStringStrategy {
 
@@ -20,6 +21,12 @@ public class ToStringStrategy {
 
     private ArrayList<Integer> maxLength;
     private final Set<MethodMetadata> contexts;
+
+
+    final Function<MethodMetadata, AnnotationDecorator> decorator = context1 -> {
+        Set<AnnotationMetadata> annotations = context1.getAnnotations();
+        return context1.getTestFramework().getAnnotationDecorator(annotations);
+    };
 
     public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
         this.contexts = new HashSet<>(methodMetadata);
@@ -59,8 +66,8 @@ public class ToStringStrategy {
             consumer.accept(2, context.getMethodName().length());
             consumer.accept(3, context.getMethodCalls().size());
 
-            Set<AnnotationMetadata> annotations = context.getAnnotations();
-            int length = new Junit4AnnotationDecorator(annotations).getExpectedExceptionLength();
+            AnnotationDecorator decorator = this.decorator.apply(context);
+            int length = decorator.getExpectedExceptionLength();
             consumer.accept(4, length);
         }
     }
@@ -113,10 +120,8 @@ public class ToStringStrategy {
         renderCell(sb, context.getMethodName(), 2);
         renderCell(sb, context.getMethodCalls().size(), 3);
 
-        Set<AnnotationMetadata> annotations = context.getAnnotations();
-        //ex. [AnnotationMetadata{annotationName='Lorg/junit/Test;', parameters=[[expected, Ljava/lang/NullPointerException;]]}]
-        //ex. [AnnotationMetadata{annotationName='Lorg/junit/Test;', parameters=[]}]
-        String ex = new Junit4AnnotationDecorator(annotations).getExpectedException();
+        AnnotationDecorator decorator = this.decorator.apply(context);
+        String ex = decorator.getExpectedException();
         if (ex == null) ex = "";
         renderCell(sb, ex, 4);
     }
