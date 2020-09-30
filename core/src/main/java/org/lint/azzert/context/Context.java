@@ -51,11 +51,17 @@ public class Context {
         }
     }
 
-    public Map<String, TestFrameworkStrategy> getSupportedTestFrameworks() { return Collections.unmodifiableMap(this.testFrameworks); }
+    public Map<String, TestFrameworkStrategy> getSupportedTestFrameworks() {
+        return Collections.unmodifiableMap(this.testFrameworks);
+    }
 
-    public int getAsmVersion() { return this.asmVersion; }
+    public int getAsmVersion() {
+        return this.asmVersion;
+    }
 
-    public Set<MethodMetadata> getMethods() { return methods; }
+    public Set<MethodMetadata> getMethods() {
+        return methods;
+    }
 
     @Override
     public String toString() {

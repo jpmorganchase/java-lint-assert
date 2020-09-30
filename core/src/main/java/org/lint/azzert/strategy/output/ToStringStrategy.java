@@ -17,7 +17,7 @@ public class ToStringStrategy {
     public static final char SEPARATOR_CHAR = '-';
 
     public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList(
-            "Package", "Test file name", "Test method name", "Asserts count", "Expected exception"));
+            "Package", "Test file name", "Test method name", "Asserts count", "Exception expected?"));
 
     private ArrayList<Integer> maxLength;
     private final Set<MethodMetadata> contexts;
@@ -65,10 +65,6 @@ public class ToStringStrategy {
             consumer.accept(1, context.getFileName().length());
             consumer.accept(2, context.getMethodName().length());
             consumer.accept(3, context.getMethodCalls().size());
-
-            AnnotationDecorator decorator = this.decorator.apply(context);
-            int length = decorator.getExpectedExceptionLength();
-            consumer.accept(4, length);
         }
     }
 
@@ -121,9 +117,8 @@ public class ToStringStrategy {
         renderCell(sb, context.getMethodCalls().size(), 3);
 
         AnnotationDecorator decorator = this.decorator.apply(context);
-        String ex = decorator.getExpectedException();
-        if (ex == null) ex = "";
-        renderCell(sb, ex, 4);
+        boolean isExceptionExpected = decorator.isExceptionExpected();
+        renderCell(sb, isExceptionExpected, 4);
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {

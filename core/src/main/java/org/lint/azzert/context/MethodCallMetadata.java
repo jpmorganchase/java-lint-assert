@@ -31,4 +31,13 @@ public class MethodCallMetadata {
 
         return ownerPackage;
     }
+
+    @Override
+    public String toString() {
+        return "MethodCallMetadata{" +
+                "ownerClass='" + ownerClass + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", atLineNumber=" + atLineNumber +
+                '}';
+    }
 }

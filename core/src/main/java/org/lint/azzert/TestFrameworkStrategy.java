@@ -24,7 +24,7 @@ public interface TestFrameworkStrategy {
 
     default void removeAllNotAssertCalls(MethodMetadata methodMetadata){
         List<MethodCallMetadata> methodCalls = methodMetadata.getMethodCalls();
-        methodCalls.removeIf(m -> ! getAssertApis().contains(m.getOwnerPackage()));
+        methodCalls.removeIf(m -> getAssertApis().stream().filter(api -> m.getOwnerPackage().contains(api)).count() == 0);
     }
 
     default boolean isTest(MethodMetadata context){

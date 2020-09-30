@@ -29,6 +29,12 @@ public class Junit4AnnotationDecorator implements AnnotationDecorator {
     }
 
     @Override
+    public boolean isExceptionExpected(){
+        if (annotation == null) return false;
+        return expectedExceptionString.apply(annotation.getParameters()) == null ? false : true;
+    }
+
+    @Override
     public String getExpectedException() {
         if (annotation == null) return null;
         return expectedExceptionString.apply(annotation.getParameters());
