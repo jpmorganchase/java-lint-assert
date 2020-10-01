@@ -14,7 +14,7 @@ public class TestNgIntegrationTest extends LintAssertTest {
     @Test
     void assertTestNg() throws Exception{
         final Set<MethodMetadata> methods = new LintAssertProcessor(null,
-                new LintAssertBuildParameters("sample.testng", false, true)).process();
+                new LintAssertBuildParameters("sample.testng", false, true, "ALL")).process();
 
         String content = super.render(methods);
         System.out.println(content);

@@ -1,6 +1,6 @@
 package org.lint.azzert.strategy.output;
 
-import org.lint.azzert.OutputFormatterCommand;
+import org.lint.azzert.ToStringStrategy;
 import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
 import org.lint.azzert.strategy.AnnotationDecorator;
@@ -9,39 +9,32 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public class ToStringStrategy {
+public class DefaultToStringStrategy implements ToStringStrategy {
 
     public static final String PIPE = "|";
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static final int PADDING = 4;
     public static final char SEPARATOR_CHAR = '-';
 
-    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList(
+    public Collection<String> getTableHeaders (){
+        return Collections.unmodifiableList(Arrays.asList(
             "Package", "Test file name", "Test method name", "Asserts count", "Exception expected?"));
+    }
 
     private ArrayList<Integer> maxLength;
     private final Set<MethodMetadata> contexts;
-
 
     final Function<MethodMetadata, AnnotationDecorator> decorator = context1 -> {
         Set<AnnotationMetadata> annotations = context1.getAnnotations();
         return context1.getTestFramework().getAnnotationDecorator(annotations);
     };
 
-    public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
+    public DefaultToStringStrategy(Set<MethodMetadata> methodMetadata) {
         this.contexts = new HashSet<>(methodMetadata);
         this.maxLength = new ArrayList<>();
     }
 
-    public Set<MethodMetadata> format(OutputFormatterCommand... commands){
-        if (commands != null) {
-            for (OutputFormatterCommand command: commands) {
-                command.execute(contexts);
-            }
-        }
-        return contexts;
-    }
-
+    @Override
     public String render() {
         calculateEachCellWidth();
         StringBuilder content = this.renderHeader();
@@ -50,7 +43,7 @@ public class ToStringStrategy {
 
     protected void calculateEachCellWidth() {
         //the initial cell width must fit the header's label, so that a 'no tests' table is formatted
-        for (String header : HEADERS) {
+        for (String header : getTableHeaders()) {
             maxLength.add(header.length());
         }
 
@@ -93,7 +86,7 @@ public class ToStringStrategy {
 
     protected void renderHeaderRow(StringBuilder sb) {
         int i = 0;
-        for (String header : HEADERS) {
+        for (String header : getTableHeaders()) {
             renderCell(sb, header, i);
             i++;
         }

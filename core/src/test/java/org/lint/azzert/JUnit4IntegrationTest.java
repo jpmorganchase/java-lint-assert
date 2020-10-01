@@ -16,7 +16,7 @@ class JUnit4IntegrationTest extends LintAssertTest {
     void assertJUnit4() throws Exception {
 
         final Set<MethodMetadata> methods = new LintAssertProcessor(
-                null, new LintAssertBuildParameters("sample.junit4", false, true)).process();
+                null, new LintAssertBuildParameters("sample.junit4", false, true, "ALL")).process();
 
         String content = super.render(methods);
         System.out.println(content);

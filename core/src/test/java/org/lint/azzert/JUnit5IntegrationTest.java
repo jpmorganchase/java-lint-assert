@@ -14,7 +14,7 @@ public class JUnit5IntegrationTest extends LintAssertTest{
     void assertJUnit5() throws Exception{
 
         final Set<MethodMetadata> methods = new LintAssertProcessor(null,
-                new LintAssertBuildParameters("sample.junit5", false, true)).process();
+                new LintAssertBuildParameters("sample.junit5", false, true, "ALL")).process();
 
         String content = super.render(methods);
         System.out.println(content);

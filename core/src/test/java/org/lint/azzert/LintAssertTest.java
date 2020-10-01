@@ -2,7 +2,7 @@ package org.lint.azzert;
 
 import org.lint.azzert.context.MethodCallMetadata;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.strategy.output.ToStringStrategy;
+import org.lint.azzert.strategy.output.DefaultToStringStrategy;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,9 +21,8 @@ public class LintAssertTest {
             findMethod.apply(mtds, name).get(0).getMethodCalls();
 
 
-    protected String render(Set<MethodMetadata> methods, OutputFormatterCommand... commands) {
-        ToStringStrategy strategy = new ToStringStrategy(methods);
-        strategy.format(commands);
+    protected String render(Set<MethodMetadata> methods) {
+        ToStringStrategy strategy = new DefaultToStringStrategy(methods);
         return strategy.render();
     }
 
