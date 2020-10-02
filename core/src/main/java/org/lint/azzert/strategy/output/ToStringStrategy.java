@@ -1,24 +1,31 @@
 package org.lint.azzert.strategy.output;
 
-import org.lint.azzert.ToStringStrategy;
+import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
 import org.lint.azzert.strategy.AnnotationDecorator;
+import org.lint.azzert.strategy.framework.JUnit4Strategy;
 
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public class DefaultToStringStrategy implements ToStringStrategy {
+public class ToStringStrategy {
 
     public static final String PIPE = "|";
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static final int PADDING = 4;
     public static final char SEPARATOR_CHAR = '-';
 
+    private TestFrameworkStrategy defaultStrategy = new JUnit4Strategy();
+    //FIXME - refactor
     public Collection<String> getTableHeaders (){
-        return Collections.unmodifiableList(Arrays.asList(
-            "Package", "Test file name", "Test method name", "Asserts count", "Exception expected?"));
+        if (defaultStrategy.equals(new JUnit4Strategy().getSupportedFramework()))
+            return Collections.unmodifiableList(Arrays.asList(
+                "Package", "Test file name", "Test method name", "Asserts count", "Exception expected?"));
+        else
+            return Collections.unmodifiableList(Arrays.asList(
+                    "Package", "Test file name", "Test method name", "Asserts count"));
     }
 
     private ArrayList<Integer> maxLength;
@@ -29,12 +36,13 @@ public class DefaultToStringStrategy implements ToStringStrategy {
         return context1.getTestFramework().getAnnotationDecorator(annotations);
     };
 
-    public DefaultToStringStrategy(Set<MethodMetadata> methodMetadata) {
+    public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
         this.contexts = new HashSet<>(methodMetadata);
         this.maxLength = new ArrayList<>();
+        if (this.contexts.size() > 0)
+            this.defaultStrategy = this.contexts.iterator().next().getTestFramework();
     }
 
-    @Override
     public String render() {
         calculateEachCellWidth();
         StringBuilder content = this.renderHeader();
@@ -109,9 +117,12 @@ public class DefaultToStringStrategy implements ToStringStrategy {
         renderCell(sb, context.getMethodName(), 2);
         renderCell(sb, context.getMethodCalls().size(), 3);
 
-        AnnotationDecorator decorator = this.decorator.apply(context);
-        boolean isExceptionExpected = decorator.isExceptionExpected();
-        renderCell(sb, isExceptionExpected, 4);
+        //FIXME - refactor - this 'if' is horrible and identical to the one in getTableHeaders()
+        if (defaultStrategy.equals(new JUnit4Strategy().getSupportedFramework())) {
+            AnnotationDecorator decorator = this.decorator.apply(context);
+            boolean isExceptionExpected = decorator.isExceptionExpected();
+            renderCell(sb, isExceptionExpected, 4);
+        }
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {
