@@ -42,5 +42,5 @@ branches:
     - "/.*/"
 
 after_success:
-  - gpg --fast-import .travis/secret_gpg.enc
+  - gpg --fast-import .travis/secret.gpg
   - mvn deploy -Prelease-sign-artifacts --settings settings.xml
