@@ -1,46 +1,34 @@
 install: gradle wrapper --gradle-version 4.9
-
 language: java
-
 before_deploy:
-  - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
-  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep -v '\[')
-
+- mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
+- export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep
+  -v '\[')
 jdk:
-  - oraclejdk11
-
+- oraclejdk11
 addons:
   sonarcloud:
-    organization: "com.github.jpmorganchase"
+    organization: com.github.jpmorganchase
     token:
       secure: "$SONAR_TOKEN"
-
 cache:
   directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.sonar/cache'
-
-env:
-  global:
-    - # GITHUB_SECRET_TOKEN
-    - secure: "saYjSrzYg5Gi9iOKnz0cH3CkzQAi0CRsj5BmmVUVkrQ6FclfO2IGMQ7QejMqoXj7obB8rAbuvtL2LHxn1gA95jzIsWxgnizK6iL4492pHk0hglI8DY5DEmXH7iZGZ6AnhhEfIAlLb5q/KT0fydG3cFiZDrj8QVDwLc/pAOgI2wfEDYjEQcuBXWI6+TWlPWSOHxcrqc1+4GGm023HxalWX2Lk/sSJnrCKgXSbZEOzsVTlnjjHZ3+PYZfWgaRerr6+WfbvdmNT+hffl9IPdIfwtTZsqqs0op5m5aNE+Ms0iV72iwRTIujoR13NozI0rz01IjL4tD524KvEMvzgB52C9v12TT35S7OBYZHuGDwu2Xxiq1qRSOfwTgYj752QUiaqSSfW7z+y32gY0i9qE4obbFnxByWGgryexPDeFF/GLBqIk4uJc+fivPHMfzyVq899or7b3x0XKhDDp9X85yq4/heS8ey6sjYlo6CwcFijOWmF/vAMgK/Gg82TaZdehiN0ab7MFmX55WAjccw9Um6dkBlWRJZqFvbUaPiklNQfR6VyizO/VrswEx8nbxKS/6sGjGV/c+LQkrB+7NxkK2TWic/lzLFkmEQL18jnMg/utu2HXKbxeBRSsRsjxt1U3APzwMdqPT1iLsNj8ZL/IZrhTe3xe1V0+FfCZiSgNnXG+ik="
-    - # SONATYPE_USERNAME
-    - secure: "Dd7NIM8CbW9gkGEq7Xv6AkyXcJnYI5VlgZ6FDfrmlUmBxj4Zy39rLlXGpvcFXSJqzaGLIY9E5ZVKOVikEZaYrF5phjprPF1XMGCzQCAt3UO0JkQ3mHmu9zIZ2EEkwse1+3HXVQPYZlXUs8Ggla51t4C5JFHE9ubAB+cBe6zVhtGq5fj7xtyN3Uq0SpgKxwY2KY85pfmid1eQXuv+vZFV1AH86ChWuIM0doLVCc+RAr6KXmOCZbQ3bVf09lZiIbflGkuCCpr8QTS7/5jjJqTfOcVjIpqBeGt6+VlgjQ15bAloE8aCyYRGM237c0XPNXwyaL3xgYyncDH/AVuYrOKrF1n1YO/aktso1M/v51PsF6aNErCU5TckAekvN8r54oGD3lA3Nc5+Rpwx/C8QOPSH550PIEda7zePswZQLky4fgtHAYLWgl1FWfyFN0uCxYel731iDVicd+ozuzPs6SUoAabYs0kdMqQvEEVgpPSd3+1mYJklHi0b73NNhLub+dyV5WY4MpTnEPIZNoNiLhg+tQiZDTFEVkB6XOcSofPMW6jnTjz4alzWhDrERWz21/jzb719ybiucOnf9bKYfoXsfgmqsBP9BxKofPY6T1+wsgXBedFtu1LNST1kDSxYp8W30+Of0AhEDWeDn/xjlifkFkctp9xdNt4VC72CN1+D804="
-    - # SONATYPE_PASSWORD
-    - secure: "LjJPm9mV8g4k6a7aV3T1czfrqmYlbPaRVNU1ck/62owKwowDuKt2AjR7WzUvh/juIOlH0s20IoTezzg/CQh2yMIawPKn/LLIjJPhJ6lj7Z+ahgK2roevtYWOhAi7jzW+1C6oCsZy6q4dBCy5UcE0NxeG4Lgywd6dWrg7SiyUthil8A9qEhWiCvLbGZRFXveAz6Pb/SFm39Khx55QMAoLHDOJlWBJbDnGj2X3swkkyM+OsYTyG+SRaZNHEG5JWZRlYDK7Osd7ABam5QTBdXsglYAIseEhAY4A6eCbP70CaPPLmmiBAw9wKbMD1dhcVlAlI2UaXIF9iV3q7hP5xRwlRkdS0Fz9LwyvrEH12AWnNlozndYffzFmEhWgxMhODPBKQlqkmzdJWcStMejdJaULpHJ7GlJndEdJ3kmNUFqukMgeb/3ExXzEUw9+fP9IQ68tR6kSUz81iPeWId0AfPxHgkW3E/IsacXnPp/okqc2P3yiw6Hz2ZhJVuIyzv8Xqa/8KiWXxTYP5pAs+27hTdfwegPisXBKUVWArw5EioGNaRCPgAfFMj1E+tPpvYaUbDFOxzNoCTBSTmc/yipesmPgkrBWpCPZN+t4qLhovgX8F5S3RLAcKcT2I2Ix7fWvjeZjtLRdAbtwhvilk0dBvRoV0+XKT2FgYp+aXNbZEr6W6cI="
-    - # GPG_KEY_ID
-    - secure: "BhtLHNdiEV4oLkTVSyEbGFpEb6D2U63xFSGfPLrE7JIxT8AGtenV9BBrclchUN2JBBTnfVtFeo+ayy96TbDFThowglgSNR7ScsQgLmn43rE/s9qPxkAGCQdNi/k5B9O4T1Lvvx7J5fxDSybMVaZ+oG9JFmxQ+tcpUVD4GRYssi78yWVkMzkiI0Tr7Etij8Pu55UR1jj8xjOmR+F2c84TYs5ASr91Rfhl7Qq66wIv+Mtf+71ZgzQo3NDq8F57ZTEXx7TQqk/m5Ot3BJTmY6qu/pW8awHHgVZq+Cy+Jy6OEPy8yBx9i7w5Rnp2Sz1nLadSPZ0GN6pNHC+OFgcIN/Kb5Ct6kkkSlN6QiXiB9+Oot5u8XyXmn6Yh+D5Yum1QoMpV+tJJrUdJ8UBhdQVBLLSHH5wtOJjlGZXAATIeDmAs2jOIrPKA/NF82lKP4jmeZ+e/lnHe0u8z/3elMK5eXeivfmOW1sW2za6Upolh8UFqa5UlgdnXN1b5wyihw40La8GfZU7nE0xpmWs+8xZucOv+eLZbXtqiJAOcybjEUYDL/ZT0rjTeNnKesSnVmghLds03PuE/5iLd0Rlh/Ef1kTGHpWoV6pts8IUQaCX6vcnKdO8y4k17ZOQznvcUQd/yxnilcYGz9CEKN6EC90Ac5mWeGDz4GvvcTE4oEmaubxy5kO0="
-    - # GPG_PASSPHRASE
-    - secure: "wFt/YxoWIqilN3nLkkswi87q7dMLQPLQ88O0WHKPJFLpsK3iF+ChF0j0xTIFwSPQJxI2kfAM5QGRUNQg9WDkwjSHFLwtNKFrAMt7NVZQRYlvVgQaXvnabji4HuWZ2D/xL9vdVicEsojgGdHVL98VGn95FX7Ya1xbSbc+5T8+KFhh7v1OkG8+CAa4omjFP3Hx0pKPkvtCkMNuWuC9QN3MX+hdElOhRRQM8ht1c/+SHHnU0bCazFgDho/OdSmfTAqMZIJlaDaPFUhxNCDry7ElQL3WwlenCo6whxo4NboZeMwS5N2fx6R9WUgxC9qRx0oRI1Nw6mImSwy+WQn9xzkfI19LQmu9B35ojU+UcOC+KknrRmS0PM7G2GxwtOj4KSeHuDP3KqqgsEyW3o+T3Z5MQ5IyiYy9KAUbx/1Lbq3cIJxumiP4xTjVyE/BSwtFu9gCXOdfj7Cs+W7HAMpG5/s7MlDg30vjUVs0psUjcCcvU38/UwJObKF1kMu+nN2PGv3N9kQUU2sbN/i4DR2De4GlK16tSiKCV2yr3/DPX0tFSlCAKyC++K6DY/qKiHxbeFTbBvyGFCERPjiIgwLEvyrHMi5RZIVcS7leEM4MkYhoSeI2RmRvemOrZt9DK868MaHIpk+Fm3G6oqj71reDNPxI4EmqhCyvI1n+go6tgPq9DnU="
-    - GPG_KEY_LOCATION=".travis/secret.gpg"
-    - ENCRYPTED_GPG_KEY_LOCATION=".travis/secret.gpg.enc"
-
+  - "$HOME/.m2/repository"
+  - "$HOME/.sonar/cache"
 branches:
   only:
-    - master
-    - dev
-    - "/.*/"
-
+  - master
+  - dev
+  - "/.*/"
 after_success:
-  - gpg --fast-import .travis/secret.gpg
-  - mvn deploy -Prelease-sign-artifacts --settings settings.xml
+- gpg --fast-import cod
+- mvn deploy -Prelease-sign-artifacts --settings settings.xml
+before_install:
+- openssl aes-256-cbc -K $encrypted_81c98acad902_key -iv $encrypted_81c98acad902_iv
+  -in codesigning.asc.enc -out codesigning.asc -d
+env:
+  global:
+  - secure: CL/OXw0oOFui9ku79exJAstu6f4d0T9NsjnAHmdpjL/aohvJ52JvA4FpW1Vi82wys17mrerXUPm+Cuo05HZ1zP1OSBuFfQpWepYsbjVxn2growTb4z+ECABSAGscA2PcPdzlmO7YIpwIs2nGmM1Nwgvytvij0YbHqts8p+XLZzhx2YU1H6j17KVpuOMDF3Gt9H+gQQ0a8D2XIIfRqUaaU2q75x67+nyKNrxbggrvVLlDHwzfdRiBkMvzl9hWUXd/Jw31NMmONdnn7RuagGmaCSW3qx6qluHDu88DhVOKCnS5+DoDkZqfFwno4XVerxjgOr4br3sEeOK1pJy0SWrFc4UGyMkLLm2vxSKoLh1y9jv84iPgbdAYOPdzDDsSLVm15uNz2KW67v3sZN3mj7KzRd2NuvEnOkKDgWQoBeTF7g8ZfE2ARM4OLHrmV2u5LYRb01uPUcFf8bLATWPRowb1SKMdfTqLyQBz2/vQQtbpx7nTBZtXInaXYe8fL3K3n+E0FlIhWWu81mUFCmXcvdA0y5mN7PBptbPz/iEUErKit1nup2+OxzAtkCpMmdTjGuE8qqnTtrbhfCreOOdCIbbY8JBW9I7qahOJTsqqlGYJbAlTfVQ5n1OfTOjzjfh5BXAx36neMXP1Ye/Mb+BthNPvGj6kIxQJC3LHNDeiFuSj2EE=
+  - secure: jZ4CtiErFh0zHpmjwFhEYDVlIjhyOVCmEdZ2U4sKZQ3GXel/a9dPk1Rsbk43xu7pctRLZTr9jFIE9q/YP3/NhYCQUFJdGbjIj/a2ty5js/HDSm3Pp9YEMjzeeuIxkgmcx4hYQ3dWqje/7aW6Ya9b7R9aH8AGlWJ/xjchnA/8k3NKbARz6TQbgbFgHdp6FnE/g3A/CSEv7uIl2MAbZ4Cb9dogilhwOdVfitfFCf8Lg0uwYamgGQLTOAzpOKsPfMpsLMq5+8ws6p7ws8K36hUe4HrNlxK7W1+9iVt1GG4giFFjAljPm/RW1KLCLV3Oac8bjFGNB2ZerdC5KXFTXuoA5Sia3exNvdhCpQ72BhR8kVKaNUixaSLTSJWSk/S+3mVXtYCu9boaApVJntnDZUX5b4/ARb7gIcGq3pFXD28mHheMBgqnBaVJUn7C86OqLb5ppK5OnNEjh/B60HAWu8XzdEcmsHVCbmQN4jtTnBOI+o68DnKv3/CIjKgLBQe6F3zHJWtPjtOAiwqsJQU4Uc35nv3SEHjZK5YQgBvHXYMsHuF5AB3+IyVMsqHWKB94Ita/EdjHll3/xSOJzC4Ctf8AANb2XcQ7rKh7m2PMSPULTmCnOBWiYb06gg7DJoNsYRPjRZuWEkVZQoVik6fEb0kgM77Myjsf/U2RWy7TCC/f8WM=
+  - secure: r8QzVL6xRSczHmHzCaEBFoKVleJT1qut1HFmlal/kZq1xPY1wsDMMBmNgHD3zYq2nn8+nQGN15V38h51LqgtFYZbUTvT38rsrS0/0aikPUT4ut6v9GbVs3X1Ae1YDYKudowPc/70hMr6JS8U3PB7HXOmV5SeUzg9/7XOmhhHLoFr3/ncu4ZL2utx6rW71vokcc2R0RhcjSrd0UvYveCYa0rTCgB0ZK3D4VggMnfvQQckK0CAMWtAvW8pD5mRO8V/Y5hTISfqLZSJqF30xXxZhUHJETeSYRf/IV+vWDbayZvkptKRN7R0h4n9jT6ixQjqQUXSH2a7Ds4PdkaqXG62zVBRqyX+Ezhronp33NwW5d0lHemVIkAE695smZktC/5D6ggQkFEepNT6jAz/Je3vppBy5T5ffq1CHy2q013pxNz3088oQFk/kfYcwLIaxg+++CDzkZaoxi2wCtpjU3J/XKvZ+P9GG1lXQRC2MVsZ7pi1d/91D6JI8qOs/CJlYOwcNfEH0iVfu7wmwdFqJe/RRqUJ+9Tv5R9VEucloiiIt30dDNX276/AjpZL9S1kjpW+FKxGh+Fz9vjsWpDqOnPTejUQexMWUHxL2aACAzle33o92LstxP2Dd0gYcLvD/Dh5gxLRvNHVOe8Yc3g0akL1C/mKxSY09/ziy4d+qAoRVWM=
+  - secure: qwgEHbyJjCWBeIfuCZN0vQZq5aAWLQL3qVtSKMwwLJGbWGItNxSlQraA/sTMXDlRXJcFxZSZ7XlJs+d4iQMZTuWFsCtwyPk7MjI2s6CPImjAZvuNYYZlSeNzmobXMZSZ5/FCtvDJ0sI0xZ0Wie1t3sMOomLkzKS396mnLI0nRJe9coV8GFWB+8uwGXf6dnoOS4snBGhITtVURPe7rAgxVG5yqIqFym/g6wFzIAET5tF21jzvlVrMXqR03232ebXkvkj/bhM1FwD/uXvzGr59UH9SdlGCJKCqLGyXk336lhNm2+NJrGxs2Qju8JxJ4LhQtY9fmbgpw04FPGL32dGH/q+hiJ1WRp2DxfDp4UUBcZeEWv5sQDBYdtJxq6U8rSDYMRTZCr3/vfDvZcGPhjfY7bWu5SHpmYd1UPVc32NMhxbeHe6roksm8zDxDub8vcyXNhNfptxBkVMCPMWujH8HwoRAhJ6Dt2DaIScsQCvi5BJDd17+CWsOaSBHcO4YdR646DliwzUn2+0CxDbmv1ryuWxrpZtjMw2fBrdX5PB13Lpow7PrbcMTltkdK/2SZo34rmSLnPoaSyOBSX8/iS/o47OagwtmqEBO+sxi6E67aKEZQUFY4/WHsgnA4Coa2A8If5SOK0DxCQD+gUfVrwFMOMVTZt0eTepoPYrnJiVAXoc=
