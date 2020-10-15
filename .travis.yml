@@ -23,8 +23,7 @@ branches:
 after_success:
 - mvn deploy -Prelease-sign-artifacts --settings settings.xml
 before_install:
-- openssl aes-256-cbc -K $encrypted_81c98acad902_key -iv $encrypted_81c98acad902_iv
-  -in codesigning.asc.enc -out codesigning.asc -d
+- openssl aes-256-cbc -K $encrypted_81c98acad902_key -iv $encrypted_81c98acad902_iv -in codesigning.asc.enc -out codesigning.asc -d
 env:
   global:
   - secure: CL/OXw0oOFui9ku79exJAstu6f4d0T9NsjnAHmdpjL/aohvJ52JvA4FpW1Vi82wys17mrerXUPm+Cuo05HZ1zP1OSBuFfQpWepYsbjVxn2growTb4z+ECABSAGscA2PcPdzlmO7YIpwIs2nGmM1Nwgvytvij0YbHqts8p+XLZzhx2YU1H6j17KVpuOMDF3Gt9H+gQQ0a8D2XIIfRqUaaU2q75x67+nyKNrxbggrvVLlDHwzfdRiBkMvzl9hWUXd/Jw31NMmONdnn7RuagGmaCSW3qx6qluHDu88DhVOKCnS5+DoDkZqfFwno4XVerxjgOr4br3sEeOK1pJy0SWrFc4UGyMkLLm2vxSKoLh1y9jv84iPgbdAYOPdzDDsSLVm15uNz2KW67v3sZN3mj7KzRd2NuvEnOkKDgWQoBeTF7g8ZfE2ARM4OLHrmV2u5LYRb01uPUcFf8bLATWPRowb1SKMdfTqLyQBz2/vQQtbpx7nTBZtXInaXYe8fL3K3n+E0FlIhWWu81mUFCmXcvdA0y5mN7PBptbPz/iEUErKit1nup2+OxzAtkCpMmdTjGuE8qqnTtrbhfCreOOdCIbbY8JBW9I7qahOJTsqqlGYJbAlTfVQ5n1OfTOjzjfh5BXAx36neMXP1Ye/Mb+BthNPvGj6kIxQJC3LHNDeiFuSj2EE=
