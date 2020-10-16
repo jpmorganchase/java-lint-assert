@@ -19,6 +19,7 @@ public class AnnotationMetadata {
     public String getAnnotationName() {
         return annotationName;
     }
+
     public Collection<Pair<String, String>> getParameters() {
         return parameters;
     }

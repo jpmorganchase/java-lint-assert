@@ -2,7 +2,9 @@ package sample.junit4;
 
 import org.junit.Assert;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 
 public class AssertJunit4Style {
@@ -25,5 +27,19 @@ public class AssertJunit4Style {
     @Ignore
     public void disabledTest(){
         throw new UnsupportedOperationException();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void whenExceptionThrown_thenExpectationSatisfied() {
+        String test = null;
+        test.length();
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+    @Test
+    public void throwsExceptionWithSpecificType() {
+        thrown.expect(NullPointerException.class);
+        throw new NullPointerException();
     }
 }

@@ -5,10 +5,11 @@ import org.lint.azzert.context.MethodMetadata;
 
 import java.util.Set;
 
-public class OutputOnlyAssertlessMethods implements OutputFormatterCommand {
+public class OutputOnlyAssertlessMethods implements OutputFormatterCommand<Void> {
 
     @Override
-    public void execute(Set<MethodMetadata> testMethods) {
+    public Void execute(Set<MethodMetadata> testMethods) {
         testMethods.removeIf(m -> !m.getMethodCalls().isEmpty());
+        return null;
     }
 }

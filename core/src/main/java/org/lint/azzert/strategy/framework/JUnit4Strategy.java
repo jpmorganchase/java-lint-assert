@@ -3,6 +3,8 @@ package org.lint.azzert.strategy.framework;
 import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
+import org.lint.azzert.strategy.AnnotationDecorator;
+import org.lint.azzert.strategy.decorator.Junit4AnnotationDecorator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,12 +18,23 @@ public class JUnit4Strategy implements TestFrameworkStrategy {
                     a.getAnnotationName().contains(getDisabledAnnotation())).findAny().isPresent();
 
     @Override
-    public String getSupportedFramework(){return "Lorg/junit/Test;";}
+    public String getSupportedFramework(){
+        return "Lorg/junit/Test;";
+    }
 
     @Override
-    public List<String> getAssertApis(){return Arrays.asList("org.junit");}
+    public List<String> getAssertApis(){
+        return Arrays.asList("org.junit");
+    }
 
-    public String getDisabledAnnotation(){return "Lorg/junit/Ignore;";}
+    @Override
+    public AnnotationDecorator getAnnotationDecorator(Set<AnnotationMetadata> annotations){
+        return new Junit4AnnotationDecorator(annotations);
+    }
+
+    public String getDisabledAnnotation(){
+        return "Lorg/junit/Ignore;";
+    }
 
     @Override
     public boolean isDisabledMethod(MethodMetadata methodMetadata) {

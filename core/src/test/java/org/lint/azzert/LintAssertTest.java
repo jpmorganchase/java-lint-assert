@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 public class LintAssertTest {
 
     //find a method in the result set
-    final BiFunction<Set<MethodMetadata>, String, List<MethodMetadata>> findMethod = (mtds, name) -> mtds.stream().filter(
+    protected final BiFunction<Set<MethodMetadata>, String, List<MethodMetadata>> findMethod = (mtds, name) -> mtds.stream().filter(
             f -> name.equalsIgnoreCase(f.getMethodName())).collect(Collectors.toList());
 
     //count asserts in a method
-    final BiFunction<Set<MethodMetadata>,String, Collection<MethodCallMetadata>> assertsInMethod = (mtds, name) ->
+    protected final BiFunction<Set<MethodMetadata>,String, Collection<MethodCallMetadata>> assertsInMethod = (mtds, name) ->
             findMethod.apply(mtds, name).get(0).getMethodCalls();
 
 

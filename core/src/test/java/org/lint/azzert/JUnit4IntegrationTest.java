@@ -25,7 +25,7 @@ class JUnit4IntegrationTest extends LintAssertTest {
         Assertions.assertEquals(1, assertsInMethod.apply(methods, "withAsserts").size());
         Assertions.assertEquals(0, countMethodOccurrencesInFile(methods,"AssertJunit4Style.java", "disabledTest"), "AssertJunit4Style::disabledTest should've been excluded");
         Assertions.assertEquals(0, countMethodOccurrencesInFile(methods,"AssertJunit4Style.java", "notATest"), "AssertJunit4Style::notATest should've been excluded");
-        Assertions.assertTrue(methods.size() == 2, "Expected to find exactly 2 JUnit 4 test methods.");
+        Assertions.assertEquals(4, methods.size() ,"Expected to find exactly 4 JUnit4 test methods.");
 
     }
 

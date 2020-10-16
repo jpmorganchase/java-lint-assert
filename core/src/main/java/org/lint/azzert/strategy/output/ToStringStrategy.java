@@ -1,10 +1,13 @@
 package org.lint.azzert.strategy.output;
 
 import org.lint.azzert.OutputFormatterCommand;
+import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
+import org.lint.azzert.strategy.AnnotationDecorator;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public class ToStringStrategy {
 
@@ -13,10 +16,17 @@ public class ToStringStrategy {
     public static final int PADDING = 4;
     public static final char SEPARATOR_CHAR = '-';
 
-    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList("Package", "Test file name", "Test method name", "# asserts"));
+    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList(
+            "Package", "Test file name", "Test method name", "Asserts count", "Exception expected?"));
 
     private ArrayList<Integer> maxLength;
     private final Set<MethodMetadata> contexts;
+
+
+    final Function<MethodMetadata, AnnotationDecorator> decorator = context1 -> {
+        Set<AnnotationMetadata> annotations = context1.getAnnotations();
+        return context1.getTestFramework().getAnnotationDecorator(annotations);
+    };
 
     public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
         this.contexts = new HashSet<>(methodMetadata);
@@ -34,7 +44,6 @@ public class ToStringStrategy {
 
     public String render() {
         calculateEachCellWidth();
-
         StringBuilder content = this.renderHeader();
         return content.append(this.renderBody()).toString();
     }
@@ -45,6 +54,7 @@ public class ToStringStrategy {
             maxLength.add(header.length());
         }
 
+        //set the initial cell width to be equal to its longest content
         for (MethodMetadata context : contexts) {
             final BiConsumer<Integer, Integer> consumer = (index, size) -> {
                 if (maxLength.get(index) < size) {
@@ -72,9 +82,7 @@ public class ToStringStrategy {
     }
 
     protected StringBuilder renderBody() {
-
         final StringBuilder sb = new StringBuilder();
-
         for (MethodMetadata context : contexts) {
             renderRow(context, sb);
             sb.append(PIPE);
@@ -107,6 +115,10 @@ public class ToStringStrategy {
         renderCell(sb, context.getFileName(), 1);
         renderCell(sb, context.getMethodName(), 2);
         renderCell(sb, context.getMethodCalls().size(), 3);
+
+        AnnotationDecorator decorator = this.decorator.apply(context);
+        boolean isExceptionExpected = decorator.isExceptionExpected();
+        renderCell(sb, isExceptionExpected, 4);
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {
