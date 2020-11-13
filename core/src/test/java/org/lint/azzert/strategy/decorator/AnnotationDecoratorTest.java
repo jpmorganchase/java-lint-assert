@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.context.AnnotationMetadata;
+import org.lint.azzert.strategy.output.AnnotationDecorator;
 
 import java.util.HashSet;
 import java.util.Set;
 
-class Junit4AnnotationDecoratorTest {
+class AnnotationDecoratorTest {
 
     Set<AnnotationMetadata> annotations = new HashSet<>();
     @BeforeEach
@@ -20,14 +21,14 @@ class Junit4AnnotationDecoratorTest {
     @Test
     void getExpectedExceptions() {
         annotations.iterator().next().addParameter("expected", "Ljava/lang/NullPointerException;");
-        Junit4AnnotationDecorator decorator = new Junit4AnnotationDecorator(annotations);
+        AnnotationDecorator decorator = new AnnotationDecorator(annotations);
         String exceptions = decorator.getExpectedException();
         Assertions.assertEquals("java/lang/NullPointerException", exceptions);
     }
 
     @Test
     void getNoExpectedExceptions() {
-        Junit4AnnotationDecorator decorator = new Junit4AnnotationDecorator(annotations);
+        AnnotationDecorator decorator = new AnnotationDecorator(annotations);
         String exceptions = decorator.getExpectedException();
         Assertions.assertNull(exceptions);
     }

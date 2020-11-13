@@ -1,14 +1,11 @@
 package org.lint.azzert.strategy.output;
 
 import org.lint.azzert.TestFrameworkStrategy;
-import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.strategy.AnnotationDecorator;
 import org.lint.azzert.strategy.framework.JUnit4Strategy;
 
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 public class ToStringStrategy {
 
@@ -18,23 +15,13 @@ public class ToStringStrategy {
     public static final char SEPARATOR_CHAR = '-';
 
     private TestFrameworkStrategy defaultStrategy = new JUnit4Strategy();
-    //FIXME - refactor
+
     public Collection<String> getTableHeaders (){
-        if (defaultStrategy.equals(new JUnit4Strategy().getSupportedFramework()))
-            return Collections.unmodifiableList(Arrays.asList(
-                "Package", "Test file name", "Test method name", "Asserts count", "Exception expected?"));
-        else
-            return Collections.unmodifiableList(Arrays.asList(
-                    "Package", "Test file name", "Test method name", "Asserts count"));
+            return Collections.unmodifiableList(Arrays.asList("Package", "Test file name", "Test method name", "Validations count"));
     }
 
     private ArrayList<Integer> maxLength;
     private final Set<MethodMetadata> contexts;
-
-    final Function<MethodMetadata, AnnotationDecorator> decorator = context1 -> {
-        Set<AnnotationMetadata> annotations = context1.getAnnotations();
-        return context1.getTestFramework().getAnnotationDecorator(annotations);
-    };
 
     public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
         this.contexts = new HashSet<>(methodMetadata);
@@ -116,13 +103,6 @@ public class ToStringStrategy {
         renderCell(sb, context.getFileName(), 1);
         renderCell(sb, context.getMethodName(), 2);
         renderCell(sb, context.getMethodCalls().size(), 3);
-
-        //FIXME - refactor - this 'if' is horrible and identical to the one in getTableHeaders()
-        if (defaultStrategy.equals(new JUnit4Strategy().getSupportedFramework())) {
-            AnnotationDecorator decorator = this.decorator.apply(context);
-            boolean isExceptionExpected = decorator.isExceptionExpected();
-            renderCell(sb, isExceptionExpected, 4);
-        }
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {

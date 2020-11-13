@@ -4,8 +4,6 @@ import org.javatuples.Pair;
 import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.strategy.AnnotationDecorator;
-import org.lint.azzert.strategy.decorator.NoOpDecorator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,8 +17,6 @@ public class TestNgStrategy implements TestFrameworkStrategy {
     @Override
     public List<String> getAssertApis(){ return Arrays.asList("org.testng");}
 
-    @Override
-    public AnnotationDecorator getAnnotationDecorator(Set<AnnotationMetadata> annotations) { return new NoOpDecorator(); }
 
     @Override
     public boolean isDisabledMethod(MethodMetadata methodMetadata) {

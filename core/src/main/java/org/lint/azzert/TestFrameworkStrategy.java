@@ -1,20 +1,15 @@
 package org.lint.azzert;
 
-import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodCallMetadata;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.strategy.AnnotationDecorator;
 
 import java.util.List;
-import java.util.Set;
 
 public interface TestFrameworkStrategy {
 
     String getSupportedFramework();
 
     List<String> getAssertApis();
-
-    AnnotationDecorator getAnnotationDecorator(Set<AnnotationMetadata> annotations);
 
     boolean isDisabledMethod(MethodMetadata methodMetadata);
 

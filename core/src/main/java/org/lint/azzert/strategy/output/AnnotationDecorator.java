@@ -1,14 +1,13 @@
-package org.lint.azzert.strategy.decorator;
+package org.lint.azzert.strategy.output;
 
 import org.javatuples.Pair;
 import org.lint.azzert.context.AnnotationMetadata;
-import org.lint.azzert.strategy.AnnotationDecorator;
 
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Function;
 
-public class Junit4AnnotationDecorator implements AnnotationDecorator {
+public class AnnotationDecorator {
 
     private final AnnotationMetadata annotation;
 
@@ -22,28 +21,14 @@ public class Junit4AnnotationDecorator implements AnnotationDecorator {
 
     };
 
-    public Junit4AnnotationDecorator(Set<AnnotationMetadata> annotations) {
+    public AnnotationDecorator(Set<AnnotationMetadata> annotations) {
         //Full signature is `@Test(expected=SomeException.class timeout=XX)`
         //FIXME::use JUnit4Strategy.getSupportedFramework()
         annotation = annotations.stream().filter(a-> "Lorg/junit/Test;".equals(a.getAnnotationName())).findAny().orElse(null);
     }
 
-    @Override
-    public boolean isExceptionExpected(){
-        if (annotation == null) return false;
-        return expectedExceptionString.apply(annotation.getParameters()) == null ? false : true;
-    }
-
-    @Override
     public String getExpectedException() {
         if (annotation == null) return null;
         return expectedExceptionString.apply(annotation.getParameters());
-    }
-
-    @Override
-    public int getExpectedExceptionLength() {
-        if (annotation == null) return 0;
-        String exception = expectedExceptionString.apply(annotation.getParameters());
-        return exception == null ? 0 : exception.length();
     }
 }
