@@ -21,6 +21,10 @@ class JUnit4IntegrationTest extends LintAssertTest {
         String content = super.render(methods);
         System.out.println(content);
 
+        // verify that whenExceptionThrown_thenExpectationSatisfied is annotated with @Test(expected=some_exception)
+        MethodMetadata method = methods.stream().filter(m -> m.getFileName().equals("AssertJunit4Style.java") && m.getMethodName().equals("whenExceptionThrown_thenExpectationSatisfied")).findAny().get();
+       // Assert.assertTrue(method.exceptionIsExpected());
+
         Assertions.assertTrue(assertsInMethod.apply(methods, "withoutAsserts").isEmpty());
         Assertions.assertEquals(1, assertsInMethod.apply(methods, "withAsserts").size());
         Assertions.assertEquals(0, countMethodOccurrencesInFile(methods,"AssertJunit4Style.java", "disabledTest"), "AssertJunit4Style::disabledTest should've been excluded");

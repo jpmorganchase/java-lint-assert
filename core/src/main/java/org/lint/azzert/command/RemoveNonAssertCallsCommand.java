@@ -8,7 +8,7 @@ public class RemoveNonAssertCallsCommand implements LintCommand<Void> {
     @Override
     //remove all calls within each method that are not asserts
     public Void execute(final Context context) {
-        context.getMethods().forEach(m -> m.getTestFramework().removeAllNotAssertCalls(m));
+        context.getMethods().forEach(m -> m.getTestFramework().removeCallsThatAreNotAsserts(m));
         return null;
     }
 }
