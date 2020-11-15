@@ -3,6 +3,7 @@ package org.lint.azzert.context;
 import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.strategy.framework.JUnit4Strategy;
 import org.lint.azzert.strategy.framework.NoOpStrategy;
+import org.lint.azzert.strategy.framework.TestNgStrategy;
 
 import java.util.*;
 import java.util.function.Function;
@@ -111,7 +112,9 @@ public class MethodMetadata {
 
     public int getVerificationsCount() {
         if (this.testFramework.getClass() == JUnit4Strategy.class)
-            return new JUnit4MethodMetadataCommand(this).getVerificationsCount();
+            return new MethodMetadataCommand(this, MethodMetadataCommand.TestFrameworkType.JUNIT4).getVerificationsCount();
+        else if (this.testFramework.getClass() == TestNgStrategy.class)
+            return new MethodMetadataCommand(this, MethodMetadataCommand.TestFrameworkType.TESTNJ).getVerificationsCount();
         return getMethodCalls().size();
     }
 

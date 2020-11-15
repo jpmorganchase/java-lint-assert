@@ -17,7 +17,6 @@ public class TestNgStrategy implements TestFrameworkStrategy {
     @Override
     public List<String> getAssertApis(){ return Arrays.asList("org.testng");}
 
-
     @Override
     public boolean isDisabledMethod(MethodMetadata methodMetadata) {
         return isDisabled(methodMetadata.getAnnotations());
