@@ -25,10 +25,6 @@ public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
     }
 
     @Override
-    public void visitEnum(String name, String descriptor, String value) {
-    }
-
-    @Override
     public AnnotationVisitor visitAnnotation(String name, String descriptor) {
         return super.visitAnnotation(name, descriptor);
     }
@@ -42,8 +38,4 @@ public class LintAssertMethodAnnotationVisitor extends AnnotationVisitor {
         return super.visitArray(paramName);
     }
 
-    @Override
-    public void visitEnd() {
-        System.out.println("visitEnd");
-    }
 }

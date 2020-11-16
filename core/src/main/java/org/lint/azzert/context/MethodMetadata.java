@@ -110,6 +110,7 @@ public class MethodMetadata {
         return this.testFramework;
     }
 
+    //FIXME::AN
     public int getVerificationsCount() {
         if (this.testFramework.getClass() == JUnit4Strategy.class)
             return new MethodMetadataCommand(this, MethodMetadataCommand.TestFrameworkType.JUNIT4).getVerificationsCount();

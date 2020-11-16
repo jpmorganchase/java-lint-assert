@@ -3,6 +3,7 @@ package org.lint.azzert.context;
 import org.javatuples.Pair;
 
 import java.util.Collection;
+import java.util.function.Function;
 
 public class MethodMetadataCommand {
 
@@ -24,9 +25,9 @@ public class MethodMetadataCommand {
     }
 
     public boolean exceptionIsExpected() {
-        final Collection<Pair<String, String>> params = this.method.getAnnotations().iterator().next().getParameters();
-        return !this.method.getAnnotations().isEmpty() && !params.isEmpty() &&
-                frameworkType.elementException.equals(params.iterator().next().getValue0());
+        final Function<MethodMetadata, Collection<Pair<String, String>>> fn = method -> method.getAnnotations().iterator().next().getParameters();
+        return !this.method.getAnnotations().isEmpty() && !fn.apply(method).isEmpty() &&
+                frameworkType.elementException.equals(fn.apply(method).iterator().next().getValue0());
     }
 
     public int getVerificationsCount() {
