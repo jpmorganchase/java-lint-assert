@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class AssertJunit5Style {
 
     @Test
@@ -16,7 +19,7 @@ public class AssertJunit5Style {
 
     @Test
     void withAsserts() {
-        Assertions.assertTrue(true);
+        assertTrue(true);
         Assertions.assertArrayEquals(new int[]{1,2}, new int[]{1,2} );
     }
 
@@ -33,5 +36,17 @@ public class AssertJunit5Style {
     @Deprecated
     void iAmNotATest2(){
         throw new UnsupportedOperationException();
+    }
+
+    @Test
+    public void whenExceptionThrown_thenAssertionSucceeds() {
+        Exception exception = assertThrows(NumberFormatException.class, () -> {
+            Integer.parseInt("1a");
+        });
+
+        String expectedMessage = "For input string";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

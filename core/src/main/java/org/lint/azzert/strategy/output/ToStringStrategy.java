@@ -1,13 +1,9 @@
 package org.lint.azzert.strategy.output;
 
-import org.lint.azzert.OutputFormatterCommand;
-import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
-import org.lint.azzert.strategy.AnnotationDecorator;
 
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 public class ToStringStrategy {
 
@@ -16,30 +12,16 @@ public class ToStringStrategy {
     public static final int PADDING = 4;
     public static final char SEPARATOR_CHAR = '-';
 
-    public static final Collection<String> HEADERS = Collections.unmodifiableList(Arrays.asList(
-            "Package", "Test file name", "Test method name", "Asserts count", "Exception expected?"));
-
-    private ArrayList<Integer> maxLength;
-    private final Set<MethodMetadata> contexts;
-
-
-    final Function<MethodMetadata, AnnotationDecorator> decorator = context1 -> {
-        Set<AnnotationMetadata> annotations = context1.getAnnotations();
-        return context1.getTestFramework().getAnnotationDecorator(annotations);
-    };
-
-    public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
-        this.contexts = new HashSet<>(methodMetadata);
-        this.maxLength = new ArrayList<>();
+    public Collection<String> getTableHeaders (){
+            return Collections.unmodifiableList(Arrays.asList("Package", "Test file name", "Test method name", "Validations count"));
     }
 
-    public Set<MethodMetadata> format(OutputFormatterCommand... commands){
-        if (commands != null) {
-            for (OutputFormatterCommand command: commands) {
-                command.execute(contexts);
-            }
-        }
-        return contexts;
+    private ArrayList<Integer> maxLength;
+    private final Set<MethodMetadata> testMethods;
+
+    public ToStringStrategy(Set<MethodMetadata> methodMetadata) {
+        this.testMethods = new HashSet<>(methodMetadata);
+        this.maxLength = new ArrayList<>();
     }
 
     public String render() {
@@ -50,12 +32,12 @@ public class ToStringStrategy {
 
     protected void calculateEachCellWidth() {
         //the initial cell width must fit the header's label, so that a 'no tests' table is formatted
-        for (String header : HEADERS) {
+        for (String header : getTableHeaders()) {
             maxLength.add(header.length());
         }
 
         //set the initial cell width to be equal to its longest content
-        for (MethodMetadata context : contexts) {
+        for (MethodMetadata context : testMethods) {
             final BiConsumer<Integer, Integer> consumer = (index, size) -> {
                 if (maxLength.get(index) < size) {
                     maxLength.set(index, size);
@@ -83,8 +65,8 @@ public class ToStringStrategy {
 
     protected StringBuilder renderBody() {
         final StringBuilder sb = new StringBuilder();
-        for (MethodMetadata context : contexts) {
-            renderRow(context, sb);
+        for (MethodMetadata method : testMethods) {
+            renderRow(method, sb);
             sb.append(PIPE);
             sb.append(LINE_SEPARATOR);
         }
@@ -93,7 +75,7 @@ public class ToStringStrategy {
 
     protected void renderHeaderRow(StringBuilder sb) {
         int i = 0;
-        for (String header : HEADERS) {
+        for (String header : getTableHeaders()) {
             renderCell(sb, header, i);
             i++;
         }
@@ -110,15 +92,12 @@ public class ToStringStrategy {
         sb.append(PIPE);
     }
 
-    protected void renderRow(MethodMetadata context, StringBuilder sb) {
-        renderCell(sb, context.getPackageName(), 0);
-        renderCell(sb, context.getFileName(), 1);
-        renderCell(sb, context.getMethodName(), 2);
-        renderCell(sb, context.getMethodCalls().size(), 3);
+    protected void renderRow(MethodMetadata method, StringBuilder sb) {
+        renderCell(sb, method.getPackageName(), 0);
+        renderCell(sb, method.getFileName(), 1);
+        renderCell(sb, method.getMethodName(), 2);
 
-        AnnotationDecorator decorator = this.decorator.apply(context);
-        boolean isExceptionExpected = decorator.isExceptionExpected();
-        renderCell(sb, isExceptionExpected, 4);
+        renderCell(sb, method.getVerificationsCount(), 3);
     }
 
     protected void renderCell(StringBuilder sb, Object text, int cell) {

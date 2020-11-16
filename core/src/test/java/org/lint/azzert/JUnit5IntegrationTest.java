@@ -14,7 +14,7 @@ public class JUnit5IntegrationTest extends LintAssertTest{
     void assertJUnit5() throws Exception{
 
         final Set<MethodMetadata> methods = new LintAssertProcessor(null,
-                new LintAssertBuildParameters("sample.junit5", false, true)).process();
+                new LintAssertBuildParameters("sample.junit5", false, true, "ALL")).process();
 
         String content = super.render(methods);
         System.out.println(content);
@@ -23,15 +23,12 @@ public class JUnit5IntegrationTest extends LintAssertTest{
         Assertions.assertFalse(findMethod.apply(methods, "withoutAsserts").isEmpty(), "Failed to find method 'withoutAsserts' annotated with @Test");
         Assertions.assertTrue(findMethod.apply(methods, "iAmDisabled").isEmpty(), "Method 'iAmDisabled' should not be in the result set");
         Assertions.assertTrue(findMethod.apply(methods, "iAmNotATest1").isEmpty(), "Method 'iAmNotATest' should not be in the result set");
-        Assertions.assertEquals(2, methods.size(), "Expected to find exactly 2 JUnit 5 test methods.");
+        Assertions.assertEquals(3, methods.size(), "Expected to find exactly 3 JUnit 5 test methods.");
 
         //the 'withoutAsserts' should contain no asserts
-        Assertions.assertTrue(findMethod.apply(methods, "withoutAsserts").get(0).getMethodCalls().isEmpty(), "There are *no* asserts in 'withoutAsserts' method");
-        Assertions.assertEquals(2, findMethod.apply(methods, "withAsserts").get(0).getMethodCalls().size(), "There are 2 asserts in 'withAsserts' method");
-
-        //'withAssert' has 2 assert methods on lines 19 and 20
-        Assertions.assertTrue(assertsInMethod.apply(methods, "withAsserts").removeIf(m -> m.getAtLineNumber() == 19));
-        Assertions.assertTrue(assertsInMethod.apply(methods, "withAsserts").removeIf(m -> m.getAtLineNumber() == 20));
+        Assertions.assertTrue(findMethod.apply(methods, "withoutAsserts").get(0).getMethodCalls().isEmpty() );
+        Assertions.assertEquals(2, findMethod.apply(methods, "withAsserts").get(0).getMethodCalls().size());
+        Assertions.assertEquals(2, findMethod.apply(methods, "whenExceptionThrown_thenAssertionSucceeds").get(0).getMethodCalls().size());
     }
 
 }

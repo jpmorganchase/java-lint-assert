@@ -24,7 +24,7 @@ public class LintTests {
 
         log.info("Searching for tests in package:" + this.packageName);
 
-        return new LintAssertProcessor(classLoader, new LintAssertBuildParameters(packageName, verbose, includeClasspathJars)).process();
+        return new LintAssertProcessor(classLoader, new LintAssertBuildParameters(packageName, verbose, includeClasspathJars, "ALL")).process();
     }
 
     public void setClassLoader(URLClassLoader urlClassLoader) {

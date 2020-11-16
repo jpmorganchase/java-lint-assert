@@ -1,7 +1,9 @@
 package org.lint.azzert.context;
 
 import org.lint.azzert.TestFrameworkStrategy;
+import org.lint.azzert.strategy.framework.JUnit4Strategy;
 import org.lint.azzert.strategy.framework.NoOpStrategy;
+import org.lint.azzert.strategy.framework.TestNgStrategy;
 
 import java.util.*;
 import java.util.function.Function;
@@ -11,20 +13,15 @@ public class MethodMetadata {
     private String fileName;
     private String methodName;
     private String methodSignature;
-
-    //TODO::should packageName/className be part of ClassMetadata or instead ClassMetadata should be inlined?
     private String packageName;
     private String className;
     private ClassMetadata classMetadata;
-
     private boolean visible;
-
     private TestFrameworkStrategy testFramework;
-
     private LinkedHashSet<AnnotationMetadata> annotations;
     private List<MethodCallMetadata> methodCall;
 
-    public MethodMetadata() {
+    MethodMetadata() {
         this.annotations = new LinkedHashSet<>();
         this.methodCall = new LinkedList<>();
         this.methodName = "";
@@ -111,6 +108,15 @@ public class MethodMetadata {
 
     public TestFrameworkStrategy getTestFramework() {
         return this.testFramework;
+    }
+
+    //FIXME::AN
+    public int getVerificationsCount() {
+        if (this.testFramework.getClass() == JUnit4Strategy.class)
+            return new MethodMetadataCommand(this, MethodMetadataCommand.TestFrameworkType.JUNIT4).getVerificationsCount();
+        else if (this.testFramework.getClass() == TestNgStrategy.class)
+            return new MethodMetadataCommand(this, MethodMetadataCommand.TestFrameworkType.TESTNJ).getVerificationsCount();
+        return getMethodCalls().size();
     }
 
     public void seedTestFramework(Map<String, TestFrameworkStrategy> supportedTestFrameworks) {

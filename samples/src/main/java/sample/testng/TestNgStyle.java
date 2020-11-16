@@ -3,6 +3,7 @@ package sample.testng;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.function.Function;
 
 public class TestNgStyle {
@@ -30,5 +31,10 @@ public class TestNgStyle {
     @Deprecated
     void iAmNotATestButDeprecatedMethod(){
         throw new UnsupportedOperationException();
+    }
+
+    @Test(expectedExceptions=IOException.class)
+    public void iAmTestThatExpectsException() throws Exception {
+        throw new IOException();
     }
 }

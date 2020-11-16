@@ -1,4 +1,4 @@
-package org.lint.azzert.command.processor;
+package org.lint.azzert.command;
 
 import org.lint.azzert.LintCommand;
 import org.lint.azzert.context.Context;
@@ -9,7 +9,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 
 import java.net.URL;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +25,7 @@ public class FindTestMethodsCommand implements LintCommand<Void> {
         if (params != null) {
             this.params = params;
         }
-        this.successors = new HashSet<>();
+        this.successors = new LinkedHashSet<>();
     }
 
     public FindTestMethodsCommand withSuccessor(LintCommand successor){

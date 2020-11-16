@@ -3,6 +3,8 @@ package org.lint.azzert.command.processor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.LintAssertTest;
+import org.lint.azzert.command.FindTestMethodsCommand;
+import org.lint.azzert.command.RemoveNonAssertCallsCommand;
 import org.lint.azzert.context.Context;
 import org.lint.azzert.context.ContextBuilder;
 import org.lint.azzert.context.MethodMetadata;
@@ -17,7 +19,7 @@ class RemoveNonAssertCallsCommandTest extends LintAssertTest {
         final Context context = new ContextBuilder().build();
 
         new FindTestMethodsCommand(
-                null, new LintAssertBuildParameters("sample.junit4", false, true))
+                null, new LintAssertBuildParameters("sample.junit4", false, true, "ALL"))
                     .withSuccessor(new RemoveNonAssertCallsCommand())
                         .execute(context);
 

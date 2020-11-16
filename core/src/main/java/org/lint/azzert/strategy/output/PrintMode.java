@@ -1,18 +1,20 @@
 package org.lint.azzert.strategy.output;
 
-import org.lint.azzert.OutputFormatterCommand;
-import org.lint.azzert.command.output.OutputOnlyAssertlessMethods;
+import org.lint.azzert.LintCommand;
+import org.lint.azzert.command.RemoveMethodsWithAssertsCommand;
 
 public enum PrintMode {
 
-    ASSERTLESS_ONLY(new OutputOnlyAssertlessMethods()), ALL(new OutputFormatterCommand<Void>(){});
+    ASSERTLESS_ONLY(new RemoveMethodsWithAssertsCommand()), ALL(new LintCommand(){});
 
-    private final OutputFormatterCommand command;
-    private PrintMode(OutputFormatterCommand command){
+    private final LintCommand command;
+    private PrintMode(LintCommand command){
         this.command = command;
     }
 
-    public OutputFormatterCommand getOutputFormatterCommand(){
+    public LintCommand getCommand(){
         return command;
     }
+
+
 }

@@ -1,9 +1,8 @@
-package org.lint.azzert.strategy;
+package org.lint.azzert.strategy.output;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.lint.azzert.context.ContextBuilder;
-import org.lint.azzert.strategy.output.ToStringStrategy;
 
 class ToStringStrategyTest {
 

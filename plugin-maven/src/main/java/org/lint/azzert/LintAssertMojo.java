@@ -11,7 +11,6 @@ import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.lint.azzert.context.MethodMetadata;
 import org.lint.azzert.processor.LintAssertBuildParameters;
 import org.lint.azzert.processor.LintAssertProcessor;
-import org.lint.azzert.strategy.output.PrintMode;
 import org.lint.azzert.strategy.output.ToStringStrategy;
 
 import java.io.File;
@@ -47,11 +46,9 @@ public class LintAssertMojo extends AbstractMojo {
         getLog().info(this.toString());
         try {
             Set<MethodMetadata> methodMetadata = new LintAssertProcessor(getUrlClassLoader(),
-                    new LintAssertBuildParameters(packageName, verbose, includeClasspathJars)).process();
+                    new LintAssertBuildParameters(packageName, verbose, includeClasspathJars, printMode)).process();
 
             final ToStringStrategy strategy = new ToStringStrategy(methodMetadata);
-            OutputFormatterCommand command = PrintMode.valueOf(printMode).getOutputFormatterCommand();
-            strategy.format(command);
             String result = strategy.render();
 
             getLog().info(result);

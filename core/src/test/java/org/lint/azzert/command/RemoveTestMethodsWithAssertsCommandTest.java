@@ -2,7 +2,6 @@ package org.lint.azzert.command;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.lint.azzert.command.output.OutputOnlyAssertlessMethods;
 import org.lint.azzert.context.MethodMetadata;
 import org.lint.azzert.processor.LintAssertBuildParameters;
 import org.lint.azzert.processor.LintAssertProcessor;
@@ -20,9 +19,7 @@ class RemoveTestMethodsWithAssertsCommandTest{
     @Test
     void execute() throws Exception {
         final Set<MethodMetadata> methods = new LintAssertProcessor(null,
-                new LintAssertBuildParameters("org.lint.azzert.command", false, false)).process();
-
-        new OutputOnlyAssertlessMethods().execute(methods);
+                new LintAssertBuildParameters("org.lint.azzert.command", false, false, "ASSERTLESS_ONLY")).process();
 
         // there should be 1 entry for 'testWithoutAssert'
         Assertions.assertEquals( 1, methods.size());
