@@ -39,6 +39,9 @@ dependencies {
     compile 'junit:junit:4.13.1'
     compile "org.junit.vintage:junit-vintage-engine:5.4.2"
 
+    //mockito
+    compile "org.mockito:mockito-core:3.+"
+
     /** test dependencies */
     //externally located sample tests
     testCompile project(':samples')
