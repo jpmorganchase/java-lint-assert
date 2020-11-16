@@ -19,10 +19,6 @@
 			<name>An Nadein</name>
 			<email>An.Nadein@jpmchase.com</email>
 		</developer>
-		<developer>
-			<name>Amol Bhangale</name>
-			<email>amol.a.bhangale@jpmchase.com</email>
-		</developer>
 	</developers>
     <modules>
         <module>samples</module>
@@ -32,33 +28,42 @@
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+		<junit5.version>5.7.0</junit5.version>
+		<junit4.version>4.13</junit4.version>
     </properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>5.7.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
     <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.4.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.4.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>1.4.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.4.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+		<!-- JUnit5 with support of JUnit4 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit4.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -146,7 +151,9 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>		<!-- GPG Signature on release -->
+
+	<profiles>
+		<!-- GPG Signature on release -->
 		<profile>
 			<id>release-sign-artifacts</id>
 			<activation>
@@ -184,6 +191,7 @@
 			</build>
 		</profile>
 	</profiles>
+
 	<scm>
 		<url>https://github.com/jpmorganchase/java-lint-assert</url>
 		<connection>scm:git:https://github.com/jpmorganchase/java-lint-assert.git</connection>
