@@ -36,7 +36,7 @@ dependencies {
     compile group: 'org.testng', name: 'testng', version: '6.9.10'
 
     //junit 4
-    compile 'junit:junit:4.12'
+    compile 'junit:junit:4.13.1'
     compile "org.junit.vintage:junit-vintage-engine:5.4.2"
 
     /** test dependencies */
