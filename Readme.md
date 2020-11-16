@@ -63,7 +63,7 @@ I: add the `java-lint-plugin` dependency to the `buildscript` section:
 ```
 buildscript {
    dependencies {
-        classpath 'org.lint:plugin:0.2.1-SNAPSHOT'
+        classpath 'org.lint:plugin:0.3.0-SNAPSHOT'
     }
 }
 ```
