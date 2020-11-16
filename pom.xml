@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.jpmorganchase.lint-assert</groupId>
     <artifactId>java-lint-assert</artifactId>
-    <version>0.2.2</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 	<name>Java Lint Assert</name>
 	<description>Pluggable linting utility for Java tests</description>
@@ -22,10 +22,6 @@
 		<developer>
 			<name>Amol Bhangale</name>
 			<email>amol.a.bhangale@jpmchase.com</email>
-		</developer>
-		<developer>
-			<name>Zhi Zhang</name>
-			<email>zhi.zhang@jpmchase.com</email>
 		</developer>
 	</developers>
     <modules>
@@ -108,7 +104,7 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.8</version>
+				<version>1.6.7</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>

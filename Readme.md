@@ -8,7 +8,8 @@ The Java _Gradle_ and _Maven_ plugin for the `test` task that reports presence o
 
 ## Features:
 1. Prints the number of assert calls in each test method to the console
-1. Excludes ignored/disabled test _classes_ and _methods_ from linting 
+1. Excludes ignored/disabled test classes and methods from linting 
+1. Exclude tests that throw expected exceptions 
 1. Limits the lint to recursively search from a top level package (for ex. 'org.samples')
 1. Allows verbose output
 1. Optionally loads test classes from the classpath
@@ -62,7 +63,7 @@ I: add the `java-lint-plugin` dependency to the `buildscript` section:
 ```
 buildscript {
    dependencies {
-        classpath 'org.lint:plugin:0.2.1-SNAPSHOT'
+        classpath 'org.lint:plugin:0.3.0-SNAPSHOT'
     }
 }
 ```
@@ -96,7 +97,7 @@ I: Include the plugin in the build plugins and optionally overwrite default valu
             <plugin>
                 <groupId>com.github.jpmorganchase.lint-assert</groupId>
                 <artifactId>lint-assert-maven-plugin</artifactId>
-                <version>0.2.1-SNAPSHOT</version>
+                <version>0.3.0-SNAPSHOT</version>
                 <configuration>
                     <!-- optional or scan all -->
                     <packageName>sample</packageName>
@@ -116,17 +117,18 @@ I: Include the plugin in the build plugins and optionally overwrite default valu
 | printMode  | No | ASSERTLESS_ONLY | Maven: {ALL, ASSERTLESS_ONLY}, Gradle: {"ALL", "ASSERTLESS_ONLY"} | Print ALL avalible test methods or ASSERTLESS_ONLY | 
 
 ## Future features: 
- 1. Exclude tests that throw expected exceptions 
+ 1. Credit use of AssertJ's asserts
+ 1. Credit use of Mockito's verify(...)  
  1. Display results in alphabetic order of fully qualified test class name - `org.lint.PlaceholderTest` - or order by number of asserts  
- 1. Print the linting summary: number of PASS/FAIL and a list of assertless tests
+ 1. Print the linting summary: number of PASS/FAIL and a list of tests without verifications
  1. Support 3 output modes info, warn, and error:
-    * in _warn_ mode, warn if linting found assertless tests
-    * in _error_ mode, fail the 'test' phase if linting found assertless tests
+    * in _warn_ mode, warn if linting found tests without verifications
+    * in _error_ mode, fail the 'test' phase if linting found tests without verifications
  1. Allow users to specify additional test frameworks
  1. When running in an IntelliJ console, make package.class.method "clickable" and navigate to the method declaration
  1. Display a ratio of # of asserts to the size of the "method under test" and number of its conditions
- 1. Lint for assertness in nested test classes
- 1. Lint for assertness in nested methods (testing utility methods for ex.) 
+ 1. Lint nested test classes
+ 1. Lint nested methods (testing utility methods for ex.) 
 
 ## License
 
