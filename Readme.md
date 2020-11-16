@@ -97,7 +97,7 @@ I: Include the plugin in the build plugins and optionally overwrite default valu
             <plugin>
                 <groupId>com.github.jpmorganchase.lint-assert</groupId>
                 <artifactId>lint-assert-maven-plugin</artifactId>
-                <version>0.2.1-SNAPSHOT</version>
+                <version>0.3.0-SNAPSHOT</version>
                 <configuration>
                     <!-- optional or scan all -->
                     <packageName>sample</packageName>
