@@ -83,7 +83,7 @@
 			<groupId>com.github.jpmorganchase.lint-assert</groupId>
 			<artifactId>samples</artifactId>
 			<version>${java-lint-assert.version}</version>
-			<scope>test</scope>
+			<!--<scope>test</scope>-->
 		</dependency>
 	</dependencies>
 
