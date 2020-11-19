@@ -32,7 +32,7 @@
             <groupId>com.github.jpmorganchase.lint-assert</groupId>
             <artifactId>samples</artifactId>
             <version>${java-lint-assert.version}</version>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
         </dependency>
     </dependencies>
 
@@ -47,7 +47,7 @@
                     <!-- optional, defaults to false -->
                     <includeClasspathJars>true</includeClasspathJars>
                     <!-- optional, defaults to false -->
-                    <verbose>true</verbose>
+                    <verbose>false</verbose>
                     <!-- optional or scan all -->
                     <packageName>sample</packageName>
                     <!-- optional. available values:{ASSERTLESS_ONLY (default), ALL} -->
