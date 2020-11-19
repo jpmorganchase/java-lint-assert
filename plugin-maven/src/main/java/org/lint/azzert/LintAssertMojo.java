@@ -93,6 +93,8 @@ public class LintAssertMojo extends AbstractMojo {
                 "packageName='" + packageName + '\'' +
                 ", includeClasspathJars=" + includeClasspathJars +
                 ", verbose=" + verbose +
+                ", printMode='" + printMode + '\'' +
+                ", project=" + project +
                 '}';
     }
 }

@@ -11,13 +11,13 @@ allprojects {
     }
     
     dependencies {
-        compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.4.2'
-        compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.4.2'
+        compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.7.0'
+        compile group:'org.junit.jupiter', name:'junit-jupiter-params', version:'5.7.0'
 
         //junit 5
         testImplementation "org.junit.platform:junit-platform-launcher:1.4.2"
-        testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2') //!IMPORTANT:do not modify, this is the only syntax travis understands.
-        testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+        testImplementation('org.junit.jupiter:junit-jupiter-api:5.7.0') //!IMPORTANT:do not modify, this is the only syntax travis understands.
+        testRuntime "org.junit.jupiter:junit-jupiter-engine:5.7.0"
     }
     
     test{
