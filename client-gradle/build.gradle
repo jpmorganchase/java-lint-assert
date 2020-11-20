@@ -22,7 +22,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.github.jpmorganchase.lint-assert:plugin-gradle:0.3.0-SNAPSHOT'
+        classpath 'com.github.jpmorganchase.lint-assert:plugin-gradle:1.0.0'
     }
 }
 

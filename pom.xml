@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.jpmorganchase.lint-assert</groupId>
     <artifactId>java-lint-assert</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+	<version>${revision}</version>
     <packaging>pom</packaging>
 	<name>Java Lint Assert</name>
 	<description>Pluggable linting utility for Java tests</description>
@@ -26,10 +26,20 @@
         <module>plugin-maven</module>
     </modules>
     <properties>
+
+		<revision>1.0.0</revision>
+
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-		<junit5.version>5.7.0</junit5.version>
-		<junit4.version>4.13</junit4.version>
+
+		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+		<maven-mojo-plugin.version>3.6.0</maven-mojo-plugin.version>
+		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+
+		<version.junit5>5.7.0</version.junit5>
+		<version.junit4>4.13</version.junit4>
+		<version.testng>6.9.10</version.testng>
+		<version.mockito>3.1.0</version.mockito>
     </properties>
 
 	<dependencyManagement>
@@ -37,7 +47,7 @@
 			<dependency>
 				<groupId>org.junit</groupId>
 				<artifactId>junit-bom</artifactId>
-				<version>5.7.0</version>
+				<version>${version.junit5}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -49,23 +59,70 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
+			<version>${version.junit5}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit4.version}</version>
+			<version>${version.junit4}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${version.junit5}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
 			<artifactId>junit-vintage-engine</artifactId>
+			<version>${version.junit5}</version>
+		</dependency>
+		<!-- TestNG -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${version.testng}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.beanshell</groupId>
+					<artifactId>bsh</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Mockito -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${version.mockito}</version>
 		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>1.2.5</version>
+				<configuration>
+					<updatePomFile>true</updatePomFile>
+					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
