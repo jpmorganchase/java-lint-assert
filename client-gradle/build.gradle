@@ -34,7 +34,7 @@ test {
 //        the linter
     lintAssert {
          packageName = "sample" //optional or scan all in current project
-        // verbose = false //optional, defaults to false
+         verbose = true //optional, defaults to false
          includeClasspathJars = true //optional, defaults to false
          printMode = "ASSERTLESS_ONLY" //optional, defaults to "ASSERTLESS_ONLY"
     }

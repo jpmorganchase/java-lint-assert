@@ -37,8 +37,8 @@ class JUnit4IntegrationTest extends LintAssertTest {
     void printMethodsWithoutAsserts() throws Exception{
         final Set<MethodMetadata> methods = new LintAssertProcessor(null,
                 new LintAssertBuildParameters("sample.junit4", false, true, PrintMode.ASSERTLESS_ONLY.name())).process();
-//        String content = super.render(methods);
-//        System.out.println(content);
+        String content = super.render(methods);
+        System.out.println(content);
         Assertions.assertEquals(1, methods.size());
     }
 }

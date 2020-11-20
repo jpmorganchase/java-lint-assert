@@ -22,9 +22,11 @@ public class LintTests {
 
     public Set<MethodMetadata> lintAssert() throws Exception {
 
+        final LintAssertBuildParameters params = new LintAssertBuildParameters(packageName, verbose, includeClasspathJars, printMode);
+        log.info("Searcing with parameters: " + params.toString());
         log.info("Searching for tests in package:" + this.packageName);
 
-        return new LintAssertProcessor(classLoader, new LintAssertBuildParameters(packageName, verbose, includeClasspathJars, "ALL")).process();
+        return new LintAssertProcessor(classLoader, params).process();
     }
 
     public void setClassLoader(URLClassLoader urlClassLoader) {

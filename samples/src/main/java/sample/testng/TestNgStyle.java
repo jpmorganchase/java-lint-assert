@@ -33,7 +33,7 @@ public class TestNgStyle {
         throw new UnsupportedOperationException();
     }
 
-    @Test(expectedExceptions=IOException.class)
+    @Test(expectedExceptions={IOException.class})
     public void iAmTestThatExpectsException() throws Exception {
         throw new IOException();
     }

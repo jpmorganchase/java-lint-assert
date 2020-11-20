@@ -29,4 +29,13 @@ public class LintAssertBuildParameters {
 
     public PrintMode getPrintMode() { return printMode; }
 
+    @Override
+    public String toString() {
+        return "LintAssertBuildParameters{" +
+                "verbose=" + verbose +
+                ", includeClasspathJars=" + includeClasspathJars +
+                ", packageName='" + packageName + '\'' +
+                ", printMode=" + printMode +
+                '}';
+    }
 }

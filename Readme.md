@@ -102,19 +102,30 @@ I: Include the plugin in the build plugins and optionally overwrite default valu
                     <!-- optional or scan all -->
                     <packageName>sample</packageName>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>lint-assert</goal>
+                        </goals>
+                    </execution>
+                </executions> 
             </plugin>
             ...
         </plugins>
         ...
     </build>
 ```
+
+II: run `mvn clean test`
+
 #### Available configuration options:
 |  Option | Required? | Default value  | Values | Purpose |
 | -------------: |:-------------:| :-------------:|  :-------------:| :-------------:|  
 | includeClasspathJars | No| false | true, false | If true, scans classpath dependencies for test classes|
 | verbose    | No |  false  | true, false | If true, produced a lot of output before it prints the summary table|
 | packageName| No |   | tests package name (for ex. org.lint in Maven or "org.lint" in Gradle)| A root package to start scanning for test classes. If not specified, scans all packages in a project. |
-| printMode  | No | ASSERTLESS_ONLY | Maven: {ALL, ASSERTLESS_ONLY}, Gradle: {"ALL", "ASSERTLESS_ONLY"} | Print ALL avalible test methods or ASSERTLESS_ONLY | 
+| printMode  | No | ASSERTLESS_ONLY | Maven: {ALL, ASSERTLESS_ONLY}, Gradle: {"ALL", "ASSERTLESS_ONLY"} | Print ALL available test methods or ASSERTLESS_ONLY | 
 
 ## Future features: 
  1. Credit use of AssertJ's asserts
