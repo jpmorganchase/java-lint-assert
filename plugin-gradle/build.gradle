@@ -13,7 +13,6 @@ dependencies{
     compile project (':core')
 
     testImplementation gradleTestKit()
-    compile 'org.junit.jupiter:junit-jupiter-migrationsupport:5.4.2'
 }
 
 publishing {
