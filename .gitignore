@@ -9,3 +9,4 @@ init.gradle
 .settings/
 target/
 .classpath
+.flattened-pom.xml

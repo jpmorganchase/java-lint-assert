@@ -6,6 +6,9 @@ repositories {
 }
 
 dependencies {
+
+    //included directly in client-maven, so don't rely on parent's dependencies
+
     testCompile "org.junit.platform:junit-platform-launcher:1.4.2"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
@@ -22,7 +25,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.github.jpmorganchase.lint-assert:plugin-gradle:0.3.0-SNAPSHOT'
+        classpath 'com.github.jpmorganchase.lint-assert:plugin-gradle:1.0.0'
     }
 }
 

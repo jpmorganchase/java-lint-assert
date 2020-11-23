@@ -4,38 +4,34 @@
     <parent>
         <groupId>com.github.jpmorganchase.lint-assert</groupId>
         <artifactId>java-lint-assert</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>samples</artifactId>
     <name>Java Lint Assert Samples</name>
 
-	<properties>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-	</properties>
-
+    <!-- included directly in client-maven, so don't rely on parent's dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.9.10</version>
+            <version>${version.testng}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <version>${version.junit4}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>5.4.2</version>
+            <version>${version.junit5}</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.1.0</version>
+            <version>${version.mockito}</version>
         </dependency>
     </dependencies>
 </project>

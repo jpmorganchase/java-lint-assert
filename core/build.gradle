@@ -28,20 +28,6 @@ dependencies {
     compile 'org.javatuples:javatuples:1.2'
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
 
-    //junit5
-    compile group:'org.junit.jupiter', name:'junit-jupiter-api', version:'5.7.0'
-    compile group:'org.junit.jupiter', name:'junit-jupiter-engine', version:'5.7.0'
-
-    //junit4
-    compile group:'org.junit.vintage', name:'junit-vintage-engine', version:'5.7.0'
-    compile group:'junit', name:'junit', version:'4.13'
-
-    //testNG
-    compile group: 'org.testng', name: 'testng', version: '6.9.10'
-
-    //mockito
-    compile "org.mockito:mockito-core:3.+"
-
     /** test dependencies */
     //externally located sample tests
     testCompile project(':samples')
