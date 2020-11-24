@@ -20,6 +20,9 @@ dependencies {
 
 //mockito
     compile "org.mockito:mockito-core:3.+"
+
+//
+    compile "org.assertj:assertj-core:3.+"
 }
 
 

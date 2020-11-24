@@ -18,13 +18,16 @@ public interface TestFrameworkStrategy {
         return false;
     }
 
-    default void removeCallsThatAreNotAsserts(MethodMetadata methodMetadata, Context context ){
+    default void removeCallsThatAreNotAsserts(MethodMetadata methodMetadata, Context context){
         List<MethodCallMetadata> methodCalls = methodMetadata.getMethodCalls();
-        methodCalls.removeIf(m -> ! (m.getOwnerPackage().contains(getAssertApi()) || m.isInOneOfExtLibs(context.getExtensionLibPackages())));
+        methodCalls.removeIf(m ->
+                ! (m.getFullyQualifiedPackageName().contains(getAssertApi())
+                        || m.isInOneOfExtLibs(context.getExtensionLibPackages())));
     }
 
     default boolean isTest(MethodMetadata context){
-        return context.getAnnotations().stream().filter(a -> a.getAnnotationName().equals(getSupportedFramework())).findAny().isPresent();
+        return context.getAnnotations().stream().filter(a -> a.getAnnotationName()
+                .equals(getSupportedFramework())).findAny().isPresent();
     }
 
 }

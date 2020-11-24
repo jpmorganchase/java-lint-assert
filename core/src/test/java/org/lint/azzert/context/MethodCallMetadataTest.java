@@ -6,6 +6,6 @@ class MethodCallMetadataTest {
 
     @Test
     void getOwnerPackage() {
-        new MethodCallMetadata("org/mockito/Mockito", "verify", 0).getOwnerPackage();
+        new MethodCallMetadata("org/mockito/Mockito", "verify", 0).getFullyQualifiedPackageName();
     }
 }

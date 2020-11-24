@@ -5,6 +5,7 @@
     "org.lint.azzert.strategy.framework.TestNgStrategy"
   ],
   "verify_libs": [
-    "org/mockito/Mockito#verify"
+    "org.mockito.Mockito#verify",
+    "org.assertj.core.api"
   ]
 }
