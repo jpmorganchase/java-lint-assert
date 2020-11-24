@@ -20,11 +20,7 @@ public interface TestFrameworkStrategy {
 
     default void removeCallsThatAreNotAsserts(MethodMetadata methodMetadata, Context context ){
         List<MethodCallMetadata> methodCalls = methodMetadata.getMethodCalls();
-        methodCalls.removeIf(m -> {
-            System.out.println(m);
-            System.out.println(m.getOwnerPackage());
-               return  ! (m.getOwnerPackage().contains(getAssertApi()) || m.isInOneOfExtLibs(context.getExtensionLibPackages()));
-        });
+        methodCalls.removeIf(m -> ! (m.getOwnerPackage().contains(getAssertApi()) || m.isInOneOfExtLibs(context.getExtensionLibPackages())));
     }
 
     default boolean isTest(MethodMetadata context){
