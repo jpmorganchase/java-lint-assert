@@ -1,5 +1,7 @@
 package org.lint.azzert.context;
 
+import java.util.Set;
+
 public class MethodCallMetadata {
 
     final String ownerClass;
@@ -12,7 +14,7 @@ public class MethodCallMetadata {
         this.atLineNumber = atLineNumber;
     }
 
-    public String getOwnnerClass() {
+    public String getOwnerClass() {
         return ownerClass;
     }
 
@@ -39,5 +41,18 @@ public class MethodCallMetadata {
                 ", methodName='" + methodName + '\'' +
                 ", atLineNumber=" + atLineNumber +
                 '}';
+    }
+
+    public boolean isInOneOfExtLibs(Set<String> extensionLibPackages) {
+        boolean isIn = false;
+        for (String lib: extensionLibPackages) {
+            if ( lib.contains("#")) {
+                isIn = lib.equals(this.getOwnerClass() + "#" + this.getMethodName());
+            }  else {
+                isIn = lib.contains(this.getOwnerClass());
+            }
+            if (isIn) break;
+        }
+        return isIn;
     }
 }

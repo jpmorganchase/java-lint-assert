@@ -1,7 +1,10 @@
 {
-    "test_framework": [
-      "org.lint.azzert.strategy.framework.JUnit4Strategy",
-      "org.lint.azzert.strategy.framework.JUnit5Strategy",
-      "org.lint.azzert.strategy.framework.TestNgStrategy"
-    ]
+  "test_framework": [
+    "org.lint.azzert.strategy.framework.JUnit4Strategy",
+    "org.lint.azzert.strategy.framework.JUnit5Strategy",
+    "org.lint.azzert.strategy.framework.TestNgStrategy"
+  ],
+  "verify_libs": [
+    "org/mockito/Mockito#verify"
+  ]
 }

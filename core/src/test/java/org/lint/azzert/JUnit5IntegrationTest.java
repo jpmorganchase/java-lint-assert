@@ -8,7 +8,7 @@ import org.lint.azzert.processor.LintAssertProcessor;
 
 import java.util.Set;
 
-public class JUnit5IntegrationTest extends LintAssertTest{
+public class JUnit5IntegrationTest extends AbstractTest {
 
     @Test
     void assertJUnit5() throws Exception{

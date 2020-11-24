@@ -10,7 +10,7 @@ import org.lint.azzert.strategy.output.PrintMode;
 import java.util.Set;
 
 
-class JUnit4IntegrationTest extends LintAssertTest {
+class JUnit4IntegrationTest extends AbstractTest {
 
     @Test
     void assertJUnit4() throws Exception {

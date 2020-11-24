@@ -10,7 +10,7 @@ import org.lint.azzert.strategy.output.PrintMode;
 
 import java.util.Set;
 
-public class TestNgIntegrationTest extends LintAssertTest {
+public class TestNgIntegrationTest extends AbstractTest {
 
     @Test
     void assertTestNg() throws Exception{

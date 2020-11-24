@@ -9,12 +9,14 @@ public class Context {
     private final int asmVersion;
     private final Set<MethodMetadata> methods;
     private final TreeMap<String, TestFrameworkStrategy> testFrameworks;
+    private final Set<String> extensionLibPackages;
 
     public Context(int asmVersion) {
         this.asmVersion = asmVersion;
         this.testFrameworks = new TreeMap<>();
         this.methods = new LinkedHashSet<>();
         this.methods.add(new MethodMetadata());
+        this.extensionLibPackages = new LinkedHashSet<>();
     }
 
     public void recordMethodCall(String owningClass, String assertMethodName, int atLineNumber) {
@@ -53,6 +55,14 @@ public class Context {
 
     public Map<String, TestFrameworkStrategy> getSupportedTestFrameworks() {
         return Collections.unmodifiableMap(this.testFrameworks);
+    }
+
+    public void addVerificationExtensions(Collection<String> extensionLibPackages){
+        this.extensionLibPackages.addAll(extensionLibPackages);
+    }
+
+    public Set<String> getExtensionLibPackages(){
+        return Collections.unmodifiableSet(this.extensionLibPackages);
     }
 
     public int getAsmVersion() {

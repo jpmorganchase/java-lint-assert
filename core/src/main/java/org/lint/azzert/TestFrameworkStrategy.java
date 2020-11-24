@@ -1,5 +1,6 @@
 package org.lint.azzert;
 
+import org.lint.azzert.context.Context;
 import org.lint.azzert.context.MethodCallMetadata;
 import org.lint.azzert.context.MethodMetadata;
 
@@ -9,7 +10,7 @@ public interface TestFrameworkStrategy {
 
     String getSupportedFramework();
 
-    List<String> getAssertApis();
+    String getAssertApi();
 
     boolean isDisabledMethod(MethodMetadata methodMetadata);
 
@@ -17,9 +18,13 @@ public interface TestFrameworkStrategy {
         return false;
     }
 
-    default void removeCallsThatAreNotAsserts(MethodMetadata methodMetadata){
+    default void removeCallsThatAreNotAsserts(MethodMetadata methodMetadata, Context context ){
         List<MethodCallMetadata> methodCalls = methodMetadata.getMethodCalls();
-        methodCalls.removeIf(m -> getAssertApis().stream().filter(api -> m.getOwnerPackage().contains(api)).count() == 0);
+        methodCalls.removeIf(m -> {
+            System.out.println(m);
+            System.out.println(m.getOwnerPackage());
+               return  ! (m.getOwnerPackage().contains(getAssertApi()) || m.isInOneOfExtLibs(context.getExtensionLibPackages()));
+        });
     }
 
     default boolean isTest(MethodMetadata context){

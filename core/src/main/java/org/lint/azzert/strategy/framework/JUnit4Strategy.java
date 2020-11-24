@@ -4,8 +4,6 @@ import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -21,8 +19,8 @@ public class JUnit4Strategy implements TestFrameworkStrategy {
     }
 
     @Override
-    public List<String> getAssertApis(){
-        return Arrays.asList("org.junit");
+    public String getAssertApi(){
+        return "org.junit";
     }
 
     public String getDisabledAnnotation(){
