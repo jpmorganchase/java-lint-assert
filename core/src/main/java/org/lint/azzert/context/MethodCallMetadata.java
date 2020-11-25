@@ -1,5 +1,7 @@
 package org.lint.azzert.context;
 
+import java.util.Set;
+
 public class MethodCallMetadata {
 
     final String ownerClass;
@@ -12,7 +14,7 @@ public class MethodCallMetadata {
         this.atLineNumber = atLineNumber;
     }
 
-    public String getOwnnerClass() {
+    public String getOwnerClass() {
         return ownerClass;
     }
 
@@ -24,8 +26,8 @@ public class MethodCallMetadata {
         return atLineNumber;
     }
 
-    public String getOwnerPackage() {
-        String ownerPackage = ownerClass.replace('/', '.'); // example: 'org/junit/Assert'
+    public String getFullyQualifiedPackageName() {
+        String ownerPackage = replaceSlashesWithDots();
         int i = ownerPackage.lastIndexOf('.');
         ownerPackage = i > 0 ? ownerPackage.substring(0, i) : null;
 
@@ -39,5 +41,23 @@ public class MethodCallMetadata {
                 ", methodName='" + methodName + '\'' +
                 ", atLineNumber=" + atLineNumber +
                 '}';
+    }
+
+    public boolean isInOneOfExtLibs(Set<String> extensionLibPackages) {
+        boolean isIn = false;
+        for (String lib: extensionLibPackages) {
+            if ( lib.contains("#")) {
+                String fullyQualifiedClassName = replaceSlashesWithDots() + "#" + this.getMethodName();
+                isIn = lib.equals(fullyQualifiedClassName);
+            }  else {
+                isIn = lib.contains(getFullyQualifiedPackageName());
+            }
+            if (isIn) break;
+        }
+        return isIn;
+    }
+
+     String replaceSlashesWithDots() {
+        return ownerClass.replace('/', '.');// example: 'org/junit/Assert'
     }
 }

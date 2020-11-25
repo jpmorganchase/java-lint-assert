@@ -5,8 +5,6 @@ import org.lint.azzert.TestFrameworkStrategy;
 import org.lint.azzert.context.AnnotationMetadata;
 import org.lint.azzert.context.MethodMetadata;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 public class TestNgStrategy implements TestFrameworkStrategy {
@@ -15,7 +13,9 @@ public class TestNgStrategy implements TestFrameworkStrategy {
     public String getSupportedFramework() { return "Lorg/testng/annotations/Test;"; }
 
     @Override
-    public List<String> getAssertApis(){ return Arrays.asList("org.testng");}
+    public String getAssertApi(){
+        return "org.testng";
+    }
 
     @Override
     public boolean isDisabledMethod(MethodMetadata methodMetadata) {

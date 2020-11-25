@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-public abstract class LintAssertTest {
+public abstract class AbstractTest {
 
     //find a method in the result set
     protected final BiFunction<Set<MethodMetadata>, String, List<MethodMetadata>> findMethod = (mtds, name) -> mtds.stream().filter(

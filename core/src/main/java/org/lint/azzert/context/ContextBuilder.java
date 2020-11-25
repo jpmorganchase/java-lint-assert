@@ -30,11 +30,12 @@ public final class ContextBuilder {
                 (jsn, key) -> (Set<String>)((JSONArray) jsn.get(key)).stream().map(Object::toString).collect(Collectors.toSet());
 
         Set<String> frameworkNames = function.apply(json, "test_framework");
-
         Set<TestFrameworkStrategy> frameworks = frameworkNames.stream().map(
                 unchecked(fn -> (TestFrameworkStrategy) Class.forName(fn).newInstance()))
                 .collect(Collectors.toSet());
-
         context.addSupportedTestFrameworks(frameworks);
+
+        Set<String> verificationLibs = function.apply(json, "verify_libs");
+        context.addVerificationExtensions(verificationLibs);
     }
 }
