@@ -4,6 +4,22 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://choosealicense.com/licenses/apache-2.0/)
 [![Build Status](https://travis-ci.org/jpmorganchase/java-lint-assert.svg?branch=master)](https://travis-ci.org/jpmorganchase/java-lint-assert)
 
+----
+
+## Public Archive
+
+**This project is currently Archived and not accepting contributions or issues.** 
+
+Forking is permitted if you are interested in developing further. 
+
+Please remember to attribute us as the source and abide by terms of the license.
+
+If the authors or maintainers have chosen to accept enquires, contact details will be provided in the README
+
+Open Source @ JPMorganChase
+
+----
+
 The Java _Gradle_ and _Maven_ plugin for the `test` task that reports presence of `assert`s in a test method body. 
 
 ## Features:
